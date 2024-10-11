@@ -1,0 +1,50 @@
+.body {
+    font-family:'Geometry Soft Pro Bold N';
+}
+
+.background {
+    width: 50%;
+    height: 100%;
+    background-color: rgb(136, 255, 249);
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 23%;
+}
+
+
+.container {
+    margin-top: 100px;
+    text-align: center;
+    margin: 0 auto;
+    margin: 300px 0;
+}
+
+.titleIndex {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+}
+
+.options {
+    text-align: center;
+    color: black;
+    font-size: 50px;
+}
+
+
+.options #buttonPlay {
+    font-size: 20px;
+    width: 150px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+.options #buttonRanking {
+    padding: 5px;
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 20px;
+    margin: 45px 0 0 0;
+}
