@@ -10,6 +10,7 @@
 
 <body>
     <div class="backgroundRanking">
+
         <div class="containerRanking">
             <?php
             // Función para cargar el ranking desde el archivo
@@ -41,18 +42,18 @@
             $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $rankingFile = 'ranking.txt';
             
-            // Load and sort the ranking
+            // Cargar y ordenar el ranking
             $ranking = loadRanking($rankingFile);
             usort($ranking, 'sortRanking');
             
-            // Calculate pagination
+            // Calcular el paginador
             $totalResults = count($ranking);
             $totalPages = ceil($totalResults / $perPage);
             $start = ($currentPage - 1) * $perPage;
             $rankingPage = array_slice($ranking, $start, $perPage);
             
-            // Display the ranking
-            echo "<table border='1'>";
+            // Mostrar la clasificación
+            echo "<table border='1px solid black'>";
             echo "<tr><th>Name</th><th>Score</th><th>Date</th></tr>";
             foreach ($rankingPage as $record) {
                 echo "<tr><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td></tr>";
