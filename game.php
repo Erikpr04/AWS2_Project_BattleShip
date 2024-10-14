@@ -67,15 +67,14 @@ table {
 
 }
 
-/* Estilos para las celdas */
+
 td, th {
-    border: 2px dotted ; /* Líneas divisorias como redes entre boyas */
+    border: 2px dotted ; 
     padding: 5px 10px; 
     text-align: center;
-    box-shadow: 0 0 2px; /* Sombra para dar profundidad */
+    box-shadow: 0 0 2px; 
 }
 
-/* Marca como seleccionado solo el <td> en el que haces hover, a partir de la segunda fila y segunda columna */
 tr:not(:first-child) td:not(:first-child):hover {
     background-color: tomato
 }
@@ -85,8 +84,6 @@ tr:not(:first-child) td:not(:first-child):hover {
 tr:first-child,td:first-child{
     font-size: 30px;
 } 
-
-
 
 
 
@@ -144,7 +141,6 @@ function createBoard($max_x,$max_y) {
     }    
     return $board;
 }
-
 
 
 
