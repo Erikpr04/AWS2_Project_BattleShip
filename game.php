@@ -4,120 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike</title>
-    <style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 
-body {
-    background-color: lightblue;
-    font-family: 'Geometry Soft Pro', sans-serif;
-    overflow: hidden; 
-    display: flex;
-    flex-direction: column; 
-    height: 100vh; 
-    overflow: hidden; 
-    margin: 0;
-}
-
-.beach {
-    background: linear-gradient(to bottom, yellow 90%, rgba(255, 255, 255, 0) 100%); /* Degradado en el 20% inferior */
-    height: 100%; 
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute; 
-    top: 0;
-    left: 0;
-    z-index: 1;
-    overflow: hidden; 
-}
-
-
-.sea {
-    width: 90%;
-    height: 50%;
-
-    z-index: 0;
-    margin-top: 105vh;
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-
-.left-side {
-    float: left;
-    width: 70%;
-    overflow: hidden;
-}
-
-.right-side {
-    float: right;
-    width: 30%;
-    display: block;
-}
-.counter-container{
-    margin-left: auto;
-    margin-right: auto;
-}
-
-table {
-    display: flex;
-    margin-left: 30%;
-    margin-right: auto; 
-
-}
-
-
-td, th {
-    border: 2px dotted ; 
-    padding: 5px 10px; 
-    text-align: center;
-    box-shadow: 0 0 2px; 
-}
-
-tr:not(:first-child) td:not(:first-child):hover {
-    background-color: tomato
-}
-
-
-
-tr:first-child,td:first-child{
-    font-size: 30px;
-} 
-
-
-
-@font-face {
-    font-family: 'Geometry Soft Pro';
-    src: url('GeometrySoftPro-BoldN.woff2') format('woff2'),
-    font-weight: bold;
-    font-style: normal;
-}
-
-.counter-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid #000;
-    padding: 20px;
-    width: 200px;
-    margin: 0 auto;
-}
-
-.counter-container h3 {
-    margin-bottom: 10px;
-}
-
-.timer, .points {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-.buttons {
-    margin-top: 20px;
-}
-    </style>
 </head>
 <?php
 
@@ -382,15 +270,25 @@ $main_array = displayShips($ships_array,$main_array);
 <body>
 
     <div class="beach">
-        <h1>Shoreline Strike</h1>
-        <button id="playButton">Play</button>
-        <button id="hallOfFameButton">Hall of Fame</button>
+    <div class="backgroundIndex">
+        <div class="containerIndex">
+            <div class="titleIndex">
+                <h1>Shoreline Strike</h1>
+            </div>
+            <div class="optionsIndex">
+                <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
+                <br>
+                <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
+            </div>
+        </div>
+    </div>
     </div>
 
 
     <div class="sea">
         <div class="left-side">
             <?php
+            //debug prints, it tests the main array cell objects
             echo "  x_pos: " . $main_array[3][3]['x_pos'];
             echo "  y_pos: " . $main_array[3][3]['y_pos'];
             echo "  state: " . $main_array[3][3]['state'];
@@ -407,39 +305,6 @@ $main_array = displayShips($ships_array,$main_array);
     </div>
 
 </body>
-<script>
 
-
-document.addEventListener("DOMContentLoaded", (event) => {
-    document.body.style.transition = 'transform 1s'; 
-    setTimeout(() => {
-        document.body.style.transform = 'translateY(-90vh)';
-    }, 100);
-});
-
-document.getElementById('hallOfFameButton').addEventListener('click', function() {
-});
-
-let seconds = 0;
-let minutes = 0;
-
-setInterval(() => {
-    seconds++;
-    if (seconds === 60) {
-        seconds = 0;
-        minutes++;
-    }
-    document.querySelector('.timer').innerText = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-}, 1000);
-
-const pointsElement = document.querySelector('.points');
-let points = 0;
-pointsElement.innerText = points;
-
-function incrementPoints() {
-    points++;
-    pointsElement.innerText = points;
-}
-</script>
-
+<script src="game.js"></script>
 </html>

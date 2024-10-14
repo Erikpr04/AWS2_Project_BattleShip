@@ -1,0 +1,188 @@
+
+body {
+    background-color: #3A92B2;
+    color: #E2DEDE;
+    font-family: 'Geometry Soft Pro', sans-serif;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column; 
+    height: 100vh; 
+    overflow: hidden; 
+    margin: 0;
+}
+
+.beach {
+    background: linear-gradient(to bottom, #D9BD71 90%, rgba(255, 255, 255, 0) 100%); /* Degradado en el 20% inferior */
+    height: 100%; 
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden; 
+}
+
+
+.sea {
+    width: 90%;
+    height: 50%;
+    z-index: 0;
+    margin-top: 105vh;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+.left-side {
+    float: left;
+    width: 70%;
+    overflow: hidden;
+}
+
+.right-side {
+    float: right;
+    width: 30%;
+    display: block;
+    color: #E2DEDE;
+}
+.counter-container{
+    margin-left: auto;
+    margin-right: auto;
+    color: #E2DEDE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #E2DEDE;
+    padding: 20px;
+    width: 200px;
+    margin: 0 auto;
+
+}
+.timer, .points {
+    color: #E2DEDE;
+}
+
+table {
+    display: flex;
+    margin-left: 30%;
+    margin-right: auto; 
+
+}
+
+
+td, th {
+    border: 2px dotted ; 
+    padding: 5px 10px; 
+    text-align: center;
+    box-shadow: 0 0 2px; 
+}
+
+tr:not(:first-child) td:not(:first-child):hover {
+    background-color: #E2DEDE
+}
+
+
+
+tr:first-child,td:first-child{
+    font-size: 30px;
+} 
+
+
+
+@font-face {
+    font-family: 'Geometry Soft Pro';
+    src: url('GeometrySoftPro-BoldN.woff2') format('woff2'),
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
+.counter-container h3 {
+    margin-bottom: 10px;
+}
+
+.timer, .points {
+    font-size: 24px;
+    font-weight: bold;
+    color: #E2DEDE;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+.backgroundIndex,
+.optionsIndex > button{
+    font-family:'Geometry Soft Pro Bold N', sans-serif;
+}
+
+.descriptionIndex {
+    position: absolute;
+    left: 0;
+    top: 13%;
+    width: 350px;
+    height: 700px;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+.backgroundIndex {
+    width: 50%;
+    height: 80%;
+    background-color: #E2DEDE;
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+}
+
+.containerIndex {
+    margin-top: 100px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.titleIndex {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+}
+
+.optionsIndex {
+    text-align: center;
+    color: black;
+    font-size: 50px;
+}
+
+
+.optionsIndex #buttonPlayIndex {
+    font-size: 20px;
+    width: 150px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+.optionsIndex #buttonRankingIndex {
+    padding: 5px;
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 20px;
+    margin: 45px 0 0 0;
+}
+
+.optionsIndex #buttonPlayIndex:hover {
+    background-color: black;
+    color: white;
+}
+
+.optionsIndex #buttonRankingIndex:hover {
+    background-color: black;
+    color: white;
+}
