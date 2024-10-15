@@ -7,8 +7,7 @@
 }
 
 
-.backgroundIndex,
-.optionsIndex > button{
+.bodyIndex, .optionsIndex > button{
     font-family:'Geometry Soft Pro Bold N', sans-serif;
 }
 
@@ -142,23 +141,51 @@
 
 /*Estilos de ranking.php*/
 
-.containerRanking {
-    width: 50%;
-    height: 100%;
-    background-color: rgb(136, 255, 249);
-    margin: 0 auto;
-    position: absolute;
-    top: 0;
-    left: 23%;
+.bodyRanking{
+    font-family:'Geometry Soft Pro Bold N', sans-serif;
+    padding: 20px;
+    margin: 0;;
+    background-color: #ece2c6;
 }
 
-.containerRanking table{
+.titleRanking {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+}
+
+.containerRanking {
+    width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+}
+
+.containerRanking table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 10px;
     margin-top: 100px;
     text-align: center;
     margin: 180px auto ;
+    color: black;
 }
 
 .containerRanking table td {
-    padding: 10px;
+    border: 1px solid black;
+    padding: 20px;
+}
 
+.containerRanking table th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 20px;
+}
+
+.paginationRanking {
+    margin-top: 20px;
+    text-align: center;
+    margin: 0 0 70px 0px;
 }
