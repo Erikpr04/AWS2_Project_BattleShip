@@ -19,13 +19,45 @@ document.addEventListener("DOMContentLoaded", (event) => {
         document.querySelector('.timer').innerText = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
     }, 1000);
 
-    const pointsElement = document.querySelector('.points');
+    //Points
     let points = 0;
+    let streakWater = 0;
+    let streakHit = 0;
+    const pointsElement = document.querySelector('.points');
     pointsElement.innerText = points;
 
-    function incrementPoints() {
-        points++;
+    function changePointsText() {
         pointsElement.innerText = points;
+    }
+
+    function addPoints(){
+        streakHit=0;
+        streakHit++;
+        points += (streakHit*10);
+    
+        if (minutes<1){
+            points +=100;
+        }
+        else if (minutes<2){
+            points +=75;
+        }
+        else if (minutes<3){
+            points +=50;
+        }
+        else if (minutes<4){
+            points +=25;
+        }
+        else if (minutes<5){
+            points +=5;
+        }
+        changePointsText();
+    }
+
+    function subtractPoints(){
+        streakHit=0;
+        streakHit++;
+        points -= streakHit;
+        changePointsText();
     }
 
     function unhideCell(x_pos, y_pos) {
@@ -36,6 +68,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
             if (cell) {
                 cell.style.backgroundColor = 'red';
+                addPoints();
                 event = new CustomEvent('cellRevealed', {
                     detail: { type: 'ship_hit', x: x_pos, y: y_pos }
                 });
@@ -44,10 +77,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             window.mainArray[y_pos][x_pos]['state'] = "water_hit";
             let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
             if (cell) {
-                cell.style.backgroundColor = 'darkblue';
+                cell.style.backgroundColor = 'lightblue';
+                subtractPoints();
                 event = new CustomEvent('cellRevealed', {
                     detail: { type: 'water_hit', x: x_pos, y: y_pos }
                 });
+                
             }
         }
 
