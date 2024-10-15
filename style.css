@@ -67,29 +67,29 @@ body {
 }
 
 table {
-    display: flex;
     margin-left: 30%;
     margin-right: auto; 
-
+    border-collapse: collapse; 
+    table-layout: fixed; 
+    width: 60%; 
+    border: 3px solid #E2DEDE; /* Añade borde alrededor de toda la tabla */
 }
 
-
 td, th {
-    border: 2px dotted ; 
+    border: 3px solid #E2DEDE; /* Asegura que todas las celdas tengan bordes */
     padding: 5px 10px; 
     text-align: center;
     box-shadow: 0 0 2px; 
 }
 
 tr:not(:first-child) td:not(:first-child):hover {
-    background-color: #E2DEDE
+    background-color: #E2DEDE;
 }
 
-
-
-tr:first-child,td:first-child{
+tr:first-child, td:first-child {
     font-size: 30px;
-} 
+}
+
 
 
 
@@ -140,6 +140,9 @@ tr:first-child,td:first-child{
     margin: 0 auto;
     position: absolute;
     top: 0;
+    background-image: url('towel.png'); 
+    background-size: cover; 
+    background-position: center; 
 }
 
 .containerIndex {
