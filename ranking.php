@@ -80,7 +80,7 @@
             // Mostrar el paginador
             echo "<div  class='paginationRanking'>";
             if ($currentPage > 1) {
-                echo "<a href='?page=".($currentPage - 1)."'>Anterior</a> ";
+                echo "<button><a href='?page=".($currentPage - 1)."'>Anterior</a></button> ";
             }
             for ($i = 1; $i <= $totalPages; $i++) {
                 if ($i == $currentPage) {
@@ -90,11 +90,11 @@
                 }
             }
             if ($currentPage < $totalPages) {
-                echo "<a href='?page=".($currentPage + 1)."'>Siguiente</a>";
+                echo "<button><a href='?page=".($currentPage + 1)."'>Siguiente</a></button>";
             }
             echo "</div>";
         ?>
         </div>
     </div>
 </body>
-</html>
+</html><button></button>
