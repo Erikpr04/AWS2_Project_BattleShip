@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function addPoints(){
-        streakHit=0;
+        streakWater=0;
         streakHit++;
         points += (streakHit*10);
     
@@ -55,8 +55,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     function subtractPoints(){
         streakHit=0;
-        streakHit++;
-        points -= streakHit;
+        streakWater++;
+        points -= streakWater;
         changePointsText();
     }
 
