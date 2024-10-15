@@ -199,22 +199,22 @@ function displayBoard($board) {
         for ($x = 0; $x < count($board[$y]); $x++) {
             if ($y == 0 and $x != 0) {
                 $letter = chr(64+$x);
-                echo "<td>";
+                echo "<td x_pos='$x' y_pos='$y'>";
                 echo "$letter";
                 echo "</td>";
             }
             else if ($x == 0 and $y != 0) {
-                echo "<td>";
+                echo "<td x_pos='$x' y_pos='$y'>";
                 echo "$y";
                 echo "</td>";
             }else{
                 if ($board[$y][$x]['state'] == "none") {
-                    echo "<td>";
+                    echo "<td x_pos='$x' y_pos='$y'>";
                     echo " ";
                     echo "</td>";
                 }else if ($board[$y][$x]['state'] == "show_ship") {
-                    echo "<td>";
-                    echo "X";
+                    echo "<td x_pos='$x' y_pos='$y'>";
+                    echo " ";
                     echo "</td>";
                 }
             }
@@ -261,6 +261,7 @@ $ships_array = generateShipArray();
 $main_array = displayShips($ships_array,$main_array);
 
 
+
 ?>
 
 
@@ -292,6 +293,7 @@ $main_array = displayShips($ships_array,$main_array);
             echo "  x_pos: " . $main_array[3][3]['x_pos'];
             echo "  y_pos: " . $main_array[3][3]['y_pos'];
             echo "  state: " . $main_array[3][3]['state'];
+            echo "<p id='action'></p>";
             displayBoard($main_array);
             ?>
         </div>
@@ -306,5 +308,11 @@ $main_array = displayShips($ships_array,$main_array);
 
 </body>
 
-<script src="game.js"></script>
+<script>
+    window.mainArray = <?php echo json_encode($main_array); ?>;
+</script>
+
+<script src="game.js">
+</script>
+</script>
 </html>

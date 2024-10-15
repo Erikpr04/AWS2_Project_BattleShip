@@ -28,3 +28,36 @@ function incrementPoints() {
     points++;
     pointsElement.innerText = points;
 }
+
+
+
+
+
+function unhideCell(x_pos, y_pos) {
+    if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
+        window.mainArray[y_pos][x_pos]['state'] = "ship_hit";
+        
+        let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
+        if (cell) {
+            cell.style.backgroundColor = 'red';
+        }
+    }
+
+    console.log(`Celda clicked: x=${x_pos}, y=${y_pos}`);
+    console.log(window.mainArray);
+}
+
+
+let celdas = document.querySelectorAll('table.gameBoard td');
+
+celdas.forEach(function(celda) {
+    celda.addEventListener('click', function() {
+        let x_pos = this.getAttribute('x_pos');
+        let y_pos = this.getAttribute('y_pos');
+        
+        unhideCell(x_pos, y_pos);
+    });
+});
+
+
+
