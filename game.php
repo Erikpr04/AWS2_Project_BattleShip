@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="game.js" defer></script>
+
 
 </head>
 <?php
@@ -15,8 +17,30 @@
 
 
 
+/**
+ * Creates a cell object with given $x and $y coordinates and "none" as initial state.
+ * @param int $x x coordinate of the cell
+ * @param int $y y coordinate of the cell
+ * @return array cell object with given coordinates and initial state
+ */
 function createCell($x,$y) {
     return array('x_pos' => $x, 'y_pos' => $y, 'state' => "none");
+}
+
+
+/**
+ * Sets the state of all cells (except the border cells) in the given board to "water".
+ * @param array $board the board to set the water cells in
+ * @return array the same board with the water cells set
+ */
+function assignWaterCells($board) {
+
+    for ($y = 1; $y < count($board); $y++) {
+        for ($x = 1; $x < count($board[$y]); $x++) {
+                $board[$y][$x]['state'] = "water";
+        }
+    }
+    return $board;
 }
 
 
@@ -208,7 +232,7 @@ function displayBoard($board) {
                 echo "$y";
                 echo "</td>";
             }else{
-                if ($board[$y][$x]['state'] == "none") {
+                if ($board[$y][$x]['state'] == "water" or $board[$y][$x]['state'] == "none") {
                     echo "<td x_pos='$x' y_pos='$y'>";
                     echo " ";
                     echo "</td>";
@@ -257,6 +281,7 @@ function displayShips($shipsArray,$board): array {
 
 $main_array = createBoard(11,11);
 $main_array = InsertCellsinBoard($main_array);
+$main_array = assignWaterCells($main_array);
 $ships_array = generateShipArray();
 $main_array = displayShips($ships_array,$main_array);
 
@@ -271,18 +296,18 @@ $main_array = displayShips($ships_array,$main_array);
 <body>
 
     <div class="beach">
-    <div class="backgroundIndex">
-        <div class="containerIndex">
-            <div class="titleIndex">
-                <h1>Shoreline Strike</h1>
-            </div>
-            <div class="optionsIndex">
-                <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
-                <br>
-                <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
+        <div class="backgroundIndex">
+            <div class="containerIndex">
+                <div class="titleIndex">
+                    <h1>Shoreline Strike</h1>
+                </div>
+                <div class="optionsIndex">
+                    <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
+                    <br>
+                    <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
 
@@ -310,9 +335,7 @@ $main_array = displayShips($ships_array,$main_array);
 
 <script>
     window.mainArray = <?php echo json_encode($main_array); ?>;
+    window.shipsArray = <?php echo json_encode($ships_array); ?>;
 </script>
 
-<script src="game.js">
-</script>
-</script>
 </html>
