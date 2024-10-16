@@ -82,11 +82,13 @@
             if ($currentPage > 1) {
                 echo "<button><a href='?page=".($currentPage - 1)."'>Anterior</a></button> ";
             }
-            for ($i = 1; $i <= $totalPages; $i++) {
-                if ($i == $currentPage) {
-                    echo "<strong>$i</strong> ";
-                } else {
-                    echo "<a href='?page=$i'>$i</a> ";
+            if ($totalPages > 1){
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    if ($i == $currentPage) {
+                        echo "<strong>$i</strong> ";
+                    } else {
+                        echo "<a href='?page=$i'>$i</a> ";
+                    }
                 }
             }
             if ($currentPage < $totalPages) {
