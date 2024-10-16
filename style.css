@@ -1,0 +1,191 @@
+/*Estilos de index.php*/
+
+/*Fuente Geometry Soft Pro Bold N para la pagina principal*/
+@font-face {
+    font-family: 'Geometry Soft Pro Bold N';
+    src: url('fonts/Geometry\ Soft\ Pro-Bold\ N.otf');
+}
+
+
+.bodyIndex, .optionsIndex > button{
+    font-family:'Geometry Soft Pro Bold N', sans-serif;
+}
+
+/* Estilos para la descripción */
+.descriptionIndex {
+    position: absolute;
+    left: 0;
+    top: 13%;
+    width: 350px;
+    height: 700px;
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+/*Estilos para el fondo de la pagina principal*/
+.backgroundIndex {
+    width: 50%;
+    height: 100%;
+    background-color: rgb(136, 255, 249);
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 23%;
+}
+
+/*Estilos para el contenido de la pagina principal*/
+.containerIndex {
+    margin-top: 100px;
+    text-align: center;
+    margin: 0 auto;
+    margin: 350px 0;
+}
+
+/*Estilos para el titulo de la pagina principal*/
+.titleIndex {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+}
+
+/*Estilos para los botones de la pagina principal*/
+.optionsIndex {
+    text-align: center;
+    color: black;
+    font-size: 50px;
+}
+
+
+/*Estilos para el boton Play de la pagina principal*/
+.optionsIndex #buttonPlayIndex {
+    font-size: 20px;
+    width: 150px;
+    height: 50px;
+    border-radius: 20px;
+}
+
+/*Estilos para el boton Ranking de la pagina principal*/
+.optionsIndex #buttonRankingIndex {
+    padding: 5px;
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+    border-radius: 20px;
+    margin: 45px 0 0 0;
+}
+
+/*Estilos para el boton Play de la pagina principal*/
+.optionsIndex #buttonPlayIndex:hover {
+    background-color: black;
+    color: white;
+}
+
+/*Estilos para el boton Ranking de la pagina principal*/
+.optionsIndex #buttonRankingIndex:hover {
+    background-color: black;
+    color: white;
+}
+
+
+/*-----------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+
+
+/*Estilos para el fondo de la pagina de juego*/
+.headerGame {
+    text-align: center;
+    background-color: rgb(255, 255, 169);
+    width: 100%;
+    height: 50px;
+    position:fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 5px 5px 40px 30px rgb(255, 255, 169);
+}
+
+/*Estilos para el fondo de la pagina de juego*/
+.backgroundGame {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(62, 101, 255);
+    position: absolute;
+    top: 0;
+    right: 1px;
+    z-index: -1;
+}
+
+/*Estilos para el contenido de la pagina de juego*/
+.tableGame {
+    border-collapse: collapse;
+    width: 500px;
+    height: auto;
+    margin: 180px auto;
+    color: white;
+}
+
+/*Estilos para el contenido de la pagina de juego*/
+.tableGame td {
+    border: 1px solid white;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+
+/*-----------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+
+/*Estilos de ranking.php*/
+
+.bodyRanking{
+    font-family:'Geometry Soft Pro Bold N', sans-serif;
+    padding: 20px;
+    margin: 0;;
+    background-color: #ece2c6;
+}
+
+.titleRanking {
+    text-align: center;
+    color: black;
+    font-size: 40px;
+}
+
+.containerRanking {
+    width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px black;
+}
+
+.containerRanking table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-radius: 10px;
+    margin-top: 100px;
+    text-align: center;
+    margin: 100px auto ;
+    color: black;
+}
+
+.containerRanking table td {
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.containerRanking table th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 20px;
+}
+
+.paginationRanking {
+    margin-top: 20px;
+    text-align: center;
+    margin: 0 0 70px 0px;
+}
