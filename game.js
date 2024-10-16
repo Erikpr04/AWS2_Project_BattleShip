@@ -68,10 +68,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             window.mainArray[y_pos][x_pos]['state'] = "ship_hit";
             let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
             if (cell) {
-                cell.style.backgroundColor = 'red';
+                cell.style.backgroundColor = '#FF1355';
                 addPoints();
                 event = new CustomEvent('gameEvent', {
-                    detail: { type: 'ship_hit', x: x_pos, y: y_pos }
+                    detail: { type: 'ship_hit'}
                 });
             }
         } else if (window.mainArray[y_pos][x_pos]['state'] === "water") {
@@ -141,55 +141,44 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     //function to check if ships are all sunk
     function checkShipsStatus(ship_array) {
-        let allShipsSunk = false;  
+        let fish_sunk = false;
+        let allShipsSunk = false;
+
         console.log(ship_array);
-    
+
         ship_array.forEach(ship => {
-            let allCellsHit = true;
-    
+            let allCellsHit = true; 
+
             ship.pos.forEach(([x, y]) => {
                 if (window.mainArray[y][x]['state'] !== 'ship_hit') {
-                    allCellsHit = false;  
+                    allCellsHit = false;
                 }
             });
-    
-            ship.isalive = !allCellsHit;  
 
             if (allCellsHit) {
-                showShipInBoard(ship);
+                ship.pos.forEach(([x, y]) => {
+                    window.mainArray[y][x]['state'] = 'fish_sunk'; 
+                });
+                ship.isalive = false; 
+                showShipInBoard(ship); 
+                fish_sunk = true; 
             }
         });
-        //double check to know if all ships are sunk
+
+        if (fish_sunk) {
+            let event2 = new CustomEvent('gameEvent', {
+                detail: { type: 'fish_sunk' }
+            });
+            document.dispatchEvent(event2);
+        }
+
+        //check if all ships are sunk
+
         allShipsSunk = ship_array.every(ship => !ship.isalive);
 
-        //it sends the info to win.php and manages win event when all ships sink
-    
         if (allShipsSunk) {
-
-            toggleOverlay(true);
-
-            event = new CustomEvent('gameEvent', {
-                detail: { type: 'winEvent' }
-            });
-            document.dispatchEvent(event);
-
-            setTimeout(function(){
-            let form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'win.php';
-        
-            let input1 = document.createElement('input');
-            input1.type = 'hidden';
-            input1.name = 'points';
-            input1.value = points;
-        
-        
-            form.appendChild(input1);
-            document.body.appendChild(form);
-            form.submit();
-        }, 3000);
-        }
-        
+            winGame();
+            }
     }
 
     function toggleOverlay(show) {
@@ -201,18 +190,57 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
 
-
+    let easterEggSequence = [[6, 0], [9, 0], [0, 5], [8, 0]];
+    let currentIndex = 0; 
 
     let cells = document.querySelectorAll('table.gameBoard td');
 
-    cells.forEach(function(cells) {
-        cells.addEventListener('click', function() {
+    cells.forEach(function(cell) { 
+        cell.addEventListener('click', function() {
             let x_pos = parseInt(this.getAttribute('x_pos'));
             let y_pos = parseInt(this.getAttribute('y_pos'));
-
-            unhideCell(x_pos, y_pos);
+    
+            if (x_pos === easterEggSequence[currentIndex][0] && y_pos === easterEggSequence[currentIndex][1]) {
+                console.log('correct');
+                currentIndex++;
+    
+                if (currentIndex === easterEggSequence.length) {
+                    winGame();
+                }
+            } else {
+                currentIndex = 0; 
+            }
+    
+            unhideCell(x_pos, y_pos); 
         });
     });
+
+
+    function winGame(){
+        toggleOverlay(true); 
+
+        let event = new CustomEvent('gameEvent', {
+            detail: { type: 'winEvent' }
+        });
+        document.dispatchEvent(event); 
+
+        setTimeout(function(){
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'win.php';
+
+            let input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'points';
+            input1.value = points; 
+
+            form.appendChild(input1);
+            document.body.appendChild(form);
+            form.submit();
+        }, 3000);
+
+    }
+    
 
     // ---Game events---
 
@@ -223,19 +251,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let buttonSound = new Audio('static/sfx/buttonclick1.mp3');
 
     document.addEventListener('gameEvent', function (e) {
-        //handling events
         let sound;
-
-
         if (e.detail.type === 'ship_hit') {
             sound = new Audio('static/sfx/fish_strike.mp3'); 
             sound.play()
+
         } else if (e.detail.type === 'water_hit') {
             sound = new Audio('static/sfx/water_splash.mp3'); 
             sound.play()
+
         } else if (e.detail.type === 'winEvent') {
             console.log('winEvent');
             sound = new Audio('static/sfx/win_sound_effect.mp3'); 
+            sound.play()
+        } else if (e.detail.type === 'fish_sunk') {
+            sound = new Audio('static/sfx/fishfloat.mp3'); 
             sound.play()
         }
 

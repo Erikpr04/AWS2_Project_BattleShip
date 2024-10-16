@@ -178,11 +178,17 @@
     width: 350px;
     height: 700px;
     overflow-y: auto;
+    margin-top: 5px;
     margin-left: 5px;
     padding: 20px;
     border: 1px solid black;
     border-radius: 10px;
-    color: black
+    color: #E2DEDE
+}
+
+.descriptionIndex p,.descriptionIndex h2,.descriptionIndex ul {
+    text-shadow: 1px 1px black;
+
 }
 
 
@@ -241,7 +247,6 @@
 }
 
 .optionsIndex #buttonRankingIndex:hover,.optionsIndex #buttonPlayIndex:hover {
-    background-color: black; 
     color: white; 
 }
 
@@ -383,6 +388,5 @@
     margin: 0 0 70px 0px;
 }
 .optionsIndex #buttonRankingIndex:hover {
-    background-color: black;
     color: white;
 }
