@@ -89,6 +89,7 @@
                     } else {
                         echo "<a href='?page=$i'>$i</a> ";
                     }
+
                 }
             }
             if ($currentPage < $totalPages) {
@@ -100,3 +101,4 @@
     </div>
 </body>
 </html>
+

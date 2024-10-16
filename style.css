@@ -8,6 +8,15 @@
 }
 
 
+
+.bodyIndex,
+.optionsIndex>button {
+    font-family: 'Geometry Soft Pro Bold N';
+    background-color: #D9BD71;
+}
+
+/* Estilos para la descripción */
+
 .bodyIndex, .optionsIndex > button{
     font-family:'Geometry Soft Pro Bold N', sans-serif;
 }
@@ -150,6 +159,7 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
     font-family:'Geometry Soft Pro Bold N', sans-serif;
 }
 
+
 .descriptionIndex {
     position: absolute;
     left: 0;
@@ -163,22 +173,32 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
 }
 
 
+
+/*Estilos para el fondo de la pagina principal*/
 .backgroundIndex {
     width: 50%;
-    height: 80%;
-    background-color: #E2DEDE;
+    height: 100%;
+    background-image: url('towel.png'); 
     margin: 0 auto;
     position: absolute;
     top: 0;
-    background-image: url('towel.png'); 
-    background-size: cover; 
-    background-position: center; 
+    left: 23%;
 }
 
 .containerIndex {
     margin-top: 100px;
     text-align: center;
     margin: 0 auto;
+    margin: 150px 0;
+}
+
+/*Estilos para el titulo de la pagina principal*/
+.titleIndex {
+    text-align: center;
+    color: white;
+    font-size: 90px;
+    -webkit-text-stroke: 12px orange;
+
 }
 
 /*Estilos para el titulo de la pagina principal*/
@@ -187,6 +207,7 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
     text-align: center;
     color: black;
     font-size: 40px;
+
 }
 
 /*Estilos para los botones de la pagina principal*/
@@ -197,23 +218,49 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
 }
 
 
+/*Estilos para los botones de la pagina principal*/
+.optionsIndex #buttonPlayIndex a {
+    text-decoration: none;
+    color: white;
+}
+
 /*Estilos para el boton Play de la pagina principal*/
 .optionsIndex #buttonPlayIndex {
+    background-color: orange;
+
+/*Estilos para el boton Play de la pagina principal*/
+.optionsIndex #buttonPlayIndex {
+
     font-size: 20px;
     width: 150px;
     height: 50px;
     border-radius: 20px;
+
+    border-color: orange;
+}
+
+/*Estilos para los botones de la pagina principal*/
+.optionsIndex #buttonRankingIndex a {
+    text-decoration: none;
+    color: white;
+
 }
 
 /*Estilos para el boton Ranking de la pagina principal*/
 .optionsIndex #buttonRankingIndex {
+
+    background-color: orange;
+
     padding: 5px;
     font-size: 20px;
     width: 200px;
     height: 50px;
     border-radius: 20px;
+
+    border-color: orange;
     margin: 45px 0 0 0;
 }
+
 
 /*Estilos para el boton Play de la pagina principal*/
 .optionsIndex #buttonPlayIndex:hover {
@@ -226,6 +273,7 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
     background-color: black;
     color: white;
 }
+
 
 
 /*-----------------------------------------------------------------*/
@@ -279,12 +327,14 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
 
 /*Estilos de ranking.php*/
 
+
 .bodyRanking{
     font-family:'Geometry Soft Pro Bold N', sans-serif;
     padding: 20px;
     margin: 0;;
     background-color: #ece2c6;
     overflow: auto;
+
 }
 
 .titleRanking {
@@ -332,3 +382,4 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
     background-color: black;
     color: white;
 }
+

@@ -307,8 +307,10 @@ $main_array = displayShips($ships_array,$main_array);
                     <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
                 </div>
             </div>
+
         </div>
     </div>
+
 
 
     <div class="sea">
