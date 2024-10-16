@@ -77,6 +77,26 @@
     margin: 45px 0 0 0;
 }
 
+/* Estilos para el mensaje cuando JavaScript está deshabilitado */
+.no-js-warning {
+    background-color: #ffcccc;
+    color: #ff0000;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ff0000;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* Estilos para el botón deshabilitado */
+.optionsIndex #buttonPlayIndex[disabled] {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #999;
+}
+
+
 /*Estilos para el boton Play de la pagina principal*/
 .optionsIndex #buttonPlayIndex:hover {
     background-color: black;

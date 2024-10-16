@@ -38,6 +38,9 @@
                 <h1>Shoreline Strike</h1>
             </div>
             <div class="optionsIndex">
+                <noscript>
+                <button id="buttonPlayIndex" disabled>PLAY</button>
+                </noscript>
                 <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
                 <br>
                 <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
@@ -45,5 +48,10 @@
         </div>
     </div>
 </body>
+<noscript>
+    <div class="warrning_noJSIndez">
+    <p>El joc no es pot jugar perquè el Javascript està deshabilitat. Si us plau, habilita'l per poder jugar.</p>
+    </div>
+</noscript>
 
 </html>
