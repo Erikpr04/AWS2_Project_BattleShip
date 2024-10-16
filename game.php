@@ -315,10 +315,10 @@ $main_array = displayShips($ships_array,$main_array);
         <div class="left-side">
             <?php
             //debug prints, it tests the main array cell objects
-            echo "  x_pos: " . $main_array[3][3]['x_pos'];
-            echo "  y_pos: " . $main_array[3][3]['y_pos'];
-            echo "  state: " . $main_array[3][3]['state'];
-            echo "<p id='action'></p>";
+            //echo "  x_pos: " . $main_array[3][3]['x_pos'];
+            //echo "  y_pos: " . $main_array[3][3]['y_pos'];
+            //echo "  state: " . $main_array[3][3]['state'];
+            //echo "<p id='action'></p>";
             displayBoard($main_array);
             ?>
         </div>
