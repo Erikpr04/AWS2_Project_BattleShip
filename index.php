@@ -8,7 +8,7 @@
     <title>Shoreline Strike</title>
 </head>
 
-<body>
+<body class="bodyIndex">
     <div class="descriptionIndex">
         <h2>Descripción del Juego</h2>
         <p>
@@ -41,9 +41,9 @@
                 <noscript>
                 <button id="buttonPlayIndex" disabled>PLAY</button>
                 </noscript>
-                <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
+                <button id="buttonPlayIndex"><a href="game.php">PLAY</a></button>
                 <br>
-                <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
+                <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
             </div>
         </div>
     </div>

@@ -7,8 +7,10 @@
 }
 
 
-.bodyIndex, .optionsIndex > button{
-    font-family:'Geometry Soft Pro Bold N', sans-serif;
+.bodyIndex,
+.optionsIndex>button {
+    font-family: 'Geometry Soft Pro Bold N';
+    background-color: #D9BD71;
 }
 
 /* Estilos para la descripción */
@@ -29,7 +31,7 @@
 .backgroundIndex {
     width: 50%;
     height: 100%;
-    background-color: rgb(136, 255, 249);
+    background-image: url('towel.png'); 
     margin: 0 auto;
     position: absolute;
     top: 0;
@@ -41,14 +43,15 @@
     margin-top: 100px;
     text-align: center;
     margin: 0 auto;
-    margin: 350px 0;
+    margin: 150px 0;
 }
 
 /*Estilos para el titulo de la pagina principal*/
 .titleIndex {
     text-align: center;
-    color: black;
-    font-size: 40px;
+    color: white;
+    font-size: 90px;
+    -webkit-text-stroke: 12px orange;
 }
 
 /*Estilos para los botones de la pagina principal*/
@@ -58,56 +61,40 @@
     font-size: 50px;
 }
 
+/*Estilos para los botones de la pagina principal*/
+.optionsIndex #buttonPlayIndex a {
+    text-decoration: none;
+    color: white;
+}
 
 /*Estilos para el boton Play de la pagina principal*/
 .optionsIndex #buttonPlayIndex {
+    background-color: orange;
     font-size: 20px;
     width: 150px;
     height: 50px;
     border-radius: 20px;
+    border-color: orange;
+}
+
+/*Estilos para los botones de la pagina principal*/
+.optionsIndex #buttonRankingIndex a {
+    text-decoration: none;
+    color: white;
 }
 
 /*Estilos para el boton Ranking de la pagina principal*/
 .optionsIndex #buttonRankingIndex {
+    background-color: orange;
     padding: 5px;
     font-size: 20px;
     width: 200px;
     height: 50px;
     border-radius: 20px;
+    border-color: orange;
     margin: 45px 0 0 0;
 }
 
-/* Estilos para el mensaje cuando JavaScript está deshabilitado */
-.no-js-warning {
-    background-color: #ffcccc;
-    color: #ff0000;
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ff0000;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-/* Estilos para el botón deshabilitado */
-.optionsIndex #buttonPlayIndex[disabled] {
-    background-color: #ccc;
-    color: #666;
-    cursor: not-allowed;
-    border: 1px solid #999;
-}
-
-
-/*Estilos para el boton Play de la pagina principal*/
-.optionsIndex #buttonPlayIndex:hover {
-    background-color: black;
-    color: white;
-}
-
-/*Estilos para el boton Ranking de la pagina principal*/
-.optionsIndex #buttonRankingIndex:hover {
-    background-color: black;
-    color: white;
-}
 
 
 /*-----------------------------------------------------------------*/
@@ -120,7 +107,7 @@
     background-color: rgb(255, 255, 169);
     width: 100%;
     height: 50px;
-    position:fixed;
+    position: fixed;
     top: 0;
     left: 0;
     box-shadow: 5px 5px 40px 30px rgb(255, 255, 169);
@@ -161,10 +148,11 @@
 
 /*Estilos de ranking.php*/
 
-.bodyRanking{
-    font-family:'Geometry Soft Pro Bold N', sans-serif;
+.bodyRanking {
+    font-family: 'Geometry Soft Pro Bold N', sans-serif;
     padding: 20px;
-    margin: 0;;
+    margin: 0;
+    ;
     background-color: #ece2c6;
 }
 
@@ -189,7 +177,7 @@
     border-radius: 10px;
     margin-top: 100px;
     text-align: center;
-    margin: 100px auto ;
+    margin: 100px auto;
     color: black;
 }
 

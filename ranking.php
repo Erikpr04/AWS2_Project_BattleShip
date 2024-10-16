@@ -11,7 +11,7 @@
 <body class="bodyRanking">
     <div class="backgroundRanking">
         <div class="titleRanking">
-            <h1>HALF OF FAME</h1>
+            <h1>HALL OF FAME</h1>
         </div>
         <div class="containerRanking">
         <?php
