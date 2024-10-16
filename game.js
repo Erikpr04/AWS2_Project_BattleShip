@@ -139,6 +139,70 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
 
+    //function to show notification
+
+    function showToastNotification(message, type) {
+        let toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toast-container';
+            toastContainer.style.position = 'fixed'; 
+            toastContainer.style.bottom = '-220px';
+            toastContainer.style.left = '20px';
+            toastContainer.style.zIndex = '9999';
+            document.body.appendChild(toastContainer);
+        }
+    
+        const toast = document.createElement('div');
+        toast.classList.add('toast');
+        toast.textContent = message;
+    
+        toast.style.padding = '10px 20px';
+        toast.style.margintop = '1000px';
+        toast.style.borderRadius = '5px';
+        toast.style.color = '#fff';
+        toast.style.fontSize = '14px';
+        toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s ease-in-out';
+        toast.style.display = 'block'; 
+        toast.style.position = 'absolute';
+    
+        switch(type) {
+            case 'success':
+                toast.style.backgroundColor = '#28a745'; 
+                break;
+            case 'error':
+                toast.style.backgroundColor = '#dc3545'; 
+                break;
+            case 'warning':
+                toast.style.backgroundColor = '#ffc107'; 
+                toast.style.color = '#000';
+                break;
+            case 'info':
+                toast.style.backgroundColor = '#17a2b8'; 
+                break;
+            default:
+                toast.style.backgroundColor = '#6c757d'; 
+        }
+    
+        toastContainer.appendChild(toast);
+    
+        setTimeout(() => {
+            toast.style.opacity = '1';
+        }, 100); 
+    
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => {
+                toast.remove();
+            }, 500); 
+        }, 3000); 
+    }
+    
+
+    
+    
     //function to check if ships are all sunk
     function checkShipsStatus(ship_array) {
         let fish_sunk = false;
@@ -255,18 +319,26 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (e.detail.type === 'ship_hit') {
             sound = new Audio('static/sfx/fish_strike.mp3'); 
             sound.play()
+            showToastNotification('Fish Hit', 'success');
+
 
         } else if (e.detail.type === 'water_hit') {
             sound = new Audio('static/sfx/water_splash.mp3'); 
             sound.play()
+            showToastNotification('Water Hit', 'error');
+
 
         } else if (e.detail.type === 'winEvent') {
             console.log('winEvent');
             sound = new Audio('static/sfx/win_sound_effect.mp3'); 
             sound.play()
+            showToastNotification('You Won!', 'warning');
+
         } else if (e.detail.type === 'fish_sunk') {
             sound = new Audio('static/sfx/fishfloat.mp3'); 
             sound.play()
+            showToastNotification('Fish sunk', 'info');
+
         }
 
 
