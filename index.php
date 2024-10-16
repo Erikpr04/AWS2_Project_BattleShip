@@ -48,10 +48,5 @@
         </div>
     </div>
 </body>
-<noscript>
-    <div class="warrning_noJSIndez">
-    <p>El joc no es pot jugar perquè el Javascript està deshabilitat. Si us plau, habilita'l per poder jugar.</p>
-    </div>
-</noscript>
 
 </html>
