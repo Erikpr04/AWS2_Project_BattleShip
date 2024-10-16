@@ -1,3 +1,4 @@
+
 /*Estilos de index.php*/
 
 /*Fuente Geometry Soft Pro Bold N para la pagina principal*/
@@ -12,6 +13,144 @@
 }
 
 /* Estilos para la descripción */
+=======
+
+body {
+    background-color: #3A92B2;
+    color: #E2DEDE;
+    font-family: 'Geometry Soft Pro', sans-serif;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column; 
+    height: 100vh; 
+    overflow: hidden; 
+    margin: 0;
+}
+
+h1, form p{
+    font-family: 'Geometry Soft Pro', sans-serif;
+    color: black;
+}
+
+.beach {
+    background: linear-gradient(to bottom, #D9BD71 90%, rgba(255, 255, 255, 0) 100%); /* Degradado en el 20% inferior */
+    height: 100%; 
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden; 
+}
+
+
+.sea {
+    width: 90%;
+    height: 50%;
+    z-index: 0;
+    margin-top: 105vh;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+.left-side {
+    float: left;
+    width: 70%;
+    overflow: hidden;
+}
+
+.right-side {
+    float: right;
+    width: 30%;
+    display: block;
+    color: #E2DEDE;
+}
+.counter-container{
+    margin-left: auto;
+    margin-right: auto;
+    color: #E2DEDE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #E2DEDE;
+    padding: 20px;
+    width: 200px;
+    margin: 0 auto;
+
+}
+.timer, .points {
+    color: #E2DEDE;
+}
+
+table {
+    margin-left: 30%;
+    margin-right: auto; 
+    border-collapse: collapse; 
+    table-layout: fixed; 
+    width: 60%; 
+    border: 3px solid #E2DEDE; 
+}
+
+td, th {
+    border: 3px solid #E2DEDE; 
+    text-align: center;
+    box-shadow: 0 0 2px;
+    margin: 0;
+    padding: 0; 
+    height: 40px;
+    width: 40px;
+}
+
+tr:not(:first-child) td:not(:first-child):hover {
+    background-color: #E2DEDE;
+}
+
+tr:first-child, td:first-child {
+    font-size: 30px;
+}
+
+.cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+
+
+
+
+@font-face {
+    font-family: 'Geometry Soft Pro';
+    src: url('GeometrySoftPro-BoldN.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+
+.counter-container h3 {
+    margin-bottom: 10px;
+}
+
+.timer, .points {
+    font-size: 24px;
+    font-weight: bold;
+    color: #E2DEDE;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+.backgroundIndex,
+.optionsIndex > button{
+    font-family:'Geometry Soft Pro Bold N', sans-serif;
+}
+
 .descriptionIndex {
     position: absolute;
     left: 0;
@@ -25,26 +164,28 @@
 }
 
 
-/*Estilos para el fondo de la pagina principal*/
 .backgroundIndex {
     width: 50%;
-    height: 100%;
-    background-color: rgb(136, 255, 249);
+    height: 80%;
+    background-color: #E2DEDE;
     margin: 0 auto;
     position: absolute;
     top: 0;
-    left: 23%;
+    background-image: url('towel.png'); 
+    background-size: cover; 
+    background-position: center; 
 }
 
-/*Estilos para el contenido de la pagina principal*/
 .containerIndex {
     margin-top: 100px;
     text-align: center;
     margin: 0 auto;
-    margin: 350px 0;
 }
 
 /*Estilos para el titulo de la pagina principal*/
+=======
+}
+
 .titleIndex {
     text-align: center;
     color: black;
@@ -52,6 +193,7 @@
 }
 
 /*Estilos para los botones de la pagina principal*/
+=======
 .optionsIndex {
     text-align: center;
     color: black;
@@ -60,6 +202,7 @@
 
 
 /*Estilos para el boton Play de la pagina principal*/
+=======
 .optionsIndex #buttonPlayIndex {
     font-size: 20px;
     width: 150px;
@@ -68,6 +211,7 @@
 }
 
 /*Estilos para el boton Ranking de la pagina principal*/
+=======
 .optionsIndex #buttonRankingIndex {
     padding: 5px;
     font-size: 20px;
@@ -78,6 +222,7 @@
 }
 
 /*Estilos para el boton Play de la pagina principal*/
+=======
 .optionsIndex #buttonPlayIndex:hover {
     background-color: black;
     color: white;
@@ -188,4 +333,9 @@
     margin-top: 20px;
     text-align: center;
     margin: 0 0 70px 0px;
+}
+=======
+.optionsIndex #buttonRankingIndex:hover {
+    background-color: black;
+    color: white;
 }
