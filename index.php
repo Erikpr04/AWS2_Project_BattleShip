@@ -40,13 +40,13 @@
             <div class="containerIndex">
                 <h1 class="titleIndex">Shoreline Strike</h1>
                 <div class="optionsIndex">
-                    <noscript>
-                        <button id="buttonPlayIndex" disabled>JUGAR</button>
-                    </noscript>
-                    <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
-                    <br>
-                    <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
-                </div>
+                <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
+                <noscript>
+                    <p>JavaScript disabled</p>
+                </noscript>
+                <br>
+                <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
+            </div>
             </div>
         </section>
     </main>

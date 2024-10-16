@@ -221,7 +221,7 @@
 }
 
 .optionsIndex #buttonPlayIndex a,
-.optionsIndex #buttonRankingIndex a {
+.optionsIndex #buttonRankingIndex a , .optionsIndex #buttonPlayIndex{
     text-decoration: none; 
     color: white; 
 }
