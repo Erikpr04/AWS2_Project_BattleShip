@@ -86,7 +86,7 @@ h1, form p{
     color: #E2DEDE;
 }
 
-table {
+gameBoard table {
     margin-left: 30%;
     margin-right: auto; 
     border-collapse: collapse; 
@@ -95,7 +95,7 @@ table {
     border: 3px solid #E2DEDE; 
 }
 
-td, th {
+gameBoard tbody td, gameBoard tbody th {
     border: 3px solid #E2DEDE; 
     text-align: center;
     box-shadow: 0 0 2px;
@@ -105,11 +105,11 @@ td, th {
     width: 40px;
 }
 
-tr:not(:first-child) td:not(:first-child):hover {
+gameBoard tbody tr:not(:first-child) td:not(:first-child):hover {
     background-color: #E2DEDE;
 }
 
-tr:first-child, td:first-child {
+gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
     font-size: 30px;
 }
 
@@ -284,6 +284,7 @@ tr:first-child, td:first-child {
     padding: 20px;
     margin: 0;;
     background-color: #ece2c6;
+    overflow: auto;
 }
 
 .titleRanking {
