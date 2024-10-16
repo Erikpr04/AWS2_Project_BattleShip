@@ -15,6 +15,12 @@
     background-color: #D9BD71;
 }
 
+.bodyIndex{
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+}
+
 /* Estilos para la descripción */
 
 .bodyIndex, .optionsIndex > button{
@@ -23,7 +29,7 @@
 
 /* Estilos para la descripción */
 
-body {
+.bodyIndexGame {
     background-color: #3A92B2;
     color: #E2DEDE;
     font-family: 'Geometry Soft Pro', sans-serif;
@@ -35,14 +41,21 @@ body {
     margin: 0;
 }
 
-h1, form p{
-    font-family: 'Geometry Soft Pro', sans-serif;
-    color: black;
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1000%;
+    height: 1000%;
+    background-color: rgba(0, 0, 0, 0); 
+    display: none; 
+    z-index: 1000; 
 }
 
+
 .beach {
-    background: linear-gradient(to bottom, #D9BD71 90%, rgba(255, 255, 255, 0) 100%); /* Degradado en el 20% inferior */
-    height: 100%; 
+    background: linear-gradient(to bottom, #D9BD71 90%, rgba(255, 255, 255, 0) 100%); 
+    height: 130%; 
     width: 100%;
     display: flex;
     align-items: center;
@@ -59,7 +72,7 @@ h1, form p{
     width: 90%;
     height: 50%;
     z-index: 0;
-    margin-top: 105vh;
+    margin-top: 130vh;
     margin-left: auto;
     margin-right: auto;
 
@@ -95,7 +108,7 @@ h1, form p{
     color: #E2DEDE;
 }
 
-gameBoard table {
+.gameBoard {
     margin-left: 30%;
     margin-right: auto; 
     border-collapse: collapse; 
@@ -104,7 +117,7 @@ gameBoard table {
     border: 3px solid #E2DEDE; 
 }
 
-gameBoard tbody td, gameBoard tbody th {
+.gameBoard tbody td, .gameBoard tbody th {
     border: 3px solid #E2DEDE; 
     text-align: center;
     box-shadow: 0 0 2px;
@@ -114,11 +127,11 @@ gameBoard tbody td, gameBoard tbody th {
     width: 40px;
 }
 
-gameBoard tbody tr:not(:first-child) td:not(:first-child):hover {
+.gameBoard tbody tr:not(:first-child) td:not(:first-child):hover {
     background-color: #E2DEDE;
 }
 
-gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
+.gameBoard tbody tr:first-child, .gameBoard tbody td:first-child {
     font-size: 30px;
 }
 
@@ -162,165 +175,156 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
 
 .descriptionIndex {
     position: absolute;
-    left: 0;
-    top: 13%;
     width: 350px;
     height: 700px;
     overflow-y: auto;
+    margin-left: 5px;
     padding: 20px;
     border: 1px solid black;
     border-radius: 10px;
+    color: black
 }
 
 
 
-/*Estilos para el fondo de la pagina principal*/
 .backgroundIndex {
-    width: 50%;
-    height: 100%;
+    width: 40vw; 
+    height: 100vh;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
     background-image: url('towel.png'); 
-    margin: 0 auto;
-    position: absolute;
-    top: 0;
-    left: 23%;
+    background-size: cover; 
+    background-position: center; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .containerIndex {
-    margin-top: 100px;
-    text-align: center;
-    margin: 0 auto;
-    margin: 150px 0;
+    text-align: center; 
 }
-
-/*Estilos para el titulo de la pagina principal*/
-.titleIndex {
-    text-align: center;
-    color: white;
-    font-size: 90px;
-    -webkit-text-stroke: 12px orange;
-
-}
-
-/*Estilos para el titulo de la pagina principal*/
 
 .titleIndex {
-    text-align: center;
-    color: black;
-    font-size: 40px;
-
+    color: white; 
+    font-size: 7rem; 
+    -webkit-text-stroke: 5px orange; 
 }
 
-/*Estilos para los botones de la pagina principal*/
 .optionsIndex {
-    text-align: center;
-    color: black;
-    font-size: 50px;
+    font-size: 50px; 
 }
 
-
-/*Estilos para los botones de la pagina principal*/
-.optionsIndex #buttonPlayIndex a {
-    text-decoration: none;
-    color: white;
-}
-
-/*Estilos para el boton Play de la pagina principal*/
-.optionsIndex #buttonPlayIndex {
-    background-color: orange;
-
-/*Estilos para el boton Play de la pagina principal*/
-.optionsIndex #buttonPlayIndex {
-
-    font-size: 20px;
-    width: 150px;
-    height: 50px;
-    border-radius: 20px;
-
-    border-color: orange;
-}
-
-/*Estilos para los botones de la pagina principal*/
+.optionsIndex #buttonPlayIndex a,
 .optionsIndex #buttonRankingIndex a {
-    text-decoration: none;
-    color: white;
-
+    text-decoration: none; 
+    color: white; 
 }
 
-/*Estilos para el boton Ranking de la pagina principal*/
+.optionsIndex #buttonPlayIndex {
+    background-color: orange; 
+    font-size: 20px; 
+    width: 150px; 
+    height: 50px; 
+    border-radius: 20px; 
+    border-color: orange; 
+}
+
 .optionsIndex #buttonRankingIndex {
-
-    background-color: orange;
-
-    padding: 5px;
-    font-size: 20px;
-    width: 200px;
-    height: 50px;
-    border-radius: 20px;
-
-    border-color: orange;
-    margin: 45px 0 0 0;
+    background-color: orange; 
+    padding: 5px; 
+    font-size: 20px; 
+    width: 200px; 
+    height: 50px; 
+    border-radius: 20px; 
+    border-color: orange; 
+    margin: 45px 0 0; 
 }
 
-
-/*Estilos para el boton Play de la pagina principal*/
-.optionsIndex #buttonPlayIndex:hover {
-    background-color: black;
-    color: white;
+.optionsIndex #buttonRankingIndex:hover,.optionsIndex #buttonPlayIndex:hover {
+    background-color: black; 
+    color: white; 
 }
-
-/*Estilos para el boton Ranking de la pagina principal*/
-.optionsIndex #buttonRankingIndex:hover {
-    background-color: black;
-    color: white;
-}
-
 
 
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
 
+/*Estilos de win.php*/
 
-/*Estilos para el fondo de la pagina de juego*/
-.headerGame {
-    text-align: center;
-    background-color: rgb(255, 255, 169);
-    width: 100%;
-    height: 50px;
-    position:fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 5px 5px 40px 30px rgb(255, 255, 169);
+.winbody{
+    background-color: #D9BD71;
+    height: 100%;    
+    overflow-y: auto;
 }
 
-/*Estilos para el fondo de la pagina de juego*/
-.backgroundGame {
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(62, 101, 255);
-    position: absolute;
-    top: 0;
-    right: 1px;
-    z-index: -1;
+.windiv {
+    background-color: #D9BD71;
+    width: 40vw; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-image: url('towel.png'); 
+    background-size: cover; 
+    background-position: center; 
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/*Estilos para el contenido de la pagina de juego*/
-.tableGame {
-    border-collapse: collapse;
-    width: 500px;
-    height: auto;
-    margin: 180px auto;
+
+.panel {
+    background-color: #E2DEDE;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.panel h1 {
+    color: #F18D1F;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+
+
+}
+
+.panel p {
+    color: #3AB1B3;
+    font-size: 1.2em;
+}
+
+.panel input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 2px solid #D9BD71;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 15px;
+
+
+}
+
+.panel button {
+    background-color: #F18D1F;
     color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
 }
 
-/*Estilos para el contenido de la pagina de juego*/
-.tableGame td {
-    border: 1px solid white;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    text-align: center;
+.panel button:hover {
+    background-color: #D9BD71;
+
 }
+
+
+
 
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
@@ -382,4 +386,3 @@ gameBoard tbody tr:first-child, gameBoard tbody td:first-child {
     background-color: black;
     color: white;
 }
-

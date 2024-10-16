@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", (event) => {
     // Body animation
-    document.body.style.transition = 'transform 1s'; 
+    document.body.style.transform = 'translateY(-15vh)'; 
+    document.body.style.transition = 'transform 0.75s'; 
     setTimeout(() => {
-        document.body.style.transform = 'translateY(-90vh)';
+        document.body.style.transform = 'translateY(-120vh)';
     }, 100);
 
 
@@ -69,7 +70,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             if (cell) {
                 cell.style.backgroundColor = 'red';
                 addPoints();
-                event = new CustomEvent('cellRevealed', {
+                event = new CustomEvent('gameEvent', {
                     detail: { type: 'ship_hit', x: x_pos, y: y_pos }
                 });
             }
@@ -79,8 +80,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             if (cell) {
                 cell.style.backgroundColor = 'lightblue';
                 subtractPoints();
-                event = new CustomEvent('cellRevealed', {
-                    detail: { type: 'water_hit', x: x_pos, y: y_pos }
+                event = new CustomEvent('gameEvent', {
+                    detail: { type: 'water_hit' }
                 });
                 
             }
@@ -160,8 +161,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
         });
         //double check to know if all ships are sunk
         allShipsSunk = ship_array.every(ship => !ship.isalive);
+
+        //it sends the info to win.php and manages win event when all ships sink
     
         if (allShipsSunk) {
+
+            toggleOverlay(true);
+
+            event = new CustomEvent('gameEvent', {
+                detail: { type: 'winEvent' }
+            });
+            document.dispatchEvent(event);
+
+            setTimeout(function(){
             let form = document.createElement('form');
             form.method = 'POST';
             form.action = 'win.php';
@@ -175,13 +187,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
             form.appendChild(input1);
             document.body.appendChild(form);
             form.submit();
+        }, 3000);
         }
         
     }
 
-
-
+    function toggleOverlay(show) {
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = show ? 'block' : 'none';
+    }
     
+
+
+
 
 
 
@@ -199,24 +217,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // ---Game events---
 
     //audio_sfx
-    let hitSound = new Audio('fish_strike.mp3');
-    let missSound = new Audio('water_splash.mp3');
-    let winSound = new Audio('win_sound_effect.mp3');
-    let buttonSound = new Audio('buttonclick1.mp3');
-    let waterTransitionSound = new Audio('water_transition.mp3');
+    let hitSound = new Audio('static/sfx/fish_strike.mp3');
+    let missSound = new Audio('static/sfx/water_splash.mp3');
+    let winSound = new Audio('static/sfx/win_sound_effect.mp3');
+    let buttonSound = new Audio('static/sfx/buttonclick1.mp3');
 
-    document.addEventListener('cellRevealed', function (e) {
+    document.addEventListener('gameEvent', function (e) {
         //handling events
+        let sound;
+
 
         if (e.detail.type === 'ship_hit') {
-            hitSound.play();
-            //more reactions here plzz
-
+            sound = new Audio('static/sfx/fish_strike.mp3'); 
+            sound.play()
         } else if (e.detail.type === 'water_hit') {
-            missSound.play();
-            //more reactions here plzz
+            sound = new Audio('static/sfx/water_splash.mp3'); 
+            sound.play()
+        } else if (e.detail.type === 'winEvent') {
+            console.log('winEvent');
+            sound = new Audio('static/sfx/win_sound_effect.mp3'); 
+            sound.play()
         }
-    });
 
+
+
+    });
+    
 
 });

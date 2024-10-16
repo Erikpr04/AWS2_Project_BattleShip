@@ -293,22 +293,24 @@ $main_array = displayShips($ships_array,$main_array);
 
 
 
-<body>
-
+<body class="bodyIndexGame">
+    <div class="overlay" id="overlay"></div>
     <div class="beach">
-        <div class="backgroundIndex">
+    <main class="mainContent">
+        <section class="backgroundIndex">
             <div class="containerIndex">
-                <div class="titleIndex">
-                    <h1>Shoreline Strike</h1>
-                </div>
+                <h1 class="titleIndex">Shoreline Strike</h1>
                 <div class="optionsIndex">
-                    <button id="buttonPlayIndex" onclick="location.href='game.php'">PLAY</button>
+                    <noscript>
+                        <button id="buttonPlayIndex" disabled>JUGAR</button>
+                    </noscript>
+                    <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
                     <br>
-                    <button id="buttonRankingIndex" onclick="location.href='ranking.php'">HALF OF TIME</button>
+                    <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
                 </div>
             </div>
-
-        </div>
+        </section>
+    </main>
     </div>
 
 
