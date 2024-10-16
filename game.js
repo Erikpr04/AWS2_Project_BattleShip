@@ -95,12 +95,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
         console.log(window.mainArray);
     }
 
+    function showShipInBoard(ship){
+        console.log(ship.pos[0][0],ship.pos[1][0]);
 
+        let vertical = false;
+
+        if (ship.pos[0][0] == ship.pos[1][0]){
+            vertical = true;
+        }
+
+        let selected_fish = '';
+
+        ship.pos.forEach(([x, y], index) => {
+            let cell = document.querySelector(`td[x_pos='${x}'][y_pos='${y}']`);
+            
+            switch (ship.pos.length) {                
+                case 2:
+                    selected_fish = 'fish';
+                    break;
+                case 3:
+                    selected_fish = 'squid';
+                    break;
+                case 4:
+                    selected_fish = 'swordfish';
+                    break;
+                case 5:
+                    selected_fish = 'eel';
+                    break;
+            }
+        
+            if (vertical) {
+                cell.innerHTML = `<img src='static/img/${selected_fish}Divided/${selected_fish}${index+1}.png' alt='fish_image ${index+1}' style="transform: rotate(90deg); width: 100%; height: 100%;">`;
+                cell.style.backgroundColor = '#3a92b2';
+
+            } else {
+                cell.innerHTML = `<img src='static/img/${selected_fish}Divided/${selected_fish}${index+1}.png' alt='fish_image ${index+1}' style="width: 100%;">`;
+                cell.style.backgroundColor = '#3a92b2';
+
+            }
+        });
+        
+    }
 
 
     //function to check if ships are all sunk
     function checkShipsStatus(ship_array) {
         let allShipsSunk = false;  
+        console.log(ship_array);
     
         ship_array.forEach(ship => {
             let allCellsHit = true;
@@ -112,23 +153,42 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
     
             ship.isalive = !allCellsHit;  
+
+            if (allCellsHit) {
+                showShipInBoard(ship);
+            }
         });
         //double check to know if all ships are sunk
-    
         allShipsSunk = ship_array.every(ship => !ship.isalive);
     
         if (allShipsSunk) {
-            alert('YOU WON!! (Provisional)');
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'win.php';
+        
+            let input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'points';
+            input1.value = points;
+        
+        
+            form.appendChild(input1);
+            document.body.appendChild(form);
+            form.submit();
         }
+        
     }
+
+
+
     
 
 
 
-    let celdas = document.querySelectorAll('table.gameBoard td');
+    let cells = document.querySelectorAll('table.gameBoard td');
 
-    celdas.forEach(function(celda) {
-        celda.addEventListener('click', function() {
+    cells.forEach(function(cells) {
+        cells.addEventListener('click', function() {
             let x_pos = parseInt(this.getAttribute('x_pos'));
             let y_pos = parseInt(this.getAttribute('y_pos'));
 
