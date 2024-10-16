@@ -13,7 +13,6 @@
 }
 
 /* Estilos para la descripción */
-=======
 
 body {
     background-color: #3A92B2;
@@ -183,8 +182,6 @@ tr:first-child, td:first-child {
 }
 
 /*Estilos para el titulo de la pagina principal*/
-=======
-}
 
 .titleIndex {
     text-align: center;
@@ -193,7 +190,6 @@ tr:first-child, td:first-child {
 }
 
 /*Estilos para los botones de la pagina principal*/
-=======
 .optionsIndex {
     text-align: center;
     color: black;
@@ -202,7 +198,6 @@ tr:first-child, td:first-child {
 
 
 /*Estilos para el boton Play de la pagina principal*/
-=======
 .optionsIndex #buttonPlayIndex {
     font-size: 20px;
     width: 150px;
@@ -211,7 +206,6 @@ tr:first-child, td:first-child {
 }
 
 /*Estilos para el boton Ranking de la pagina principal*/
-=======
 .optionsIndex #buttonRankingIndex {
     padding: 5px;
     font-size: 20px;
@@ -222,7 +216,6 @@ tr:first-child, td:first-child {
 }
 
 /*Estilos para el boton Play de la pagina principal*/
-=======
 .optionsIndex #buttonPlayIndex:hover {
     background-color: black;
     color: white;
@@ -334,7 +327,6 @@ tr:first-child, td:first-child {
     text-align: center;
     margin: 0 0 70px 0px;
 }
-=======
 .optionsIndex #buttonRankingIndex:hover {
     background-color: black;
     color: white;
