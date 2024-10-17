@@ -113,7 +113,8 @@
     margin-right: auto; 
     border-collapse: collapse; 
     table-layout: fixed; 
-    width: 60%; 
+    width: 30vw; 
+    height: 30vw;
     border: 3px solid #E2DEDE; 
 }
 
