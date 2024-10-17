@@ -70,7 +70,7 @@
 
             // Mostrar el ranking
             echo "<table>";
-            echo "<tr><th>Posición</th><th>Nombre</th><th>Puntuación</th><th>Fecha</th><th>Hora</th></tr>";
+            echo "<tr><th>Posició</th><th>Nom</th><th>Puntuació</th><th>Data</th><th>Hora</th></tr>";
             foreach ($rankingPage as $index => $record) {
                 $position = $start + $index + 1;
                 echo "<tr><td>{$position}</td><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td><td>{$record['time']}</td></tr>";
@@ -93,7 +93,7 @@
                 }
             }
             if ($currentPage < $totalPages) {
-                echo "<button><a href='?page=".($currentPage + 1)."'>Siguiente</a></button>";
+                echo "<button><a href='?page=".($currentPage + 1)."'>Següent</a></button>";
             }
             echo "</div>";
         ?>

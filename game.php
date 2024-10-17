@@ -16,7 +16,6 @@
 //-----BOARD LOGIC-----
 
 
-
 /**
  * Creates a cell object with given $x and $y coordinates and "none" as initial state.
  * @param int $x x coordinate of the cell
