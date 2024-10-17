@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }, 100);
 
 
-    // Timer start
+    // TIMER START ---
     let seconds = 0;
     let minutes = 0;
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         document.querySelector('.timer').innerText = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
     }, 1000);
 
-    //Points
+    //POINTS ---
     let points = 0;
     let streakWater = 0;
     let streakHit = 0;
@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         changePointsText();
     }
 
+    // CELL FUNCTIONS ---
     function unhideCell(x_pos, y_pos) {
         let event;
 
@@ -139,8 +140,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
 
-    //function to show notification
-
+    // NOTIFICATIONS ---
     function showToastNotification(message, type) {
         let toastContainer = document.getElementById('toast-container');
         if (!toastContainer) {
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
 
-
+    // EASTER EGG ---
     let easterEggSequence = [[6, 0], [9, 0], [0, 5], [8, 0]];
     let currentIndex = 0; 
 
@@ -280,6 +280,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
 
+    // WIN GAME ---
     function winGame(){
         toggleOverlay(true); 
 
@@ -306,7 +307,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
     
 
-    // ---Game events---
+
+    // GAME EVENTS ---
 
     //audio_sfx
     let hitSound = new Audio('static/sfx/fish_strike.mp3');
@@ -319,25 +321,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (e.detail.type === 'ship_hit') {
             sound = new Audio('static/sfx/fish_strike.mp3'); 
             sound.play()
-            showToastNotification('Fish Hit', 'success');
+            showToastNotification('Peix tocat!', 'success');
 
 
         } else if (e.detail.type === 'water_hit') {
             sound = new Audio('static/sfx/water_splash.mp3'); 
             sound.play()
-            showToastNotification('Water Hit', 'error');
+            showToastNotification('Aigua', 'error');
 
 
         } else if (e.detail.type === 'winEvent') {
             console.log('winEvent');
             sound = new Audio('static/sfx/win_sound_effect.mp3'); 
             sound.play()
-            showToastNotification('You Won!', 'warning');
+            showToastNotification('Has guanyat!', 'warning');
 
         } else if (e.detail.type === 'fish_sunk') {
             sound = new Audio('static/sfx/fishfloat.mp3'); 
             sound.play()
-            showToastNotification('Fish sunk', 'info');
+            showToastNotification('Peix enfonsat!', 'info');
 
         }
 
