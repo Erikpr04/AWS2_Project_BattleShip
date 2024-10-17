@@ -10,7 +10,8 @@
 
 
 .bodyIndex,
-.optionsIndex>button {
+.optionsIndex>button,
+.formIndex #buttonPlayIndex  {
     font-family: 'Geometry Soft Pro Bold N';
     background-color: #D9BD71;
 }
@@ -169,7 +170,8 @@
     margin-top: 20px;
 }
 .backgroundIndex,
-.optionsIndex > button{
+.optionsIndex > button,
+.formIndex > #buttonPlayIndex  {
     font-family:'Geometry Soft Pro Bold N', sans-serif;
 }
 
@@ -227,14 +229,15 @@
     color: white; 
 }
 
-.optionsIndex #buttonPlayIndex {
+.formIndex form{
     background-color: orange; 
     font-size: 20px; 
     width: 150px; 
     height: 50px; 
     border-radius: 20px; 
-    border-color: orange; 
+    border-color: orange;
 }
+
 
 .optionsIndex #buttonRankingIndex {
     background-color: orange; 
@@ -328,8 +331,6 @@
     background-color: #D9BD71;
 
 }
-
-
 
 
 /*-----------------------------------------------------------------*/

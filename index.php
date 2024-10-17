@@ -44,11 +44,11 @@
             </div>
             <div class="optionsIndex">
                 <form  method="post" class="formIndex">
-                    <label for="namePlayer">Introdueix el tu nom:</label>
+                    <label for="namePlayer" style="font-size: 20px;">Introdueix el tu nom:</label>
                     <br>
-                    <input type="text" id="namePlayer" name="namePlayer" required>
+                    <input type="text" id="namePlayer" name="namePlayer" style="width: 300px; margin: 0 auto 25px" required>
                     <br>
-                    <button type="submit" name="play">Jugar</button>
+                    <button id="buttonPlayIndex" type="submit" name="play">Jugar</button>
                 </form>
                 <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
                 <?php 
