@@ -1,3 +1,5 @@
+<!-- index.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,12 +43,24 @@
                 <h1>Shoreline Strike</h1>
             </div>
             <div class="optionsIndex">
-                <noscript>
-                    <button id="buttonPlayIndex" disabled>PLAY</button>
-                </noscript>
-                <button id="buttonPlayIndex"><a href="game.php">PLAY</a></button>
-                <br>
+                <form  method="post" class="formIndex">
+                    <label for="namePlayer">Introdueix el tu nom:</label>
+                    <br>
+                    <input type="text" id="namePlayer" name="namePlayer" required>
+                    <br>
+                    <button type="submit" name="play">Jugar</button>
+                </form>
                 <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
+                <?php 
+                    if (isset($_POST['play'])) {
+                        $namePlayer = trim($_POST['namePlayer']);
+                        if (!empty($namePlayer)) {
+                            $_SESSION['namePlayer'] = $namePlayer;
+                            header('Location: game.php');
+                            exit;
+                        }
+                    }
+                ?>
             </div>
         </div>
     </div>
