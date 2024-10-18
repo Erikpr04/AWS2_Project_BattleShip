@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-    // Body animation
+
+    // Animación desplace playa-agua
     document.body.style.transform = 'translateY(-15vh)'; 
     document.body.style.transition = 'transform 0.75s'; 
     setTimeout(() => {
@@ -18,7 +19,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             minutes++;
         }
         document.querySelector('.timer').innerText = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
-    }, 1000);
+    }, 1000); //intervalo de un segundo
+
 
     //POINTS ---
     let points = 0;
@@ -27,10 +29,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const pointsElement = document.querySelector('.points');
     pointsElement.innerText = points;
 
-    function changePointsText() {
-        pointsElement.innerText = points;
-    }
-
+    //suma points
     function addPoints(){
         streakWater=0;
         streakHit++;
@@ -51,20 +50,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
         else if (minutes<5){
             points +=5;
         }
-        changePointsText();
+        
+        pointsElement.innerText = points;
     }
 
+    //resta points
     function subtractPoints(){
         streakHit=0;
         streakWater++;
         points -= streakWater;
-        changePointsText();
+       
+        pointsElement.innerText = points;
     }
 
+
     // CELL FUNCTIONS ---
+
+    //click de destapar cell dependiendo del estado de la celda
     function unhideCell(x_pos, y_pos) {
         let event;
 
+        //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
         if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
             window.mainArray[y_pos][x_pos]['state'] = "ship_hit";
             let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
@@ -75,6 +81,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     detail: { type: 'ship_hit'}
                 });
             }
+        
+        //si el estado de la celda contiene agua, se cambia a water-hit, se pone el color, se llama al evento de waterhit
         } else if (window.mainArray[y_pos][x_pos]['state'] === "water") {
             window.mainArray[y_pos][x_pos]['state'] = "water_hit";
             let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
@@ -88,15 +96,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         }
 
+        //si hay evento, se envia el evento
         if (event) {
             document.dispatchEvent(event);
         }
-        //check and alert if all ships are sunk
+
+        //después del evento, se comprueba si se ha hundido el barco despues del golpe, si se ha hundido la funcion pone la foto
         checkShipsStatus(window.shipsArray);
 
+        //consola check
         console.log(window.mainArray);
     }
 
+
+    // funcion que pone las fotos en el tablero
     function showShipInBoard(ship){
         console.log(ship.pos[0][0],ship.pos[1][0]);
 
@@ -197,13 +210,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             setTimeout(() => {
                 toast.remove();
             }, 500); 
-        }, 3000); 
+        }, 3000); //en pantalla durante 3seg
     }
     
 
     
     
-    //function to check if ships are all sunk
+    //funcion para chekear si todos los barcos se han hundido, si se han hundido llama a WinGame funcion
     function checkShipsStatus(ship_array) {
         let fish_sunk = false;
         let allShipsSunk = false;
@@ -219,6 +232,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
             });
 
+            //si todas las celdas de un barco han sido tocadas se cambia el estado de todas ellas a "fish_sunk" y se llama a la funcion que muestra las imagenes en pantalla
             if (allCellsHit) {
                 ship.pos.forEach(([x, y]) => {
                     window.mainArray[y][x]['state'] = 'fish_sunk'; 
@@ -229,6 +243,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         });
 
+        //evento que saca mensaje y sonido de Hundido
         if (fish_sunk) {
             let event2 = new CustomEvent('gameEvent', {
                 detail: { type: 'fish_sunk' }
@@ -236,8 +251,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             document.dispatchEvent(event2);
         }
 
-        //check if all ships are sunk
-
+        
+        //si todos estan hundidos, lanza el win
         allShipsSunk = ship_array.every(ship => !ship.isalive);
 
         if (allShipsSunk) {
@@ -245,6 +260,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
     }
 
+
+    //funcion que activa y desactiva el overlay encima de la tabla para que no se pueda interactuar
     function toggleOverlay(show) {
         const overlay = document.getElementById('overlay');
         overlay.style.display = show ? 'block' : 'none';
@@ -255,10 +272,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // EASTER EGG ---
     let easterEggSequence = [[6, 0], [9, 0], [0, 5], [8, 0]];
-    let currentIndex = 0; 
+    let currentIndex = 0; //cuantas coordenadas seguidas se han cumplido
 
     let cells = document.querySelectorAll('table.gameBoard td');
 
+    //evento funcion que comprueba si cada click está siguiendo el patron del easter egg
     cells.forEach(function(cell) { 
         cell.addEventListener('click', function() {
             let x_pos = parseInt(this.getAttribute('x_pos'));
@@ -272,7 +290,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     winGame();
                 }
             } else {
-                currentIndex = 0; 
+                currentIndex = 0; //se reinicia el index
             }
     
             unhideCell(x_pos, y_pos); 
@@ -282,13 +300,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // WIN GAME ---
     function winGame(){
-        toggleOverlay(true); 
+        toggleOverlay(true); //se pone el overlay
 
+        //evento se crea y se llama, hace sonido y notificiacion
         let event = new CustomEvent('gameEvent', {
             detail: { type: 'winEvent' }
         });
         document.dispatchEvent(event); 
 
+        //espera 3 segundos, crea un formulario POST invisible que manda los puntos a win.php, y te lleva a win.php
         setTimeout(function(){
             let form = document.createElement('form');
             form.method = 'POST';
@@ -316,8 +336,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let winSound = new Audio('static/sfx/win_sound_effect.mp3');
     let buttonSound = new Audio('static/sfx/buttonclick1.mp3');
 
+    //escucha todos los eventos del tipo "gameEvent"
     document.addEventListener('gameEvent', function (e) {
-        let sound;
+        let sound; //para que se reescriba el contenido y todos los sonidos puedan sonar aunque sean muy seguidos
+        
         if (e.detail.type === 'ship_hit') {
             sound = new Audio('static/sfx/fish_strike.mp3'); 
             sound.play()
