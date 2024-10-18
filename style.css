@@ -214,7 +214,7 @@
 }
 
 .titleIndex {
-    color: white; 
+    color: white;
     font-size: 5rem; 
     -webkit-text-stroke: 5px orange; 
 }
@@ -228,6 +228,7 @@
     text-decoration: none; 
     color: white; 
 }
+
 
 .panelIndex {
     background-color: #E2DEDE;
@@ -273,20 +274,6 @@
 
 }
 
-.optionsIndex #buttonRankingIndex {
-    background-color: orange; 
-    padding: 5px; 
-    font-size: 20px; 
-    width: 200px; 
-    height: 50px; 
-    border-radius: 20px; 
-    border-color: orange; 
-    margin: 45px 0 0; 
-}
-
-.optionsIndex #buttonRankingIndex:hover,.optionsIndex #buttonPlayIndex:hover {
-    color: white; 
-}
 
 
 /*-----------------------------------------------------------------*/
@@ -330,8 +317,6 @@
     margin-bottom: 20px;
 
 
-}
-
 .panel p {
     color: #3AB1B3;
     font-size: 1.2em;
@@ -345,8 +330,6 @@
     font-size: 1em;
     margin-bottom: 15px;
 
-
-}
 
 .panel button {
     background-color: #F18D1F;
@@ -365,6 +348,7 @@
     background-color: #D9BD71;
 
 }
+
 
 
 /*-----------------------------------------------------------------*/

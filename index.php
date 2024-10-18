@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 
 <head>
     <meta charset="UTF-8">
@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Shoreline Strike</title>
 </head>
+
 
 <body class="bodyIndex">
     <div class="descriptionIndex">
@@ -83,5 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
         </div>
     </div>
 </body>
+
 
 </html>
