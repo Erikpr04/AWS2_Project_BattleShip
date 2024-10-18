@@ -154,72 +154,35 @@ function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantit
     for ($i = 1; $i <= 5; $i++) {
         switch ($i) {
             case 1:
-                for ($j = 1; $j <= $quantityship1; $j++) {
-                    $valid_positions = false;
-                    while (!$valid_positions) {
-                        $test_positions = generateRandomPositions($i);
-            
-                        if (!checkIfCellsAround($ships_array, $test_positions)) {
-                            $valid_positions = true;
-                        }
-                    }
-                    $ships_array[] = create_ship($i, $test_positions);
-
-                }
+                $selectedLength = $quantityship1;
                 break;
             case 2:
-                for ($j = 1; $j <= $quantityship2; $j++) {
-                    $valid_positions = false;
-                    while (!$valid_positions) {
-                        $test_positions = generateRandomPositions($i);
-            
-                        if (!checkIfCellsAround($ships_array, $test_positions)) {
-                            $valid_positions = true;
-                        }
-                    }
-                    $ships_array[] = create_ship($i, $test_positions);
-                }
+                $selectedLength = $quantityship2;
                 break;
             case 3:
-                for ($j = 1; $j <= $quantityship3; $j++) {
-                    $valid_positions = false;
-                    while (!$valid_positions) {
-                        $test_positions = generateRandomPositions($i);
-            
-                        if (!checkIfCellsAround($ships_array, $test_positions)) {
-                            $valid_positions = true;
-                        }
-                    }
-                    $ships_array[] = create_ship($i, $test_positions);
-
-                }
+                $selectedLength = $quantityship3;
                 break;
             case 4:
-                for ($j = 1; $j <= $quantityship4; $j++) {
-                    $valid_positions = false;
-                    while (!$valid_positions) {
-                        $test_positions = generateRandomPositions($i);
-                        if (!checkIfCellsAround($ships_array, $test_positions)) {
-                            $valid_positions = true;
-                        }
-                    }
-                    $ships_array[] = create_ship($i, $test_positions);
-                }
+                $selectedLength = $quantityship4;
                 break;
             case 5:
-                for ($j = 1; $j <= $quantityship5; $j++) {
-                    $valid_positions = false;
-                    while (!$valid_positions) {
-                        $test_positions = generateRandomPositions($i);
-            
-                        if (!checkIfCellsAround($ships_array, $test_positions)) {
-                            $valid_positions = true;
-                        }
-                    }
-                    $ships_array[] = create_ship($i, $test_positions);
-
-                }
+                $selectedLength = $quantityship5;
                 break;
+            }
+            
+
+            for ($j = 1; $j <= $selectedLength; $j++) {
+                $valid_positions = false;
+                while (!$valid_positions) {
+                    $test_positions = generateRandomPositions($i);
+        
+                    if (!checkIfCellsAround($ships_array, $test_positions)) {
+                        $valid_positions = true;
+                    }
+                }
+                $ships_array[] = create_ship($i, $test_positions);
+
+            }
         }
 
 
@@ -229,7 +192,6 @@ function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantit
        //}
         
         echo "<br>";
-    }
     
     return $ships_array;
 }
