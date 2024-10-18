@@ -148,23 +148,78 @@ function checkIfCellsAround($ships_array, $test_positions) {
 
 
 
-/**
- * Generates an array of ships with random positions.
- * The ships will be of length 2, 3, 4, and 5, and will not be adjacent to each other.
- * @return array array of ships with random positions
- */
-function generateShipArray() {
+function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantityship4,$quantityship5) {
     $ships_array = array();
+    $valid_positions = false;
+    for ($i = 1; $i <= 5; $i++) {
+        switch ($i) {
+            case 1:
+                for ($j = 1; $j <= $quantityship1; $j++) {
+                    $valid_positions = false;
+                    while (!$valid_positions) {
+                        $test_positions = generateRandomPositions($i);
+            
+                        if (!checkIfCellsAround($ships_array, $test_positions)) {
+                            $valid_positions = true;
+                        }
+                    }
+                    $ships_array[] = create_ship($i, $test_positions);
 
-    for ($i = 2; $i <= 5; $i++) {
-        $valid_positions = false;
+                }
+                break;
+            case 2:
+                for ($j = 1; $j <= $quantityship2; $j++) {
+                    $valid_positions = false;
+                    while (!$valid_positions) {
+                        $test_positions = generateRandomPositions($i);
+            
+                        if (!checkIfCellsAround($ships_array, $test_positions)) {
+                            $valid_positions = true;
+                        }
+                    }
+                    $ships_array[] = create_ship($i, $test_positions);
+                }
+                break;
+            case 3:
+                for ($j = 1; $j <= $quantityship3; $j++) {
+                    $valid_positions = false;
+                    while (!$valid_positions) {
+                        $test_positions = generateRandomPositions($i);
+            
+                        if (!checkIfCellsAround($ships_array, $test_positions)) {
+                            $valid_positions = true;
+                        }
+                    }
+                    $ships_array[] = create_ship($i, $test_positions);
 
-        while (!$valid_positions) {
-            $test_positions = generateRandomPositions($i);
+                }
+                break;
+            case 4:
+                for ($j = 1; $j <= $quantityship4; $j++) {
+                    $valid_positions = false;
+                    while (!$valid_positions) {
+                        $test_positions = generateRandomPositions($i);
+                        if (!checkIfCellsAround($ships_array, $test_positions)) {
+                            $valid_positions = true;
+                        }
+                    }
+                    $ships_array[] = create_ship($i, $test_positions);
+                }
+                break;
+            case 5:
+                for ($j = 1; $j <= $quantityship5; $j++) {
+                    $valid_positions = false;
+                    while (!$valid_positions) {
+                        $test_positions = generateRandomPositions($i);
+            
+                        if (!checkIfCellsAround($ships_array, $test_positions)) {
+                            $valid_positions = true;
+                        }
+                    }
+                    $ships_array[] = create_ship($i, $test_positions);
 
-            if (!checkIfCellsAround($ships_array, $test_positions)) {
-                $valid_positions = true;
-            }
+                }
+                break;
         }
 
 
@@ -173,7 +228,6 @@ function generateShipArray() {
        //     echo "x = " . print_r($position[0] . " y = " . $position[1], true) . "<br>";
        //}
         
-        $ships_array[] = create_ship($i, $test_positions);
         echo "<br>";
     }
     
@@ -281,7 +335,7 @@ function displayShips($shipsArray,$board): array {
 $main_array = createBoard(11,11);
 $main_array = InsertCellsinBoard($main_array);
 $main_array = assignWaterCells($main_array);
-$ships_array = generateShipArray();
+$ships_array = generateShipArray(4,3,2,1,0);
 $main_array = displayShips($ships_array,$main_array);
 
 
@@ -339,6 +393,7 @@ $main_array = displayShips($ships_array,$main_array);
 <script>
     window.mainArray = <?php echo json_encode($main_array); ?>;
     window.shipsArray = <?php echo json_encode($ships_array); ?>;
+    console.log(window.shipsArray);
 </script>
 
 </html>
