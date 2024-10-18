@@ -93,7 +93,7 @@ function create_ship($length,$positions) {
     if (rand(0, 1) == 0) {
         // Vertical
         $x = rand(1, 9); 
-        $y = rand(1, 10 - $length + 1); 
+        $y = rand(1, 10 - $length); 
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x, $y + $j];
         }
