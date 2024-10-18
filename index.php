@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
     </div>
     <div class="optionsGameIndex">
         <ul style="position: absolute; right:100px;">
+            <p>opcions joc</p>
             <li>
                 <ul>
                     <li><input type="checkbox" id="bulletIlimited"><label>munició ilimitada</label></li>
