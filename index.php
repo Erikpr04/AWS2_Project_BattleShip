@@ -1,4 +1,24 @@
 <!-- index.php -->
+<?php
+$username = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
+    $username = trim($_POST['username']);
+
+    if (strpos($username, ';') !== false) {
+        echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
+        exit();
+    }
+    if (strlen($username) < 3) {
+        echo "<script>alert('El nom ha de contenir mínim 3 caràcters!'); window.history.back();</script>";
+        exit();
+    }
+    if (strlen($username) > 30) {
+        echo "<script>alert('El nom no pot sobrepassar els 30 caràcters!'); window.history.back();</script>";
+        exit();
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,26 +62,24 @@
             <div class="titleIndex">
                 <h1>Shoreline Strike</h1>
             </div>
-            <div class="optionsIndex">
-                <form  method="post" class="formIndex">
-                    <label for="namePlayer" style="font-size: 20px;">Introdueix el tu nom:</label>
-                    <br>
-                    <input type="text" id="namePlayer" name="namePlayer" style="width: 300px; margin: 0 auto 25px" required>
-                    <br>
-                    <button id="buttonPlayIndex" type="submit" name="play">Jugar</button>
+            <div class="panelIndex">
+                <form method="post">
+                    <p>Enter your username:</p>
+                    <input type="text" name="namePlayer" placeholder="Enter your username" required>
+                    <button type="submit" name="play">Play</button>
                 </form>
-                <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
-                <?php 
-                    if (isset($_POST['play'])) {
-                        $namePlayer = trim($_POST['namePlayer']);
-                        if (!empty($namePlayer)) {
-                            $_SESSION['namePlayer'] = $namePlayer;
-                            header('Location: game.php');
-                            exit;
-                        }
-                    }
-                ?>
+                <button onclick="window.location.href='ranking.php'">HALL OF FAME</button>
             </div>
+            <?php
+            if (isset($_POST['play'])) {
+                $namePlayer = trim($_POST['namePlayer']);
+                if (!empty($namePlayer)) {
+                    $_SESSION['namePlayer'] = $namePlayer;
+                    header('Location: game.php');
+                    exit;
+                }
+            }
+            ?>
         </div>
     </div>
 </body>

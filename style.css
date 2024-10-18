@@ -215,7 +215,7 @@
 
 .titleIndex {
     color: white; 
-    font-size: 7rem; 
+    font-size: 5rem; 
     -webkit-text-stroke: 5px orange; 
 }
 
@@ -229,15 +229,49 @@
     color: white; 
 }
 
-.formIndex form{
-    background-color: orange; 
-    font-size: 20px; 
-    width: 150px; 
-    height: 50px; 
-    border-radius: 20px; 
-    border-color: orange;
+.panelIndex {
+    background-color: #E2DEDE;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 50px auto;
 }
 
+.panelIndex p {
+    color: #3AB1B3;
+    font-size: 1.2em;
+}
+
+.panelIndex input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 2px solid #D9BD71;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 15px;
+
+
+}
+
+.panelIndex button {
+    background-color: #F18D1F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+.panelIndex button:hover {
+    background-color: #D9BD71;
+
+}
 
 .optionsIndex #buttonRankingIndex {
     background-color: orange; 
