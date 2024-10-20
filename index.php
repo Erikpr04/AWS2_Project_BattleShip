@@ -3,7 +3,7 @@
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
-    $username = trim($_POST['username']);
+    $username = trim(string: $_POST['namePlayer']);
 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
@@ -59,19 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
         </p>
     </div>
     <div class="optionsGameIndex">
-        <ul style="position: absolute; right:100px;">
-            <p>opcions joc</p>
-            <li>
-                <ul>
-                    <li><input type="checkbox" id="bulletIlimited"><label>munició ilimitada</label></li>
-                    <li><input type="checkbox" id="armoredShips"><label>vaixells acoirassats</label></li>
-                    <li><input type="checkbox" id="specialAttack"><label>atacs especials</label></li>
-                </ul>
-            </li>
+        <ul>
+            <p>OPCIONS</p>
+            <li><input type="checkbox" id="bulletIlimited" style="cursor:pointer"><label for="bulletIlimited">Munició ilimitada</label></li>
+            <li><input type="checkbox" id="armoredShips" style="cursor:pointer"><label for="armoredShips">Vaixells acoirassats</label></li>
+            <li><input type="checkbox" id="specialAttack" style="cursor:pointer"><label for="specialAttack">Atacs especials</label></li>
         </ul>
-        <!--
-    <button style="position: absolute; right:100px;">+</button>
-    -->
 
     </div>
     <div class="backgroundIndex">
@@ -81,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
             </div>
             <div class="panelIndex">
                 <form method="post">
-                    <p>Enter your username:</p>
-                    <input type="text" name="namePlayer" placeholder="Enter your username" required>
+                    <p>Introduïu el vostre nom d'usuari:</p>
+                    <input type="text" name="namePlayer" placeholder="usuari" required>
                     <button type="submit" name="play">Play</button>
                 </form>
                 <button onclick="window.location.href='ranking.php'">HALL OF FAME</button>
