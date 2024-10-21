@@ -3,7 +3,7 @@
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
-    $username = trim($_POST['username']);
+    $username = trim($_POST['namePlayer']);
 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
