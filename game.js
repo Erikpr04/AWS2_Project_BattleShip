@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     //click de destapar cell dependiendo del estado de la celda
 
-    //proyectiles:
     let totalProjectiles = 40;
 
     function unhideCell(x_pos, y_pos) {
@@ -79,7 +78,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             return;
         }
 
-        // De este modo se reduce el contador de proyectiles
         totalProjectiles--;
         document.getElementById('projectileCount').innerText = totalProjectiles;
 
