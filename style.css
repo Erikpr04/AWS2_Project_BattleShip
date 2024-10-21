@@ -169,6 +169,12 @@
 .buttons {
     margin-top: 20px;
 }
+
+
+
+/*Estilos de index.php*/
+
+
 .backgroundIndex,
 .optionsIndex > button,
 .formIndex > #buttonPlayIndex  {
@@ -303,16 +309,6 @@
 
 /*--------------------------------------*/
 /*--------------------------------------*/
-
-.optionsIndex {
-    font-size: 50px; 
-}
-
-.optionsIndex #buttonPlayIndex a,
-.optionsIndex #buttonRankingIndex a , .optionsIndex #buttonPlayIndex{
-    text-decoration: none; 
-    color: white; 
-}
 
 
 .panelIndex {
