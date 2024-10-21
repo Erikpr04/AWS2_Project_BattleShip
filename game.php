@@ -106,15 +106,6 @@ function create_ship($length,$positions) {
     return $positions;
 }
 
-
-
-/**
- * Checks if there are any ships in the given ships array that are adjacent to any cell in the given test_positions array.
- * Two cells are considered adjacent if they share an edge.
- * @param array $ships_array array of ships
- * @param array $test_positions array of positions to check
- * @return boolean true if there is a ship adjacent to any cell in the test_positions array, false otherwise
- */
 function isTestShipPositionCollapsingShips($ships_array, $test_positions) {    foreach ($test_positions as $position) {
         $pos_x = $position[0];
         $pos_y = $position[1];
@@ -128,7 +119,8 @@ function isTestShipPositionCollapsingShips($ships_array, $test_positions) {    f
                     ($pos_x - 1 == $ship_x && $pos_y == $ship_y) || 
                     ($pos_x + 1 == $ship_x && $pos_y == $ship_y) ||  
                     ($pos_x == $ship_x && $pos_y - 1 == $ship_y) ||  
-                    ($pos_x == $ship_x && $pos_y + 1 == $ship_y)     
+                    ($pos_x == $ship_x && $pos_y + 1 == $ship_y) ||
+                    ($pos_x == $ship_x && $pos_y == $ship_y)    
                 ) {
                     return true;  
                 }
