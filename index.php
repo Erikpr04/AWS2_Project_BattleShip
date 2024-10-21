@@ -3,7 +3,8 @@
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
-    $username = trim($_POST['username']);
+    $username = trim(string: $_POST['namePlayer']);
+
 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
@@ -32,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
 
 
 <body class="bodyIndex">
+
     <div class="descriptionIndex">
         <h2>Descripción del Juego</h2>
         <p>
@@ -57,6 +59,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
             Este juego ha sido una popular actividad de entretenimiento desde su invención, proporcionando diversión y desarrollando habilidades de pensamiento estratégico y lógico.
         </p>
     </div>
+    <div class="optionsGameIndex">
+        <ul>
+            <p>OPCIONS</p>
+            <li><input type="checkbox" id="bulletIlimited" style="cursor:pointer"><label for="bulletIlimited">Munició ilimitada</label></li>
+            <li><input type="checkbox" id="armoredShips" style="cursor:pointer"><label for="armoredShips">Vaixells acoirassats</label></li>
+            <li><input type="checkbox" id="specialAttack" style="cursor:pointer"><label for="specialAttack">Atacs especials</label></li>
+        </ul>
     </div>
     <div class="backgroundIndex">
         <div class="containerIndex">
@@ -65,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
             </div>
             <div class="panelIndex">
                 <form method="post">
-                    <p>Enter your username:</p>
-                    <input type="text" name="namePlayer" placeholder="Enter your username" required>
+                    <p>Introduïu el vostre nom d'usuari:</p>
+                    <input type="text" name="namePlayer" placeholder="usuari" required>
                     <button type="submit" name="play">Play</button>
                 </form>
                 <button onclick="window.location.href='ranking.php'">HALL OF FAME</button>
