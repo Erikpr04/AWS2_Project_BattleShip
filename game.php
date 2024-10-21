@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,15 @@
 
 </head>
 <?php
+session_start();
+if (!isset($_POST['username'])) {
+// Si no se ha ganado la partida, muestra el error 403 Forbidden
+    header('HTTP/1.1 403 Forbidden');
+    echo "403 Forbidden - No tenes permiso para acceder a esta página.";
+    exit;
+}else{
+    $_SESSION['username'] = $_POST['username'];
+};
 
 
 
@@ -22,7 +32,8 @@
  * @param int $y y coordinate of the cell
  * @return array cell object with given coordinates and initial state
  */
-function createCell($x,$y) {
+function createCell($x, $y)
+{
     return array('x_pos' => $x, 'y_pos' => $y, 'state' => "none");
 }
 
@@ -32,24 +43,26 @@ function createCell($x,$y) {
  * @param array $board the board to set the water cells in
  * @return array the same board with the water cells set
  */
-function assignWaterCells($board) {
+function assignWaterCells($board)
+{
 
     for ($y = 1; $y < count($board); $y++) {
         for ($x = 1; $x < count($board[$y]); $x++) {
-                $board[$y][$x]['state'] = "water";
+            $board[$y][$x]['state'] = "water";
         }
     }
     return $board;
 }
 
 
-function createBoard($max_x,$max_y) {
-    $board = array_fill(0,10,array_fill(0,10,0));
+function createBoard($max_x, $max_y)
+{
+    $board = array_fill(0, 10, array_fill(0, 10, 0));
     for ($y = 0; $y < $max_y; $y++) {
         for ($x = 0; $x < $max_x; $x++) {
-            $board[$y][$x] = createCell($x,$y);
+            $board[$y][$x] = createCell($x, $y);
         }
-    }    
+    }
     return $board;
 }
 
@@ -67,7 +80,8 @@ function createBoard($max_x,$max_y) {
  * @return array ship with given length
  */
 
-function create_ship($length,$positions) {
+function create_ship($length, $positions)
+{
     $ship = array(
         'length' => $length,
         'pos' => $positions,
@@ -85,22 +99,23 @@ function create_ship($length,$positions) {
  * @return array list of positions for the ship
  */
 
- function generateRandomPositions($length) {
+function generateRandomPositions($length)
+{
     $positions = array();
 
     // 0 - Vertical
     // 1 - Horizontal
     if (rand(0, 1) == 0) {
         // Vertical
-        $x = rand(1, 9); 
-        $y = rand(1, 10 - $length + 1); 
+        $x = rand(1, 9);
+        $y = rand(1, 10 - $length + 1);
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x, $y + $j];
         }
     } else {
         // Horizontal
-        $x = rand(1, 10 - $length + 1); 
-        $y = rand(1, 9); 
+        $x = rand(1, 10 - $length + 1);
+        $y = rand(1, 9);
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x + $j, $y];
         }
@@ -117,7 +132,8 @@ function create_ship($length,$positions) {
  * @param array $test_positions array of positions to check
  * @return boolean true if there is a ship adjacent to any cell in the test_positions array, false otherwise
  */
-function checkIfCellsAround($ships_array, $test_positions) {
+function checkIfCellsAround($ships_array, $test_positions)
+{
     foreach ($test_positions as $position) {
         $pos_x = $position[0];
         $pos_y = $position[1];
@@ -128,12 +144,12 @@ function checkIfCellsAround($ships_array, $test_positions) {
                 $ship_y = $ship_pos[1];
 
                 if (
-                    ($pos_x - 1 == $ship_x && $pos_y == $ship_y) || 
-                    ($pos_x + 1 == $ship_x && $pos_y == $ship_y) ||  
-                    ($pos_x == $ship_x && $pos_y - 1 == $ship_y) ||  
-                    ($pos_x == $ship_x && $pos_y + 1 == $ship_y)     
+                    ($pos_x - 1 == $ship_x && $pos_y == $ship_y) ||
+                    ($pos_x + 1 == $ship_x && $pos_y == $ship_y) ||
+                    ($pos_x == $ship_x && $pos_y - 1 == $ship_y) ||
+                    ($pos_x == $ship_x && $pos_y + 1 == $ship_y)
                 ) {
-                    return true;  
+                    return true;
                 }
             }
         }
@@ -153,7 +169,8 @@ function checkIfCellsAround($ships_array, $test_positions) {
  * The ships will be of length 2, 3, 4, and 5, and will not be adjacent to each other.
  * @return array array of ships with random positions
  */
-function generateShipArray() {
+function generateShipArray()
+{
     $ships_array = array();
 
     for ($i = 2; $i <= 5; $i++) {
@@ -168,15 +185,15 @@ function generateShipArray() {
         }
 
 
-       //Debug   
-       // foreach ($test_positions as $position) {
-       //     echo "x = " . print_r($position[0] . " y = " . $position[1], true) . "<br>";
-       //}
-        
+        //Debug   
+        // foreach ($test_positions as $position) {
+        //     echo "x = " . print_r($position[0] . " y = " . $position[1], true) . "<br>";
+        //}
+
         $ships_array[] = create_ship($i, $test_positions);
         echo "<br>";
     }
-    
+
     return $ships_array;
 }
 
@@ -190,14 +207,15 @@ function generateShipArray() {
  * @param array $board board to insert cells into
  * @return array board with cells inserted
  */
-function InsertCellsinBoard($board) {
+function InsertCellsinBoard($board)
+{
 
-   for ($y = 0; $y < count($board); $y++) {
-       for ($x = 0; $x < count($board[$y]); $x++) {
-           $board[$y][$x] = createCell($x,$y);
-       }
-   }       
-   return $board;
+    for ($y = 0; $y < count($board); $y++) {
+        for ($x = 0; $x < count($board[$y]); $x++) {
+            $board[$y][$x] = createCell($x, $y);
+        }
+    }
+    return $board;
 }
 
 
@@ -215,38 +233,38 @@ function InsertCellsinBoard($board) {
  * The state of each cell in the board is reflected in the table. If the state is "none", a space is displayed, and if the state is "show_ship", an X is displayed.
  * @param array $board the board to display
  */
-function displayBoard($board) {
+function displayBoard($board)
+{
     echo "<table class ='gameBoard'>";
     for ($y = 0; $y < count($board); $y++) {
         echo "<tr>";
         for ($x = 0; $x < count($board[$y]); $x++) {
             if ($y == 0 and $x != 0) {
-                $letter = chr(64+$x);
+                $letter = chr(64 + $x);
                 echo "<td x_pos='$x' y_pos='$y'>";
                 echo "$letter";
                 echo "</td>";
-            }
-            else if ($x == 0 and $y != 0) {
+            } else if ($x == 0 and $y != 0) {
                 echo "<td x_pos='$x' y_pos='$y'>";
                 echo "$y";
                 echo "</td>";
-            }else{
+            } else {
                 if ($board[$y][$x]['state'] == "water" or $board[$y][$x]['state'] == "none") {
                     echo "<td x_pos='$x' y_pos='$y'>";
                     echo " ";
                     echo "</td>";
-                }else if ($board[$y][$x]['state'] == "show_ship") {
+                } else if ($board[$y][$x]['state'] == "show_ship") {
                     echo "<td x_pos='$x' y_pos='$y'>";
                     echo " ";
                     echo "</td>";
                 }
             }
-
         }
         echo "</tr>";
     }
     echo "</table>";
 }
+
 
 
 /**
@@ -255,7 +273,8 @@ function displayBoard($board) {
  * @param array $board the board to set the ship cells in
  * @return array the same board with the ship cells set
  */
-function displayShips($shipsArray,$board): array {
+function displayShips($shipsArray, $board): array
+{
 
     //sets ship cells state to show_ship
 
@@ -267,8 +286,6 @@ function displayShips($shipsArray,$board): array {
     }
 
     return $board;
-    
-
 }
 
 
@@ -278,11 +295,11 @@ function displayShips($shipsArray,$board): array {
 
 //-----MAIN-----
 
-$main_array = createBoard(11,11);
+$main_array = createBoard(11, 11);
 $main_array = InsertCellsinBoard($main_array);
 $main_array = assignWaterCells($main_array);
 $ships_array = generateShipArray();
-$main_array = displayShips($ships_array,$main_array);
+$main_array = displayShips($ships_array, $main_array);
 
 
 
@@ -295,21 +312,21 @@ $main_array = displayShips($ships_array,$main_array);
 <body class="bodyIndexGame">
     <div class="overlay" id="overlay"></div>
     <div class="beach">
-    <main class="mainContent">
-        <section class="backgroundIndex">
-            <div class="containerIndex">
-                <h1 class="titleIndex">Shoreline Strike</h1>
-                <div class="optionsIndex">
-                    <noscript>
-                        <button id="buttonPlayIndex" disabled>JUGAR</button>
-                    </noscript>
-                    <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
-                    <br>
-                    <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
+        <main class="mainContent">
+            <section class="backgroundIndex">
+                <div class="containerIndex">
+                    <h1 class="titleIndex">Shoreline Strike</h1>
+                    <div class="optionsIndex">
+                        <noscript>
+                            <button id="buttonPlayIndex" disabled>JUGAR</button>
+                        </noscript>
+                        <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
+                        <br>
+                        <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
     </div>
 
 
@@ -339,6 +356,7 @@ $main_array = displayShips($ships_array,$main_array);
 <script>
     window.mainArray = <?php echo json_encode($main_array); ?>;
     window.shipsArray = <?php echo json_encode($ships_array); ?>;
+    window.hasError = <?php echo isset($_POST['username']) ? true : false; ?>;
 </script>
 
 </html>
