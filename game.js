@@ -74,12 +74,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let event;
 
         if (totalProjectiles <= 0) {
-            alert("¡No te quedan proyectiles! Fin del juego.");
+            alert("S'han esgotat tots el projetis");
             return;
         }
 
         totalProjectiles--;
         document.getElementById('projectileCount').innerText = totalProjectiles;
+
 
         //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
         if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
