@@ -6,8 +6,6 @@
     <title>Shoreline Strike</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="game.js" defer></script>
-
-
 </head>
 <?php
 
@@ -92,15 +90,15 @@ function create_ship($length,$positions) {
     // 1 - Horizontal
     if (rand(0, 1) == 0) {
         // Vertical
-        $x = rand(1, 9); 
+        $x = rand(1, 10); 
         $y = rand(1, 10 - $length); 
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x, $y + $j];
         }
     } else {
         // Horizontal
-        $x = rand(1, 10 - $length + 1); 
-        $y = rand(1, 9); 
+        $x = rand(1, 10 - $length); 
+        $y = rand(1, 10); 
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x + $j, $y];
         }
