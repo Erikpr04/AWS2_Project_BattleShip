@@ -1,10 +1,10 @@
+
 <?php
 
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
     $username = trim(string: $_POST['username']);
-
 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
 
 
 <body class="bodyIndex">
-
     <div class="descriptionIndex">
         <h2>Descripción del Juego</h2>
         <p>
@@ -66,13 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
             <li><input type="checkbox" id="armoredShips" style="cursor:pointer"><label for="armoredShips">Vaixells acoirassats</label></li>
             <li><input type="checkbox" id="specialAttack" style="cursor:pointer"><label for="specialAttack">Atacs especials</label></li>
         </ul>
-    </div>
-    <div class="backgroundIndex">
-        <div class="containerIndex">
-            <div class="titleIndex">
-                <h1>Shoreline Strike</h1>
-            </div>
-            <div class="panelIndex">
                 <form method="post" action="game.php">
                     <p>Introduïu el vostre nom d'usuari:</p>
                     <input type="text" name="username" placeholder="usuari">

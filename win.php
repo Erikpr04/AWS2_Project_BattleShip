@@ -1,18 +1,9 @@
 <?php
-session_start();
-if (!isset($_POST['points']) || $_POST['username']) {
-    // Si no se ha ganado la partida, muestra el error 403 Forbidden
-    header('HTTP/1.0 403 Forbidden');
-    echo "403 Forbidden - No tienes permiso para acceder a esta página.";
-    exit();
-}
 
-?>
-
-<?php
-if (!isset($_POST['points'])) {
-    header('Location: index.php');
-    exit();
+if (!isset($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] != 'http://tudominio.com/otra-pagina.php') {
+    header('HTTP/1.1 403 Forbidden');
+    echo '<h2>403 Forbidden</h2>';
+    exit;
 }
 
 $username = '';
@@ -79,5 +70,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send'])) {
         </main>
     </div>
 </body>
-
 </html>
