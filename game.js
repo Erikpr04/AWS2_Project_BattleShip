@@ -111,11 +111,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // funcion que pone las fotos en el tablero
     function showShipInBoard(ship){
-        console.log(ship.pos[0][0],ship.pos[1][0]);
 
         let vertical = false;
+        if(ship.pos.length > 1){
 
-        if (ship.pos[0][0] == ship.pos[1][0]){
+            if (ship.pos[0][0] == ship.pos[1][0]){
+                vertical = true;
+            }
+        }else{
             vertical = true;
         }
 
@@ -124,7 +127,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         ship.pos.forEach(([x, y], index) => {
             let cell = document.querySelector(`td[x_pos='${x}'][y_pos='${y}']`);
             
-            switch (ship.pos.length) {                
+            switch (ship.pos.length) {      
+                case 1:
+                    selected_fish = 'star';
+                    break;          
                 case 2:
                     selected_fish = 'fish';
                     break;
@@ -325,6 +331,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, 3000);
 
     }
+
+
+    //LOSE GAME
+
+    function loseGame(){
+        toggleOverlay(true); 
+
+        let event = new CustomEvent('gameEvent', {
+            detail: { type: 'loseEvent' }
+        });
+        document.dispatchEvent(event); 
+
+        setTimeout(function(){
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'lose.php';
+
+            let input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'points';
+            input1.value = points+500; 
+
+            form.appendChild(input1);
+            document.body.appendChild(form);
+            form.submit();
+        }, 3000);
+
+    }
     
 
 
@@ -362,7 +396,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             sound = new Audio('static/sfx/fishfloat.mp3'); 
             sound.play()
             showToastNotification('Peix enfonsat!', 'info');
+        }
 
+        else if (e.detail.type === 'loseEvent') {
+            console.log('loseEvent');
+            //sound = new Audio('static/sfx/lose_sound_effect.mp3'); 
+           // sound.play()
+            showToastNotification('Has perdut!', 'error');
         }
 
 

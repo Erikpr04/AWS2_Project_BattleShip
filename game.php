@@ -73,7 +73,7 @@ function create_ship($length,$positions) {
     if (rand(0, 1) == 0) {
         // Vertical
         $x = rand(1, 9); 
-        $y = rand(1, 10 - $length + 1); 
+        $y = rand(1, 10 - $length); 
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x, $y + $j];
         }
@@ -122,18 +122,41 @@ function isTestShipPositionCollapsingShips($ships_array, $test_positions) {
 
 
 
-// funcion general de crear el array de barcos
-function generateShipArray() {
+
+function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantityship4,$quantityship5) { #18
     $ships_array = array();
+    $valid_positions = false;
+    for ($i = 1; $i <= 5; $i++) {
+        switch ($i) {
+            case 1:
+                $selectedLength = $quantityship1;
+                break;
+            case 2:
+                $selectedLength = $quantityship2;
+                break;
+            case 3:
+                $selectedLength = $quantityship3;
+                break;
+            case 4:
+                $selectedLength = $quantityship4;
+                break;
+            case 5:
+                $selectedLength = $quantityship5;
+                break;
+            }
+            
 
-    for ($i = 2; $i <= 5; $i++) {
-        $valid_positions = false;
+            for ($j = 1; $j <= $selectedLength; $j++) {
+                $valid_positions = false;
+                while (!$valid_positions) {
+                    $test_positions = generateRandomPositions($i);
+        
+                    if (!checkIfCellsAround($ships_array, $test_positions)) {
+                        $valid_positions = true;
+                    }
+                }
+                $ships_array[] = create_ship($i, $test_positions);
 
-        while (!$valid_positions) {
-            $test_positions = generateRandomPositions($i);
-
-            if (!isTestShipPositionCollapsingShips($ships_array, $test_positions)) {
-                $valid_positions = true;
             }
         }
 
@@ -143,9 +166,7 @@ function generateShipArray() {
        //     echo "x = " . print_r($position[0] . " y = " . $position[1], true) . "<br>";
        //}
         
-        $ships_array[] = create_ship($i, $test_positions);
         echo "<br>";
-    }
     
     return $ships_array;
 }
@@ -207,11 +228,12 @@ function displayBoard($board) {
 
 //-----MAIN-----
 
-$main_array = createBoard(11,11); //se crea el board
-$main_array = assignWaterCells($main_array); //se asignan las casillas de agua
-$ships_array = generateShipArray(); //se genera el array de barcos
-$main_array = displayShips($ships_array,$main_array); //se ponen los barcos dentro del tablero
 
+$main_array = createBoard(11,11);
+$main_array = InsertCellsinBoard($main_array);
+$main_array = assignWaterCells($main_array);
+$ships_array = generateShipArray(4,3,2,1,0);
+$main_array = displayShips($ships_array,$main_array);
 
 
 ?>
@@ -267,6 +289,7 @@ $main_array = displayShips($ships_array,$main_array); //se ponen los barcos dent
 <script>
     window.mainArray = <?php echo json_encode($main_array); ?>;
     window.shipsArray = <?php echo json_encode($ships_array); ?>;
+    console.log(window.shipsArray);
 </script>
 
 </html>
