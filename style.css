@@ -109,6 +109,9 @@
     color: #E2DEDE;
 }
 
+.usernameTag{
+    margin-left: 30%;
+}
 .gameBoard {
     margin-left: 30%;
     margin-right: auto; 

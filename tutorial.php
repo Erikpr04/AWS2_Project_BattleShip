@@ -255,6 +255,8 @@ function InsertCellsinBoard($board)
 function displayBoard($board)
 {
     echo "<table class ='gameBoard'>";
+    echo "<h3 class='usernameTag'>{$_SESSION['username']}</h3>";
+
     for ($y = 0; $y < count($board); $y++) {
         echo "<tr>";
         for ($x = 0; $x < count($board[$y]); $x++) {
@@ -361,6 +363,7 @@ $main_array = displayShips($ships_array,$main_array);
             //echo "  y_pos: " . $main_array[3][3]['y_pos'];
             //echo "  state: " . $main_array[3][3]['state'];
             //echo "<p id='action'></p>";
+            
             displayBoard($main_array);
             ?>
         </div>
@@ -369,7 +372,6 @@ $main_array = displayShips($ships_array,$main_array);
             <div class="counter-container">
                 <h3>Time: <span class="timer">00:00</span></h3>
                 <h3>Points: <span class="points">0</span></h3>
-                <h3><?php echo $_SESSION['username'] ?></h3>
             </div>
         </div>
     </div>
