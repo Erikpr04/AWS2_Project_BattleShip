@@ -68,27 +68,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     //click de destapar cell dependiendo del estado de la celda
 
-    let totalProjectiles = 40;
+    let playerProjectiles = 40;
+    let botProjectiles = 40;
+    let shipsSunk = 0;
 
-    function updateProjectiles() {
-        if (totalProjectiles <= 0) {
-            alert("S'han esgotat tots el projetis");
+    function updatePlayerProjectiles() {
+        if (playerProjectiles <= 0) {
+            return false; 
+        }
+
+        totalAmmo--;
+        document.getElementById('projectileCount').innerText = playerProjectiles;
+        return true;
+    }
+
+    function updateBotProjectiles() {
+        if (botProjectiles <= 0) {
             return false;
         }
     
-        totalProjectiles--;
-        document.getElementById('projectileCount').innerText = totalProjectiles;
+        botProjectiles--;
         return true;
     }
 
 
+
     function unhideCell(x_pos, y_pos) {
         let event;
-
-        if (!updateProjectiles()) {
-            return;
-        }
-
 
         //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
         if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
