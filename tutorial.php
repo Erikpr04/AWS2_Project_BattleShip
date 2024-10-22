@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+// Verificar si el nombre de usuario está almacenado en la sesión
+if (
+    !isset($_SERVER['HTTP_REFERER']) ||
+    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'game.php') === false)
+) {
+    // Si no es referida desde la página del juego, retorna un 403
+    header('HTTP/1.1 403 Forbidden');
+    echo " <div id='finalForbiScreen'>
+
+<h2>403 Forbidden: Has de accedir desde Index</h2>
+
+</div>";
+    exit();
+}
+?>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -9,16 +33,6 @@
     <script src="game.js" defer></script>
 </head>
 <?php
-session_start();
-if (!isset($_POST['username'])) {
-// Si no se ha ganado la partida, muestra el error 403 Forbidden
-    header('HTTP/1.1 403 Forbidden');
-    echo "403 Forbidden - No tenes permiso para acceder a esta página.";
-    exit;
-}else{
-    $_SESSION['username'] = $_POST['username'];
-};
-
 
 
 //-----BOARD LOGIC-----
@@ -331,7 +345,6 @@ $main_array = displayShips($ships_array,$main_array);
                     <input type="text" name="namePlayer" placeholder="Enter your username" required>
                     <button type="submit" name="play">Play</button>
                 </form>
-                <button onclick="window.location.href='ranking.php'">HALL OF FAME</button>
             </div>
         </div>
     </div>
@@ -356,6 +369,7 @@ $main_array = displayShips($ships_array,$main_array);
             <div class="counter-container">
                 <h3>Time: <span class="timer">00:00</span></h3>
                 <h3>Points: <span class="points">0</span></h3>
+                <h3><?php echo $_SESSION['username'] ?></h3>
             </div>
         </div>
     </div>
@@ -365,7 +379,9 @@ $main_array = displayShips($ships_array,$main_array);
 <script>
     window.mainArray = <?php echo json_encode($main_array); ?>;
     window.shipsArray = <?php echo json_encode($ships_array); ?>;
-    window.hasError = <?php echo isset($_POST['username']) ? true : false; ?>;
+    window.hasError = <?php echo isset($_SESSION['username']) ? true : false; ?>;
+    window.username = <?php echo isset($_SESSION['username']) ?>;
+
 </script>
 
 </html>

@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let input2 = document.createElement('username');
             input1.type = 'hidden';
             input1.name = 'username';
-            input1.value = username; 
+            input1.value = window.username; 
 
             form.appendChild(input1);
             form.appendChild(input2);
