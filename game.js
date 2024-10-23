@@ -277,28 +277,6 @@ function showShipInBoard(ship){
     //si existe un array de bot, llamamos a la funcion de poner imagenes de peces en el tablero de la derecha
     if (typeof bot_ShipsArray != 'undefined') {
         showAllShipsOnBoard(bot_ShipsArray); 
-
-        //test para ver si funcionan las acciones en el tablero enemigo BORRAR MÁS TARDE
-        /*
-        setTimeout(() => {
-            unhideCell(4, 4, window.bot_BoardArray, "bot");
-        }, 1000);
-        setTimeout(() => {
-            unhideCell(4, 5, window.bot_BoardArray, "bot");
-        }, 2000);
-        setTimeout(() => {
-            unhideCell(4, 6, window.bot_BoardArray, "bot");
-        }, 3000);
-        setTimeout(() => {
-            unhideCell(4, 7, window.bot_BoardArray, "bot");
-        }, 4000);
-        setTimeout(() => {
-            unhideCell(4, 8, window.bot_BoardArray, "bot");
-        }, 5000);
-        setTimeout(() => {
-            unhideCell(4, 9, window.bot_BoardArray, "bot");
-        }, 6000);
-        */
     }
 
 
@@ -445,6 +423,7 @@ function showShipInBoard(ship){
 
     //EVENT LISTENER CLICK ---
     //evento funcion que comprueba si cada click está siguiendo el patron del easter egg
+    /*
     cells.forEach(function(cell) { 
         cell.addEventListener('click', function() {
             let x_pos = parseInt(this.getAttribute('x_pos'));
@@ -464,6 +443,7 @@ function showShipInBoard(ship){
             unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); 
         });
     });
+    */
 
 
     // WIN GAME ---
@@ -618,4 +598,160 @@ function showShipInBoard(ship){
         }
     });
 
+
+
+
+
+
+    // LOGICA DE TURNOS
+    function classicGame() {
+        let lastShootBot = null;
+        let gameStart = true;
+
+        function playerTurn() {
+            console.log("TURNO PLAYER");
+            toggleOverlay(false);
+            // Insertar efecto de que el jugador está jugando
+            
+            cells.forEach(function(cell) {
+                cell.removeEventListener('click', classicGameClick);
+                cell.addEventListener('click', classicGameClick);
+            });
+        }
+
+        // funcion para click y para easter egg
+        function classicGameClick(event) {
+            let cell = event.target;
+            let x_pos = parseInt(cell.getAttribute('x_pos'));
+            let y_pos = parseInt(cell.getAttribute('y_pos'));
+
+            // easter egg
+            if (x_pos === easterEggSequence[currentIndex][0] && y_pos === easterEggSequence[currentIndex][1]) {
+                console.log('correct');
+                currentIndex++;
+
+                if (currentIndex === easterEggSequence.length) {
+                    winGame();
+                    return; //salir de funcion
+                }
+            } else {
+                currentIndex = 0; // reinicia secuencia si falla el easter egg
+            }
+
+            // LOGICA turno player
+            if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
+                // Gasta una bala
+                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
+                toggleOverlay(true); 
+                botTurn(); 
+            } else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
+                // Gasta una bala
+                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
+                playerTurn();
+            }
+        }
+
+        function botTurn() {
+            console.log("TURNO BOT");
+            toggleOverlay(true);
+
+            let shootable = false;
+            let x_bot, y_bot;
+
+            if (lastShootBot && lastShootBot[2] === 'show_ship') {
+                // IA AVANZADA AQUI
+            }
+
+            // disparo aleatorio
+            while (!shootable) {
+                y_bot = Math.floor(Math.random() * 10) + 1;
+                x_bot = Math.floor(Math.random() * 10) + 1;
+                console.log(y_bot, x_bot);
+                
+                if (window.bot_BoardArray[y_bot][x_bot]['state'] === 'water' || 
+                    window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship') {
+                    shootable = true;
+                }
+            }
+
+            // guardamos el ultimo
+            lastShootBot = [y_bot, x_bot, window.bot_BoardArray[y_bot][x_bot]['state'] ];
+
+            // disparo
+            setTimeout(() => {
+                if (window.bot_BoardArray[y_bot][x_bot]['state'] === "water") {
+                    //quitar municion
+                    console.log("AGUAAA");
+                    unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
+                    toggleOverlay(false);
+                    playerTurn();
+                } else if (window.bot_BoardArray[y_bot][x_bot]['state'] === "show_ship") {
+                    console.log("BARCOOO");
+                    unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
+                    //quitar municion
+                    botTurn();
+                }
+            }, 3000); // espera 3seg
+        }
+
+        if (gameStart) {
+            playerTurn();
+        }
+    }
+
+
+
+    //JUEGO TUTORIAL
+    function tutorialGame(){
+        // limpiar listeners previos si hay
+        cells.forEach(function(cell) {
+            cell.removeEventListener('click', singlePlayerClick);
+        });
+        //añade listener
+        cells.forEach(function(cell) { 
+            cell.addEventListener('click', singlePlayerClick);
+        });
+
+    
+        function singlePlayerClick(event) {
+            let cell = event.target;
+            let y_pos = parseInt(cell.getAttribute('y_pos'));
+            let x_pos = parseInt(cell.getAttribute('x_pos'));
+            
+            // easter egg
+            if (x_pos === easterEggSequence[currentIndex][0] && y_pos === easterEggSequence[currentIndex][1]) {
+                console.log('correct');
+                currentIndex++;
+        
+                if (currentIndex === easterEggSequence.length) {
+                    winGame();
+                    return;
+                }
+            } else {
+                currentIndex = 0; //reiniciar si no coincide
+            }
+
+            unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); 
+        }
+
+        
+    }
+
+
+
+
+    // MAIN
+    if (typeof bot_ShipsArray != 'undefined') {
+        console.log("INICIANDO JUEGO CLASICO");
+        classicGame();
+    }
+    else{
+        console.log("INICIANDO JUEGO TUTORIAL");
+        tutorialGame();
+
+    }
+
+
+
 });
+
