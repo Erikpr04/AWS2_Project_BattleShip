@@ -466,13 +466,9 @@ function showShipInBoard(ship){
             input1.type = 'hidden';
             input1.name = 'points';
             input1.value = points +500; //añadimos extra por ganar partida
-            let input2 = document.createElement('username');
-            input2.type = 'hidden';
-            input2.name = 'username';
-            input2.value = window.username;
+            
             
             form.appendChild(input1);
-            form.appendChild(input2);
             document.body.appendChild(form);
             form.submit();
         }, 3000);
@@ -547,7 +543,6 @@ function showShipInBoard(ship){
             sound.play();
             showToastNotification('Peix tocat!', 'hit_player');
 
-
         } else if (e.detail.type === 'water_hit') {
             sound = new Audio('static/sfx/water_splash.mp3'); 
             sound.play();
@@ -561,7 +556,6 @@ function showShipInBoard(ship){
 
         } else if (e.detail.type === 'fish_sunk') {
             sound = new Audio('static/sfx/fishfloat.mp3'); 
-
             sound.play();
             showToastNotification('Peix enfonsat!', 'sunk');
         
@@ -570,7 +564,7 @@ function showShipInBoard(ship){
             sound = new Audio('static/sfx/game_over.mp3'); 
             sound.play();
             showToastNotification('Has perdut', 'lose');
-
+        
         } 
     });
     
@@ -583,19 +577,20 @@ function showShipInBoard(ship){
             sound.play();
             showToastNotification('Han tocat un peix!', 'hit_bot');
 
-
-
         } else if (e.detail.type === 'water_hit') {
             sound = new Audio('static/sfx/water_splash.mp3'); 
             sound.play();
             showToastNotification('Han tocat aigua', 'water');
 
-
         } else if (e.detail.type === 'fish_sunk') {
             sound = new Audio('static/sfx/fishfloat.mp3'); 
             sound.play();
             showToastNotification('Han enfonsat el teu peix!', 'sunk');
-        }
+        
+        } else if (e.detail.type === 'bot_shot') {
+            sound = new Audio('static/sfx/throw.mp3'); 
+            sound.play();
+        } 
     });
 
 
@@ -755,6 +750,11 @@ function showShipInBoard(ship){
             // guardamos el ultimo
             lastShootBot = [y_bot, x_bot, window.bot_BoardArray[y_bot][x_bot]['state'] ];
 
+            //evento de disparo sonido
+            let event = new CustomEvent('gameEventBot', {
+                detail: { type: 'bot_shot' }
+            });
+            document.dispatchEvent(event); 
             // disparo
             setTimeout(() => {
                 if (window.bot_BoardArray[y_bot][x_bot]['state'] === "water") {
@@ -769,7 +769,7 @@ function showShipInBoard(ship){
                     botTurn();
                     return;
                 }
-            }, 1000); // espera 3seg
+            }, 3000); // espera 3seg
 
 
         }
