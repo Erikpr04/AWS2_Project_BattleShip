@@ -73,28 +73,44 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let shipsSunk = 0;
 
     function updatePlayerProjectiles() {
-        if (playerProjectiles <= 0) {
+        if (playerProjectiles === 0) {
             return false; 
         }
 
-        totalAmmo--;
+        playerProjectiles--;
         document.getElementById('projectileCount').innerText = playerProjectiles;
         return true;
     }
 
     function updateBotProjectiles() {
-        if (botProjectiles <= 0) {
+        if (botProjectiles > 0) {
+            botProjectiles--;
+            document.getElementById('bot-projectiles').innerText = botProjectiles;
+            return true;
+        } else {
             return false;
         }
-    
-        botProjectiles--;
-        return true;
     }
 
 
 
     function unhideCell(x_pos, y_pos) {
         let event;
+
+        if ((window.mainArray[y_pos][x_pos]['state'] === "show_ship" || window.mainArray[y_pos][x_pos]['state'] === "water") && !window.mainArray[y_pos][x_pos]['selected']) {
+            if (!updatePlayerProjectiles()) {
+                if (!updatePlayerProjectiles()) {
+                    if (shipsSunk === window.shipsArray.length) {
+                        winGame();
+                    } else {
+                        // esto en el caso de que el bot haya acabado su municion.
+                        loseGame();
+                    }
+                    return;
+                }
+            }
+            
+        }
 
         //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
         if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
@@ -344,6 +360,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
             input1.type = 'hidden';
             input1.name = 'points';
             input1.value = points; 
+
+            form.appendChild(input1);
+            document.body.appendChild(form);
+            form.submit();
+        }, 3000);
+
+    }
+
+    //LOSE GAME
+
+    function loseGame(){
+        toggleOverlay(true); 
+
+        let event = new CustomEvent('gameEvent', {
+            detail: { type: 'loseEvent' }
+        });
+        document.dispatchEvent(event); 
+
+        setTimeout(function(){
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'lose.php';
+
+            let input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'points';
+            input1.value = points+500; 
 
             form.appendChild(input1);
             document.body.appendChild(form);
