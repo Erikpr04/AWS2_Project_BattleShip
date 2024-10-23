@@ -194,7 +194,6 @@ function displayBoard($board) {
         }
         echo "</tr>";
     }
-
     echo "</table>";
 }
 
@@ -207,18 +206,12 @@ function displayBoard($board) {
 
 
 //-----MAIN-----
-
-//player
 $player_BoardArray = createBoard(11,11); //se crea el board
 $player_BoardArray = assignWaterCells($player_BoardArray); //se asignan las casillas de agua
 $player_ShipsArray = generateShipArray(); //se genera el array de barcos
 $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se ponen los barcos dentro del tablero
 
-//bot
-$bot_BoardArray = createBoard(11,11);
-$bot_BoardArray = assignWaterCells($bot_BoardArray);
-$bot_ShipsArray = generateShipArray();
-$bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
+
 
 ?>
 
@@ -249,7 +242,7 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 
 
     <div class="sea">
-        <div class="game-left-side">
+        <div class="tutorial-left-side">
             <?php
             //debug prints, it tests the main array cell objects
             //echo "  x_pos: " . $main_array[3][3]['x_pos'];
@@ -260,18 +253,10 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             ?>
         </div>
 
-        <div class="game-right-side">
+        <div class="tutorial-right-side">
             <div class="counter-container">
                 <h3>Time: <span class="timer">00:00</span></h3>
                 <h3>Points: <span class="points">0</span></h3>
-            </div>
-            <div class="bot-board">
-                <div class="overlayBotBoard" id="overlayBotBoard">
-                </div>
-                <?php
-                    displayBoard($bot_BoardArray); //se hace el tablero en html
-                ?>
-                
             </div>
         </div>
     </div>
@@ -281,8 +266,6 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 <script>
     window.player_BoardArray = <?php echo json_encode($player_BoardArray); ?>;
     window.player_ShipsArray = <?php echo json_encode($player_ShipsArray); ?>;
-    window.bot_BoardArray = <?php echo json_encode($bot_BoardArray); ?>;
-    window.bot_ShipsArray = <?php echo json_encode($bot_ShipsArray); ?>;
 </script>
 
 </html>

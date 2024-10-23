@@ -67,31 +67,66 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // CELL FUNCTIONS ---
 
     //click de destapar cell dependiendo del estado de la celda
-    function unhideCell(x_pos, y_pos) {
+    function unhideCell(x_pos, y_pos, board, typePlayer) {
         let event;
+        let tablename;
+        //para destapar celdas de player
+        if (typePlayer=="player"){
+            if (document.querySelector(".tutorial-left-side")) {
+                tablename=".tutorial-left-side .gameBoard";
+            }
+            else if (document.querySelector(".game-left-side")) {
+                tablename=".game-left-side .gameBoard";
+            }
+            
+        }
+        //para destapar celdas del bot
+        else if (typePlayer=="bot"){
+            tablename=".bot-board .gameBoard";
+        }
 
         //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
-        if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
-            window.mainArray[y_pos][x_pos]['state'] = "ship_hit";
-            let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
+        if (board[y_pos][x_pos]['state'] === "show_ship") {
+            board[y_pos][x_pos]['state'] = "ship_hit";
+            let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
             if (cell) {
                 cell.style.backgroundColor = '#FF1355';
-                addPoints();
-                event = new CustomEvent('gameEvent', {
-                    detail: { type: 'ship_hit'}
-                });
+                cell.innerHTML="X";
+                //player
+                if (typePlayer=="player"){
+                    addPoints();
+                    event = new CustomEvent('gameEventPlayer', {
+                        detail: { type: 'ship_hit'}
+                    });
+                }
+                //bot
+                else if (typePlayer=="bot"){
+                    event = new CustomEvent('gameEventBot', {
+                        detail: { type: 'ship_hit'}
+                    });
+                }
+                
             }
         
         //si el estado de la celda contiene agua, se cambia a water-hit, se pone el color, se llama al evento de waterhit
-        } else if (window.mainArray[y_pos][x_pos]['state'] === "water") {
-            window.mainArray[y_pos][x_pos]['state'] = "water_hit";
-            let cell = document.querySelector(`td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
+        } else if (board[y_pos][x_pos]['state'] === "water") {
+            board[y_pos][x_pos]['state'] = "water_hit";
+            let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
             if (cell) {
                 cell.style.backgroundColor = 'lightblue';
-                subtractPoints();
-                event = new CustomEvent('gameEvent', {
-                    detail: { type: 'water_hit' }
-                });
+                //player
+                if (typePlayer=="player"){
+                    subtractPoints();
+                    event = new CustomEvent('gameEventPlayer', {
+                        detail: { type: 'water_hit' }
+                    });
+                }
+                //bot
+                else if (typePlayer=="bot"){
+                    event = new CustomEvent('gameEventBot', {
+                        detail: { type: 'water_hit' }
+                    });
+                }
                 
             }
         }
@@ -102,14 +137,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
 
         //después del evento, se comprueba si se ha hundido el barco despues del golpe, si se ha hundido la funcion pone la foto
-        checkShipsStatus(window.shipsArray);
+        
+        //chekeamos el del player
+        checkShipsStatus(window.player_ShipsArray, window.player_BoardArray, "player");
+
+        //si hay bot, chekeamos el del bot
+        if (typeof bot_ShipsArray != 'undefined') {
+            checkShipsStatus(window.bot_ShipsArray, bot_BoardArray, "bot");
+        }
 
         //consola check
-        console.log(window.mainArray);
+        console.log(window.player_BoardArray);
     }
 
 
-    // funcion que pone las fotos en el tablero
+    // funcion que pone las fotos en el tablero player
     function showShipInBoard(ship){
         console.log(ship.pos[0][0],ship.pos[1][0]);
 
@@ -140,16 +182,97 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         
             if (vertical) {
-                cell.innerHTML = `<img src='static/img/${selected_fish}Divided/${selected_fish}${index+1}.png' alt='fish_image ${index+1}' style="transform: rotate(90deg); width: 100%; height: 100%;">`;
+                cell.style.backgroundImage = `url('static/img/${selected_fish}Divided/${selected_fish}${index+1}.png')`;
+                cell.style.backgroundSize = 'cover';
+                cell.style.backgroundPosition = 'center';
                 cell.style.backgroundColor = '#3a92b2';
+                cell.style.transform = 'rotate(90deg)';
+                cell.innerHTML="";
 
             } else {
-                cell.innerHTML = `<img src='static/img/${selected_fish}Divided/${selected_fish}${index+1}.png' alt='fish_image ${index+1}' style="width: 100%;">`;
+                cell.style.backgroundImage = `url('static/img/${selected_fish}Divided/${selected_fish}${index+1}.png')`;
+                cell.style.backgroundSize = 'cover';
+                cell.style.backgroundPosition = 'center';
                 cell.style.backgroundColor = '#3a92b2';
-
+                cell.innerHTML="";
             }
         });
         
+    }
+
+
+    //funcion para mostrar todos los barcos en el tablero enemigo
+    function showAllShipsOnBoard(array_ships){
+        array_ships.forEach(ship => {
+            let vertical = false;
+
+        if (ship.pos[0][0] == ship.pos[1][0]){
+            vertical = true;
+        }
+
+        let selected_fish = '';
+
+        ship.pos.forEach(([x, y], index) => {
+            let cell = document.querySelector(`.bot-board td[x_pos='${x}'][y_pos='${y}']`);
+            
+            switch (ship.pos.length) {                
+                case 2:
+                    selected_fish = 'fish';
+                    break;
+                case 3:
+                    selected_fish = 'squid';
+                    break;
+                case 4:
+                    selected_fish = 'swordfish';
+                    break;
+                case 5:
+                    selected_fish = 'eel';
+                    break;
+            }
+        
+            if (vertical) {
+                cell.style.backgroundImage = `url('static/img/${selected_fish}Divided/${selected_fish}${index+1}.png')`;
+                cell.style.backgroundSize = 'cover';
+                cell.style.backgroundPosition = 'center';
+                cell.style.backgroundColor = '#3a92b2';
+                cell.style.transform = 'rotate(90deg)';
+
+            } else {
+                cell.style.backgroundImage = `url('static/img/${selected_fish}Divided/${selected_fish}${index+1}.png')`;
+                cell.style.backgroundSize = 'cover';
+                cell.style.backgroundPosition = 'center';
+                cell.style.backgroundColor = '#3a92b2';
+            }
+        });
+        
+        });
+    }
+
+    //si existe un array de bot, llamamos a la funcion de poner imagenes de peces en el tablero de la derecha
+    if (typeof bot_ShipsArray != 'undefined') {
+        showAllShipsOnBoard(bot_ShipsArray); 
+
+        //test para ver si funcionan las acciones en el tablero enemigo BORRAR MÁS TARDE
+        /*
+        setTimeout(() => {
+            unhideCell(4, 4, window.bot_BoardArray, "bot");
+        }, 1000);
+        setTimeout(() => {
+            unhideCell(4, 5, window.bot_BoardArray, "bot");
+        }, 2000);
+        setTimeout(() => {
+            unhideCell(4, 6, window.bot_BoardArray, "bot");
+        }, 3000);
+        setTimeout(() => {
+            unhideCell(4, 7, window.bot_BoardArray, "bot");
+        }, 4000);
+        setTimeout(() => {
+            unhideCell(4, 8, window.bot_BoardArray, "bot");
+        }, 5000);
+        setTimeout(() => {
+            unhideCell(4, 9, window.bot_BoardArray, "bot");
+        }, 6000);
+        */
     }
 
 
@@ -182,18 +305,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
         toast.style.position = 'absolute';
     
         switch(type) {
-            case 'success':
+            case 'hit_player':
                 toast.style.backgroundColor = '#28a745'; 
                 break;
-            case 'error':
+            case 'hit_bot':
                 toast.style.backgroundColor = '#dc3545'; 
                 break;
-            case 'warning':
+            case 'lose':
+                toast.style.backgroundColor = '#dc3545'; 
+                break;
+            case 'win':
                 toast.style.backgroundColor = '#ffc107'; 
                 toast.style.color = '#000';
                 break;
-            case 'info':
+            case 'water':
                 toast.style.backgroundColor = '#17a2b8'; 
+                break;
+            case 'sunk':
+                toast.style.backgroundColor = '#1739b8';
                 break;
             default:
                 toast.style.backgroundColor = '#6c757d'; 
@@ -217,7 +346,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     
     
     //funcion para chekear si todos los barcos se han hundido, si se han hundido llama a WinGame funcion
-    function checkShipsStatus(ship_array) {
+    function checkShipsStatus(ship_array, board_array, typePlayer) {
         let fish_sunk = false;
         let allShipsSunk = false;
 
@@ -227,7 +356,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let allCellsHit = true; 
 
             ship.pos.forEach(([x, y]) => {
-                if (window.mainArray[y][x]['state'] !== 'ship_hit') {
+                if (board_array[y][x]['state'] !== 'ship_hit') {
                     allCellsHit = false;
                 }
             });
@@ -235,17 +364,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //si todas las celdas de un barco han sido tocadas se cambia el estado de todas ellas a "fish_sunk" y se llama a la funcion que muestra las imagenes en pantalla
             if (allCellsHit) {
                 ship.pos.forEach(([x, y]) => {
-                    window.mainArray[y][x]['state'] = 'fish_sunk'; 
+                    board_array[y][x]['state'] = 'fish_sunk'; 
                 });
                 ship.isalive = false; 
-                showShipInBoard(ship); 
+                if (typePlayer=="player"){
+                    showShipInBoard(ship); //en caso del player mostramos el fish en el tablero
+                }
                 fish_sunk = true; 
             }
         });
 
         //evento que saca mensaje y sonido de Hundido
-        if (fish_sunk) {
-            let event2 = new CustomEvent('gameEvent', {
+        if (fish_sunk && typePlayer=="player") {
+            let event2 = new CustomEvent('gameEventPlayer', {
+                detail: { type: 'fish_sunk' }
+            });
+            document.dispatchEvent(event2);
+        }
+        else if (fish_sunk && typePlayer=="bot") {
+            let event2 = new CustomEvent('gameEventBot', {
                 detail: { type: 'fish_sunk' }
             });
             document.dispatchEvent(event2);
@@ -255,8 +392,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         //si todos estan hundidos, lanza el win
         allShipsSunk = ship_array.every(ship => !ship.isalive);
 
-        if (allShipsSunk) {
+        if (allShipsSunk && typePlayer=="player") {
             winGame();
+            }
+
+        else if (allShipsSunk && typePlayer=="bot") {
+            loseGame();
             }
     }
 
@@ -276,6 +417,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let cells = document.querySelectorAll('table.gameBoard td');
 
+    //EVENT LISTENER CLICK ---
     //evento funcion que comprueba si cada click está siguiendo el patron del easter egg
     cells.forEach(function(cell) { 
         cell.addEventListener('click', function() {
@@ -293,7 +435,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 currentIndex = 0; //se reinicia el index
             }
     
-            unhideCell(x_pos, y_pos); 
+            unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); 
         });
     });
 
@@ -303,7 +445,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         toggleOverlay(true); //se pone el overlay
 
         //evento se crea y se llama, hace sonido y notificiacion
-        let event = new CustomEvent('gameEvent', {
+        let event = new CustomEvent('gameEventPlayer', {
             detail: { type: 'winEvent' }
         });
         document.dispatchEvent(event); 
@@ -323,51 +465,101 @@ document.addEventListener("DOMContentLoaded", (event) => {
             document.body.appendChild(form);
             form.submit();
         }, 3000);
-
     }
-    
+
+
+    // LOSE GAME ---
+    function loseGame(){
+        toggleOverlay(true); //se pone el overlay
+
+        //evento se crea y se llama, hace sonido y notificiacion
+        let event = new CustomEvent('gameEventPlayer', {
+            detail: { type: 'loseEvent' }
+        });
+        document.dispatchEvent(event); 
+
+        //espera 3 segundos, crea un formulario POST invisible que manda los puntos a win.php, y te lleva a win.php
+        setTimeout(function(){
+            let form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'lose.php';
+
+            let input1 = document.createElement('input');
+            input1.type = 'hidden';
+            input1.name = 'points';
+            input1.value = points; 
+
+            form.appendChild(input1);
+            document.body.appendChild(form);
+            form.submit();
+        }, 3000);
+    }
 
 
     // GAME EVENTS ---
 
-    //audio_sfx
+    //audio_sfx (esto es para borrar????????)
     let hitSound = new Audio('static/sfx/fish_strike.mp3');
     let missSound = new Audio('static/sfx/water_splash.mp3');
     let winSound = new Audio('static/sfx/win_sound_effect.mp3');
     let buttonSound = new Audio('static/sfx/buttonclick1.mp3');
 
-    //escucha todos los eventos del tipo "gameEvent"
-    document.addEventListener('gameEvent', function (e) {
+    //escucha todos los eventos del tipo --- "gameEventPlayer" ---
+    document.addEventListener('gameEventPlayer', function (e) {
         let sound; //para que se reescriba el contenido y todos los sonidos puedan sonar aunque sean muy seguidos
         
         if (e.detail.type === 'ship_hit') {
             sound = new Audio('static/sfx/fish_strike.mp3'); 
-            sound.play()
-            showToastNotification('Peix tocat!', 'success');
+            sound.play();
+            showToastNotification('Peix tocat!', 'hit_player');
 
 
         } else if (e.detail.type === 'water_hit') {
             sound = new Audio('static/sfx/water_splash.mp3'); 
-            sound.play()
-            showToastNotification('Aigua', 'error');
-
+            sound.play();
+            showToastNotification('Aigua', 'water');
 
         } else if (e.detail.type === 'winEvent') {
             console.log('winEvent');
             sound = new Audio('static/sfx/win_sound_effect.mp3'); 
-            sound.play()
-            showToastNotification('Has guanyat!', 'warning');
+            sound.play();
+            showToastNotification('Has guanyat!', 'win');
 
         } else if (e.detail.type === 'fish_sunk') {
             sound = new Audio('static/sfx/fishfloat.mp3'); 
-            sound.play()
-            showToastNotification('Peix enfonsat!', 'info');
+            sound.play();
+            showToastNotification('Peix enfonsat!', 'sunk');
+        
+        } else if (e.detail.type === 'loseEvent') {
+            console.log('loseEvent');
+            sound = new Audio('static/sfx/game_over.mp3'); 
+            sound.play();
+            showToastNotification('Has perdut', 'lose');
 
-        }
-
-
-
+        } 
     });
     
+    //escucha todos los eventos del tipo --- "gameEventBot" ---
+    document.addEventListener('gameEventBot', function (e) {
+        let sound; //para que se reescriba el contenido y todos los sonidos puedan sonar aunque sean muy seguidos
+        
+        if (e.detail.type === 'ship_hit') {
+            sound = new Audio('static/sfx/fish_strike.mp3'); 
+            sound.play();
+            showToastNotification('Han tocat un peix!', 'hit_bot');
+
+
+        } else if (e.detail.type === 'water_hit') {
+            sound = new Audio('static/sfx/water_splash.mp3'); 
+            sound.play();
+            showToastNotification('Han tocat aigua', 'water');
+
+
+        } else if (e.detail.type === 'fish_sunk') {
+            sound = new Audio('static/sfx/fishfloat.mp3'); 
+            sound.play();
+            showToastNotification('Han enfonsat el teu peix!', 'sunk');
+        }
+    });
 
 });
