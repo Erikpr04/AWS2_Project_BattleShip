@@ -1,13 +1,23 @@
 <!-- index.php -->
 <?php
+session_start(); 
+if (isset($_SESSION['username'])) {
+    session_destroy();
+}
+
 $username = '';
 
+<<<<<<< HEAD
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
     $username = trim(string: $_POST['namePlayer']);
 
+=======
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username']; 
+>>>>>>> #26
 
     if (strpos($username, ';') !== false) {
-        echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
+        echo "<script>alert('El nom no pot contenir el caràcter \" ; \" !'); window.history.back();</script>";
         exit();
     }
     if (strlen($username) < 3) {
@@ -16,6 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
     }
     if (strlen($username) > 30) {
         echo "<script>alert('El nom no pot sobrepassar els 30 caràcters!'); window.history.back();</script>";
+        exit();
+    }
+
+    $_SESSION['username'] = $username;
+
+    if (isset($_POST['classic'])) {
+        header('Location: game.php');
+        exit();
+    } elseif (isset($_POST['tutorial'])) {
+        header('Location: tutorial.php');
         exit();
     }
 }
@@ -30,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Shoreline Strike</title>
 </head>
-
 
 <body class="bodyIndex">
 
@@ -75,24 +94,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
             <div class="panelIndex">
                 <form method="post">
                     <p>Introduïu el vostre nom d'usuari:</p>
+<<<<<<< HEAD
                     <input type="text" name="namePlayer" placeholder="usuari" required>
                     <button type="submit" name="play">Play</button>
+=======
+                    <input type="text" name="username" placeholder="usuari" required>
+
+                    <button type="submit" name="classic">Classic Mode</button>
+                    <button type="submit" name="tutorial">Tutorial</button>
+>>>>>>> #26
                 </form>
-                <button onclick="window.location.href='ranking.php'">HALL OF FAME</button>
+                <button id="hallOfFameButton" onclick="window.location.href='ranking.php'">Hall of Fame</button>
             </div>
-            <?php
-            if (isset($_POST['play'])) {
-                $namePlayer = trim($_POST['namePlayer']);
-                if (!empty($namePlayer)) {
-                    $_SESSION['namePlayer'] = $namePlayer;
-                    header('Location: game.php');
-                    exit;
-                }
-            }
-            ?>
         </div>
     </div>
 </body>
-
-
 </html>

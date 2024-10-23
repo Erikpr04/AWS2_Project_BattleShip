@@ -266,6 +266,9 @@ $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se p
 <script>
     window.player_BoardArray = <?php echo json_encode($player_BoardArray); ?>;
     window.player_ShipsArray = <?php echo json_encode($player_ShipsArray); ?>;
+    window.hasError = <?php echo isset($_SESSION['username']) ? true : false; ?>;
+    window.username = <?php echo isset($_SESSION['username']) ?>;
 </script>
+
 
 </html>

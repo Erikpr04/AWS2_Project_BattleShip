@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,6 +15,9 @@
             <h1>HALL OF FAME</h1>
         </div>
         <div class="containerRanking">
+        <div class="back-button" onclick="window.location.href='index.php'">
+            <span class="arrow">&#8592;</span> Tornar
+        </div>
         <?php
             // Función para cargar el ranking desde el archiv ranking.txt
             function loadRanking($file) {
@@ -21,6 +25,9 @@
                 if (file_exists($file)) {
                     $lines = file($file, FILE_IGNORE_NEW_LINES);
                     foreach ($lines as $line) {
+                        if ($line == '') {
+                            continue;
+                        }
                         list($name, $score, $date, $time) = explode(';', $line);
                         $ranking[] = [
                             'name' => $name,

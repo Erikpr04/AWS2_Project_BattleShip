@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-
-    // Animación desplace playa-agua
-    document.body.style.transform = 'translateY(-15vh)'; 
-    document.body.style.transition = 'transform 0.75s'; 
-    setTimeout(() => {
-        document.body.style.transform = 'translateY(-120vh)';
-    }, 100);
+    // Body animation
+    if (window.hasError) {
+        document.body.style.transform = 'translateY(-15vh)'; 
+        document.body.style.transition = 'transform 0.75s';
+        setTimeout(() => {
+            document.body.style.transform = 'translateY(-120vh)';
+        }, 100);
+    }
 
 
     // TIMER START ---
@@ -467,9 +468,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             input1.name = 'points';
             input1.value = points; 
 
+            let input2 = document.createElement('username');
+            input1.type = 'hidden';
+            input1.name = 'username';
+            input1.value = window.username; 
+
             form.appendChild(input1);
+            form.appendChild(input2);
             document.body.appendChild(form);
             form.submit();
+
         }, 3000);
     }
 
