@@ -96,6 +96,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let event;
 
         if ((window.mainArray[y_pos][x_pos]['state'] === "show_ship" || window.mainArray[y_pos][x_pos]['state'] === "water") && !window.mainArray[y_pos][x_pos]['selected']) {
+            if (window.mainArray[y_pos][x_pos]['state'] === "show_ship") {
+                shipsSunk++;
+            }
             if (!updatePlayerProjectiles()) {
                 if (!updatePlayerProjectiles()) {
                     if (shipsSunk === window.shipsArray.length) {
