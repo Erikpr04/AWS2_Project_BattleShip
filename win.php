@@ -1,69 +1,91 @@
 <?php
-if (!isset($_POST['points'])) {
-    header('Location: index.php');
-    exit();
-}
+session_start();
 
-$username = '';
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
+$points = isset($_POST['points']) ? $_POST['points'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send'])) {
-    $username = trim($_POST['username']);
-    $points = $_POST['points']; 
-
     if (strpos($username, ';') !== false) {
-        echo "<script>alert('El nom no pot conenir el caràcter \" ; \" !'); window.history.back();</script>";
+        echo "<script>alert('El nom no pot contenir el caràcter \" ; \" !'); window.history.back();</script>";
         exit();
     }
-    if (strlen($username)<3){
+    if (strlen($username) < 3) {
         echo "<script>alert('El nom ha de contenir mínim 3 caràcters!'); window.history.back();</script>";
         exit();
     }
-    if (strlen($username)>30){
+    if (strlen($username) > 30) {
         echo "<script>alert('El nom no pot sobrepassar els 30 caràcters!'); window.history.back();</script>";
         exit();
     }
 
+    $username = $_POST['username'];
 
     $timestamp = date('Y-m-d;H:i');
-
-    $rankingData = "$username;$points;$timestamp;\n";
-
+    $rankingData = "\n$username;$points;$timestamp;\n";
     $filePath = 'ranking.txt';
     file_put_contents($filePath, $rankingData, FILE_APPEND | LOCK_EX);
-    echo "<script> window.location.href = 'ranking.php';</script>";
 
+    header('Location: ranking.php');
+    exit();
+}
+
+if (
+    !isset($_SERVER['HTTP_REFERER']) ||
+    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'win.php') !== false)
+) {
+    // Si no es referida desde la página del juego, retorna un 403
+    header('HTTP/1.1 403 Forbidden');
+    ?>
+    <!DOCTYPE html>
+    <html lang="ca">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>403 Forbidden</title>
+    </head>
+    <body>
+        <div id="finalForbiScreen">
+            <h2>403 Forbidden: Has de accedir desde Game</h2>
+        </div>
+    </body>
+    </html>
+
+    <?php
+    session_destroy();
     exit();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You Won!</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body class="winbody">
 
-<div class="windiv">
-<main class="mainContent">
-    <section class="backgroundIndex">
-        <div class="containerIndex">
-            <h1 class="titleIndex">Shoreline Strike</h1>
-            <div class="panel">
-                <h1>Has guanyat!</h1>
-                <form action="" method="post">
-                    <p>Escriu el teu nom:</p>
-                    <input type="text" name="username" placeholder="Escriu el teu nom" required>
-                    <input type="hidden" name="points" value="<?php echo htmlspecialchars($_POST['points']); ?>"> 
-                    <button type="submit" name="send">Envia</button> 
-                </form>
-                <button onclick="window.location.href='index.php'">Menú Principal</button>
-            </div>
-        </div>
-    </section>
-    </main>
-</div>
+    <div class="windiv">
+        <main class="mainContent">
+            <section class="backgroundIndex">
+                <div class="containerIndex">
+                    <h1 class="titleIndex">Shoreline Strike</h1>
+                    <div class="panel">
+                        <h1>Has guanyat!</h1>
+                        <form method="post">
+                            <p>Escriu el teu nom:</p>
+                            <input type="text" name="username" placeholder="Escriu el teu nom" value="<?php echo htmlspecialchars($username); ?>" required>
+                            <input type="hidden" name="points" value="<?php echo htmlspecialchars($points); ?>"> 
+                            <button type="submit" name="send">Envia</button>
+                        </form>
+                        <button onclick="window.location.href='index.php'">Menú Principal</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
