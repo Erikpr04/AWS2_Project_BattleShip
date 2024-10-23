@@ -31,13 +31,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send'])) {
 
 if (
     !isset($_SERVER['HTTP_REFERER']) ||
-    (strpos($_SERVER['HTTP_REFERER'], 'game.php') === false && strpos($_SERVER['HTTP_REFERER'], 'tutorial.php') === false) ||
-    strpos($_SERVER['HTTP_REFERER'], 'win.php') !== false
+    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'win.php') !== false)
 ) {
+    // Si no es referida desde la página del juego, retorna un 403
     header('HTTP/1.1 403 Forbidden');
-    echo "<div id='finalForbiScreen'>
-            <h2>403 Forbidden: Has de accedir des de Game</h2>
-          </div>";
+    ?>
+    <!DOCTYPE html>
+    <html lang="ca">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>403 Forbidden</title>
+    </head>
+    <body>
+        <div id="finalForbiScreen">
+            <h2>403 Forbidden: Has de accedir desde Game</h2>
+        </div>
+    </body>
+    </html>
+
+    <?php
+    session_destroy();
     exit();
 }
 ?>

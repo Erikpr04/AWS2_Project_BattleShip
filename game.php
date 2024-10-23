@@ -7,11 +7,22 @@ if (
 ) {
     // Si no es referida desde la página del juego, retorna un 403
     header('HTTP/1.1 403 Forbidden');
-    echo " <div id='finalForbiScreen'>
+    ?>
+    <!DOCTYPE html>
+    <html lang="ca">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>403 Forbidden</title>
+    </head>
+    <body>
+        <div id="finalForbiScreen">
+            <h2>403 Forbidden: Has de accedir desde Index</h2>
+        </div>
+    </body>
+    </html>
 
-<h2>403 Forbidden: Has de accedir desde Index</h2>
-
-</div>";
+    <?php
     session_destroy();
     exit();
 }
