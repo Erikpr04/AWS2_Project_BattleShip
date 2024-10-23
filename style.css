@@ -1,154 +1,8 @@
 
-/*Estilos de index.php*/
-
-/*Fuente Geometry Soft Pro Bold N para la pagina principal*/
-@font-face {
-    font-family: 'Geometry Soft Pro Bold N';
-    src: url('fonts/Geometry\ Soft\ Pro-Bold\ N.otf');
-}
-
-
-
-.bodyIndex,
-.optionsIndex>button,
-.formIndex #buttonPlayIndex  {
-    font-family: 'Geometry Soft Pro Bold N';
-    background-color: #D9BD71;
-}
-
-.bodyIndex{
-    margin: 0;
-    padding: 0;
-    height: 100%; 
-}
-
-/* Estilos para la descripción */
-
-.bodyIndex, .optionsIndex > button{
-    font-family:'Geometry Soft Pro Bold N', sans-serif;
-}
-
-/* Estilos para la descripción */
-
-.bodyIndexGame {
-    background-color: #3A92B2;
-    color: #E2DEDE;
-    font-family: 'Geometry Soft Pro', sans-serif;
-    overflow: hidden; 
-    display: flex;
-    flex-direction: column; 
-    height: 100vh; 
-    overflow: hidden; 
-    margin: 0;
-}
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 1000%;
-    height: 1000%;
-    background-color: rgba(0, 0, 0, 0); 
-    display: none; 
-    z-index: 1000; 
-}
-
-
-.beach {
-    background: linear-gradient(to bottom, #D9BD71 90%, rgba(255, 255, 255, 0) 100%); 
-    height: 130%; 
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute; 
-    top: 0;
-    left: 0;
-    z-index: 1;
-    overflow: hidden; 
-}
-
-
-.sea {
-    width: 90%;
-    height: 50%;
-    z-index: 0;
-    margin-top: 130vh;
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-
-.left-side {
-    float: left;
-    width: 70%;
-    overflow: hidden;
-}
-
-.right-side {
-    float: right;
-    width: 30%;
-    display: block;
-    color: #E2DEDE;
-}
-.counter-container{
-    margin-left: auto;
-    margin-right: auto;
-    color: #E2DEDE;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid #E2DEDE;
-    padding: 20px;
-    width: 200px;
-    margin: 0 auto;
-
-}
-.timer, .points {
-    color: #E2DEDE;
-}
-
-.gameBoard {
-    margin-left: 30%;
-    margin-right: auto; 
-    border-collapse: collapse; 
-    table-layout: fixed; 
-    width: 30vw; 
-    height: 30vw;
-    border: 3px solid #E2DEDE; 
-}
-
-.gameBoard tbody td, .gameBoard tbody th {
-    border: 3px solid #E2DEDE; 
-    text-align: center;
-    box-shadow: 0 0 2px;
-    margin: 0;
-    padding: 0; 
-    height: 40px;
-    width: 40px;
-}
-
-.gameBoard tbody tr:not(:first-child) td:not(:first-child):hover {
-    background-color: #E2DEDE;
-}
-
-.gameBoard tbody tr:first-child, .gameBoard tbody td:first-child {
-    font-size: 30px;
-}
-
-.cell img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-}
-
-
-
-
+/*Fuente Geometry Soft Pro Bold N*/
 
 @font-face {
-    font-family: 'Geometry Soft Pro';
+    font-family: 'Geometry Soft Pro Bold N';
     src: url('GeometrySoftPro-BoldN.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
@@ -156,25 +10,29 @@
 
 
 
-.counter-container h3 {
-    margin-bottom: 10px;
+/* ESTILOS INDEX ---------*/
+.bodyIndex,
+.optionsIndex>button {
+
+    background-color: #D9BD71;
 }
 
-.timer, .points {
-    font-size: 24px;
-    font-weight: bold;
-    color: #E2DEDE;
+.bodyIndex{
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+    font-family: 'Geometry Soft Pro Bold N', sans-serif;
 }
 
-.buttons {
-    margin-top: 20px;
-}
-.backgroundIndex,
-.optionsIndex > button,
-.formIndex > #buttonPlayIndex  {
+
+.bodyIndex, .optionsIndex > button{
     font-family:'Geometry Soft Pro Bold N', sans-serif;
 }
 
+.backgroundIndex,
+.optionsIndex > button{
+    font-family:'Geometry Soft Pro Bold N', sans-serif;
+}
 
 .descriptionIndex {
     position: absolute;
@@ -194,8 +52,6 @@
 
 }
 
-
-
 .backgroundIndex {
     width: 40vw; 
     height: 100vh;
@@ -214,95 +70,10 @@
 }
 
 .titleIndex {
-    color: white;
-    font-size: 5rem; 
+    color: white; 
+    font-size: 7rem; 
     -webkit-text-stroke: 5px orange; 
 }
-
-/*Estilos para el menu de opciones*/
-
-.optionsGameIndex {
-    position: absolute;
-    right: 8%;
-    width: 10%;
-    margin: 2% 0 0 0;
-}
-
-.optionsGameIndex ul {
-    text-align: center;
-    font-size: 18px;
-    height: 8%;
-    list-style-type: none;
-    margin: 3% 0 0 0;
-    padding: 0;
-    cursor: pointer;
-    position: relative;
-}
-
-
-.optionsGameIndex > ul > p {
-    background-color: #F18D1F;
-    color: white;
-    margin: 0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-
-.optionsGameIndex li {
-    display: none;
-    background-color: #F18D1F;
-    color: white;
-    width: 7%;
-    height: 7%;
-    margin: 0 auto 0 0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.optionsGameIndex li:hover {
-    background-color: #E37A17;
-    transition: background-color 0.3s ease;
-}
-
-.optionsGameIndex li input[type="checkbox"] {
-    text-align: center;
-    margin-right: 10%;
-}
-
-.optionsGameIndex > ul > p::after {
-    content: " \25BC";
-    margin-left: 5px;
-    transition: content 0.3s;
-}
-
-.optionsGameIndex > ul:hover > p::after,
-.optionsGameIndex > p::after  {
-    content: " \25BD";
-}
-
-
-.optionsGameIndex:hover li {
-    display: flex;
-    position: relative;
-    left: -28%;
-    width: 115%;
-    cursor: default;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}
-
-
-/*--------------------------------------*/
-/*--------------------------------------*/
 
 .optionsIndex {
     font-size: 50px; 
@@ -314,30 +85,238 @@
     color: white; 
 }
 
+.optionsIndex #buttonPlayIndex {
+    background-color: orange; 
+    font-size: 20px; 
+    width: 150px; 
+    height: 50px; 
+    border-radius: 20px; 
+    border-color: orange; 
+}
 
-.panelIndex {
-    background-color: #E2DEDE;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+.optionsIndex #buttonRankingIndex {
+    background-color: orange; 
+    padding: 5px; 
+    font-size: 20px; 
+    width: 200px; 
+    height: 50px; 
+    border-radius: 20px; 
+    border-color: orange; 
+    margin: 45px 0 0; 
+}
+
+.optionsIndex #buttonRankingIndex:hover,.optionsIndex #buttonPlayIndex:hover {
+    color: white; 
+}
+
+
+
+
+
+/*-----------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+/* ESTILOS GAME Y TUTORIAL --------*/
+
+/* COMUN -------- */
+.bodyIndexGame {
+    background-color: #3A92B2;
+    color: #E2DEDE;
+    font-family: 'Geometry Soft Pro Bold N', sans-serif;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column; 
+    height: 100vh; 
+    overflow: hidden; 
+    margin: 0;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1000%;
+    height: 1000%;
+    background-color: rgba(0, 0, 0, 0); 
+    display: none; 
+    z-index: 1000; 
+}
+
+.beach {
+    background: linear-gradient(to bottom, #D9BD71 90%, rgba(255, 255, 255, 0) 100%); 
+    height: 130%; 
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden; 
+}
+
+.sea {
+    width: 90%;
+    height: 50%;
+    z-index: 0;
+    margin-top: 130vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ESTILOS solo TUTORIAL ------*/
+
+.tutorial-left-side {
+    float: left;
+    width: 70%;
+    overflow: hidden;
+}
+
+.tutorial-right-side {
+    float: right;
+    width: 30%;
+    display: block;
+    color: #E2DEDE;
+}
+.tutorial-right-side .counter-container{
+    margin-left: auto;
+    margin-right: auto;
+    color: #E2DEDE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #E2DEDE;
     padding: 20px;
+    width: 200px;
+    margin: 0 auto;
+    color: #E2DEDE;
+}
+
+.tutorial-left-side .gameBoard {
+    margin-left: 30%;
+    margin-right: auto; 
+    border-collapse: collapse; 
+    table-layout: fixed; 
+    width: 30vw; 
+    height: 30vw;
+    border: 3px solid #E2DEDE; 
+}
+
+.tutorial-left-side .gameBoard  td {
+    border: 3px solid #E2DEDE; 
     text-align: center;
-    max-width: 400px;
-    margin: 50px auto;
+    box-shadow: 0 0 2px;
+    margin: 0;
+    padding: 0; 
+    height: 40px;
+    width: 40px;
+    font-size: 30px;
 }
 
-.panelIndex p {
-    color: #3AB1B3;
-    font-size: 1.2em;
+.tutorial-left-side .cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
 }
 
-.panelIndex input[type="text"] {
-    width: calc(100% - 20px);
+
+
+/*ESTILOS solo GAME left ------*/
+.game-left-side {
+    float: left;
+    width: 50%;
+    overflow: hidden;
+}
+
+.game-left-side .gameBoard {
+    margin-left: 30%;
+    margin-right: auto; 
+    border-collapse: collapse; 
+    table-layout: fixed; 
+    width: 30vw; 
+    height: 30vw;
+    border: 3px solid #E2DEDE; 
+}
+
+.game-left-side .gameBoard td{
+    border: 3px solid #E2DEDE; 
+    text-align: center;
+    box-shadow: 0 0 2px;
+    margin: 0;
+    padding: 0; 
+    height: 40px;
+    width: 40px;
+    font-size: 30px;
+}
+
+.game-left-side .cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+
+/*ESTILOS solo GAME right ------*/
+.game-right-side {
+    float: right;
+    width: 50%;
+    display: block;
+    overflow: hidden;
+    color: #E2DEDE;
+}
+.game-right-side .counter-container{
+    color: #E2DEDE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #E2DEDE;
     padding: 10px;
-    border: 2px solid #D9BD71;
-    border-radius: 5px;
-    font-size: 1em;
-    margin-bottom: 15px;
+    width: 200px;
+    margin-left: 200px;
+}
 
+.counter-container h3 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+.game-right-side .gameBoard {
+    margin-left: 16%;
+    margin-right: auto; 
+    margin-top: 50px;
+    border-collapse: collapse; 
+    table-layout: fixed; 
+    width: 10vw; 
+    height: 10vw;
+    border: 3px solid #E2DEDE; 
+}
+
+.game-right-side .gameBoard  td{
+    border: 3px solid #E2DEDE; 
+    text-align: center;
+    box-shadow: 0 0 2px;
+    margin: 0;
+    padding: 0; 
+    height: 30px;
+    width: 30px;
+    font-size: 22px;
+}
+
+.game-right-side .cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.game-right-side .bot-board .overlayBotBoard { /*overlay*/
+    position: fixed;
+    width: 100%; 
+    height: 50%;
+    background-color: rgba(255, 255, 255, 0); 
+    z-index: 1000; 
 
 }
 
@@ -364,7 +343,7 @@
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
 
-/*Estilos de win.php*/
+/*ESTILOS WIN.PHP*/
 
 .winbody{
     background-color: #D9BD71;
@@ -442,7 +421,7 @@
 /*-----------------------------------------------------------------*/
 /*-----------------------------------------------------------------*/
 
-/*Estilos de ranking.php*/
+/*ESTILOS RANKING.PHP*/
 
 
 .bodyRanking{

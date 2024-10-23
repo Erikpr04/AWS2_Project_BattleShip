@@ -73,7 +73,7 @@ function create_ship($length,$positions) {
     if (rand(0, 1) == 0) {
         // Vertical
         $x = rand(1, 9); 
-        $y = rand(1, 10 - $length); 
+        $y = rand(1, 10 - $length + 1); 
         for ($j = 0; $j < $length; $j++) {
             $positions[] = [$x, $y + $j];
         }
@@ -122,41 +122,18 @@ function isTestShipPositionCollapsingShips($ships_array, $test_positions) {
 
 
 
-
-function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantityship4,$quantityship5) { #18
+// funcion general de crear el array de barcos
+function generateShipArray() {
     $ships_array = array();
-    $valid_positions = false;
-    for ($i = 1; $i <= 5; $i++) {
-        switch ($i) {
-            case 1:
-                $selectedLength = $quantityship1;
-                break;
-            case 2:
-                $selectedLength = $quantityship2;
-                break;
-            case 3:
-                $selectedLength = $quantityship3;
-                break;
-            case 4:
-                $selectedLength = $quantityship4;
-                break;
-            case 5:
-                $selectedLength = $quantityship5;
-                break;
-            }
-            
 
-            for ($j = 1; $j <= $selectedLength; $j++) {
-                $valid_positions = false;
-                while (!$valid_positions) {
-                    $test_positions = generateRandomPositions($i);
-        
-                    if (!checkIfCellsAround($ships_array, $test_positions)) {
-                        $valid_positions = true;
-                    }
-                }
-                $ships_array[] = create_ship($i, $test_positions);
+    for ($i = 2; $i <= 5; $i++) {
+        $valid_positions = false;
 
+        while (!$valid_positions) {
+            $test_positions = generateRandomPositions($i);
+
+            if (!isTestShipPositionCollapsingShips($ships_array, $test_positions)) {
+                $valid_positions = true;
             }
         }
 
@@ -166,7 +143,9 @@ function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantit
        //     echo "x = " . print_r($position[0] . " y = " . $position[1], true) . "<br>";
        //}
         
+        $ships_array[] = create_ship($i, $test_positions);
         echo "<br>";
+    }
     
     return $ships_array;
 }
@@ -215,7 +194,6 @@ function displayBoard($board) {
         }
         echo "</tr>";
     }
-
     echo "</table>";
 }
 
@@ -228,19 +206,12 @@ function displayBoard($board) {
 
 
 //-----MAIN-----
-
-//player
 $player_BoardArray = createBoard(11,11); //se crea el board
 $player_BoardArray = assignWaterCells($player_BoardArray); //se asignan las casillas de agua
 $player_ShipsArray = generateShipArray(); //se genera el array de barcos
 $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se ponen los barcos dentro del tablero
 
 
-//bot
-$bot_BoardArray = createBoard(11,11);
-$bot_BoardArray = assignWaterCells($bot_BoardArray);
-$bot_ShipsArray = generateShipArray();
-$bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 
 ?>
 
@@ -271,7 +242,7 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 
 
     <div class="sea">
-        <div class="game-left-side">
+        <div class="tutorial-left-side">
             <?php
             //debug prints, it tests the main array cell objects
             //echo "  x_pos: " . $main_array[3][3]['x_pos'];
@@ -282,18 +253,10 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             ?>
         </div>
 
-        <div class="game-right-side">
+        <div class="tutorial-right-side">
             <div class="counter-container">
                 <h3>Time: <span class="timer">00:00</span></h3>
                 <h3>Points: <span class="points">0</span></h3>
-            </div>
-            <div class="bot-board">
-                <div class="overlayBotBoard" id="overlayBotBoard">
-                </div>
-                <?php
-                    displayBoard($bot_BoardArray); //se hace el tablero en html
-                ?>
-                
             </div>
         </div>
     </div>
@@ -303,9 +266,6 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 <script>
     window.player_BoardArray = <?php echo json_encode($player_BoardArray); ?>;
     window.player_ShipsArray = <?php echo json_encode($player_ShipsArray); ?>;
-    window.bot_BoardArray = <?php echo json_encode($bot_BoardArray); ?>;
-    window.bot_ShipsArray = <?php echo json_encode($bot_ShipsArray); ?>;
-
 </script>
 
 </html>
