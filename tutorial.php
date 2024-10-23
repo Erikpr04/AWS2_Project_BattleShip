@@ -1,10 +1,9 @@
 <?php
 session_start();
 
-// Verificar si el nombre de usuario está almacenado en la sesión
 if (
     !isset($_SERVER['HTTP_REFERER']) ||
-    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'game.php') === false)
+    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'tutorial.php') !== false)
 ) {
     // Si no es referida desde la página del juego, retorna un 403
     header('HTTP/1.1 403 Forbidden');
@@ -13,12 +12,12 @@ if (
 <h2>403 Forbidden: Has de accedir desde Index</h2>
 
 </div>";
+    session_destroy();
     exit();
 }
+
+
 ?>
-
-
-
 
 
 

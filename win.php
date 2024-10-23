@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send'])) {
         exit();
     }
 
+    $username = $_POST['username'];
+
     $timestamp = date('Y-m-d;H:i');
     $rankingData = "\n$username;$points;$timestamp;\n";
     $filePath = 'ranking.txt';

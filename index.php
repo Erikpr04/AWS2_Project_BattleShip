@@ -8,7 +8,7 @@ if (isset($_SESSION['username'])) {
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username']); 
+    $username = $_POST['username']; 
 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot contenir el caràcter \" ; \" !'); window.history.back();</script>";
