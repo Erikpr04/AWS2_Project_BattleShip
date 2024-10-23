@@ -13,6 +13,7 @@
 /* ESTILOS INDEX ---------*/
 .bodyIndex,
 .optionsIndex>button {
+
     background-color: #D9BD71;
 }
 
@@ -316,11 +317,26 @@
     height: 50%;
     background-color: rgba(255, 255, 255, 0); 
     z-index: 1000; 
+
 }
 
+.panelIndex button {
+    background-color: #F18D1F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
+}
 
+.panelIndex button:hover {
+    background-color: #D9BD71;
 
+}
 
 
 
@@ -364,8 +380,8 @@
     font-size: 2.5em;
     margin-bottom: 20px;
 
-
 }
+
 
 .panel p {
     color: #3AB1B3;
@@ -379,7 +395,6 @@
     border-radius: 5px;
     font-size: 1em;
     margin-bottom: 15px;
-
 
 }
 
@@ -400,7 +415,6 @@
     background-color: #D9BD71;
 
 }
-
 
 
 
