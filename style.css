@@ -406,9 +406,9 @@
     flex-direction: column;
     align-items: center;
     border: 2px solid #E2DEDE;
-    padding: 10px;
-    width: 200px;
-    margin-left: 200px;
+    width: 400px;
+    margin-left: 100px;
+    margin-bottom: 25px;
 }
 
 .counter-container h3 {
@@ -417,11 +417,17 @@
     font-weight: bold;
 }
 
+.game-right-side .bot-board .usernameTag{
+    padding-bottom: 0;
+    margin-left: 125px;
+    
+
+}
+
 
 .game-right-side .gameBoard {
     margin-left: 16%;
     margin-right: auto; 
-    margin-top: 50px;
     border-collapse: collapse; 
     table-layout: fixed; 
     width: 10vw; 

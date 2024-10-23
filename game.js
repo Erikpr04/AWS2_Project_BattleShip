@@ -465,7 +465,7 @@ function showShipInBoard(ship){
             let input1 = document.createElement('input');
             input1.type = 'hidden';
             input1.name = 'points';
-            input1.value = points; 
+            input1.value = points +500; //añadimos extra por ganar partida
             let input2 = document.createElement('username');
             input2.type = 'hidden';
             input2.name = 'username';
@@ -599,19 +599,87 @@ function showShipInBoard(ship){
     });
 
 
+    function highlightTable(selector, selected) {
+        let table = document.querySelector(selector);
+        let color = selected ? 'white' : 'grey';
+    
+        if (table) {
+            table.style.transition = 'border-color 1s';
+            let cells = table.querySelectorAll('td, th');
+            cells.forEach(function(cell) {
+                cell.style.transition = 'border-color 1s';
+            });
+    
+            table.style.border = `3px solid ${color}`;
+            cells.forEach(function(cell) {
+                cell.style.border = `3px solid ${color}`;
+            });
+        } else {
+            console.error(`No s'ha trobat una taula amb el selector: ${selector}`);
+        }
+    }
 
 
 
 
-    // LOGICA DE TURNOS
+    // JUEGO PARTIDA CLASSICA ------
     function classicGame() {
         let lastShootBot = null;
         let gameStart = true;
+        let playerProjectiles = 40;
+        let botProjectiles = 40;
+        let shipsSunk = 0;
+
+        //restar proyectiles player
+        function updatePlayerProjectiles() {
+            playerProjectiles--;
+            console.log("proyectiles player " + playerProjectiles);
+            document.getElementById('projectileCount').innerText = playerProjectiles;  
+        }
+    
+
+        //restar proyectiles bot
+        function updateBotProjectiles() {
+            botProjectiles--;
+            console.log("proyectiles bot " + botProjectiles);
+            document.getElementById('bot-projectiles').innerText = botProjectiles;
+        }
 
         function playerTurn() {
             console.log("TURNO PLAYER");
+            if (playerProjectiles===0){
+                let count_ship_bot = 0;
+                let count_ship_player = 0;
+
+                window.player_ShipsArray.forEach(ship =>{
+                    if (ship.isalive == false){
+                        count_ship_player++;
+                    }
+                })
+
+                window.bot_ShipsArray.forEach(ship =>{
+                    if (ship.isalive == false){
+                        count_ship_bot++;
+                    }
+                })
+
+                if (count_ship_player>count_ship_bot){
+                    winGame();
+                    return;
+                }
+                else if(count_ship_player<count_ship_bot){
+                    loseGame();
+                    return;
+                }
+                else{
+                    loseGame();
+                    return;
+                }
+            }
             toggleOverlay(false);
             // Insertar efecto de que el jugador está jugando
+            highlightTable(".game-left-side .gameBoard", true);
+            highlightTable(".bot-board .gameBoard", false);    
             
             cells.forEach(function(cell) {
                 cell.removeEventListener('click', classicGameClick);
@@ -640,20 +708,30 @@ function showShipInBoard(ship){
 
             // LOGICA turno player
             if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
-                // Gasta una bala
+                updatePlayerProjectiles(); //restar proyectil
                 unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
                 toggleOverlay(true); 
                 botTurn(); 
+                return;
             } else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                // Gasta una bala
+                updatePlayerProjectiles(); //restar proyectil
                 unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
                 playerTurn();
+                return;
             }
+
         }
 
         function botTurn() {
             console.log("TURNO BOT");
             toggleOverlay(true);
+            if (botProjectiles==0){
+                playerTurn();
+                return;
+            }
+
+            highlightTable(".bot-board .gameBoard", true);
+            highlightTable(".game-left-side .gameBoard", false);
 
             let shootable = false;
             let x_bot, y_bot;
@@ -680,18 +758,20 @@ function showShipInBoard(ship){
             // disparo
             setTimeout(() => {
                 if (window.bot_BoardArray[y_bot][x_bot]['state'] === "water") {
-                    //quitar municion
-                    console.log("AGUAAA");
+                    updateBotProjectiles(); //restar proyectil
                     unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
                     toggleOverlay(false);
                     playerTurn();
+                    return;
                 } else if (window.bot_BoardArray[y_bot][x_bot]['state'] === "show_ship") {
-                    console.log("BARCOOO");
                     unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
-                    //quitar municion
+                    updateBotProjectiles(); //restar proyectil
                     botTurn();
+                    return;
                 }
-            }, 3000); // espera 3seg
+            }, 1000); // espera 3seg
+
+
         }
 
         if (gameStart) {
@@ -701,7 +781,9 @@ function showShipInBoard(ship){
 
 
 
-    //JUEGO TUTORIAL
+
+
+    //JUEGO TUTORIAL -------
     function tutorialGame(){
         // limpiar listeners previos si hay
         cells.forEach(function(cell) {
@@ -739,8 +821,7 @@ function showShipInBoard(ship){
 
 
 
-
-    // MAIN
+    // MAIN ------
     if (typeof bot_ShipsArray != 'undefined') {
         console.log("INICIANDO JUEGO CLASICO");
         classicGame();
