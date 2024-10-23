@@ -257,9 +257,7 @@ $main_array = displayShips($ships_array,$main_array); //se ponen los barcos dent
         <div class="right-side">
             <div class="counter-container">
                 <h3>Time: <span class="timer">00:00</span></h3>
-                <h3>Points: <span class="points">0</span></h3>
-                <h3>Munició: <span id="projectileCount">40</span></h3>
-                <h3>Munición del bot: <span id="bot-projectiles">40</span></h3>        
+                <h3>Points: <span class="points">0</span></h3>       
             </div>
         </div>
         </div>

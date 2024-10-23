@@ -78,18 +78,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
 
         playerProjectiles--;
-        document.getElementById('projectileCount').innerText = playerProjectiles;
         return true;
     }
 
     function updateBotProjectiles() {
-        if (botProjectiles > 0) {
-            botProjectiles--;
-            document.getElementById('bot-projectiles').innerText = botProjectiles;
-            return true;
-        } else {
-            return false;
-        }
+        if (botProjectiles === 0) {
+            return false; 
+        } 
+
+        botProjectiles--;
+        return true;
     }
 
 
