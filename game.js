@@ -1,12 +1,25 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-    // Body animation
+
     if (window.hasError) {
+
         document.body.style.transform = 'translateY(-15vh)'; 
+
         document.body.style.transition = 'transform 0.75s';
+
         setTimeout(() => {
+
             document.body.style.transform = 'translateY(-120vh)';
+
         }, 100);
+
     }
+
+    // Animación desplace playa-agua
+    document.body.style.transform = 'translateY(-15vh)'; 
+    document.body.style.transition = 'transform 0.75s'; 
+    setTimeout(() => {
+        document.body.style.transform = 'translateY(-120vh)';
+    }, 100);
 
 
     // TIMER START ---
@@ -152,41 +165,40 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
 
-    // funcion que pone las fotos en el tablero player
-    function showShipInBoard(ship){
+// funcion que pone las fotos en el tablero
+function showShipInBoard(ship){
 
-        let vertical = false;
-        if(ship.pos.length > 1){
+    let vertical = false;
+    if(ship.pos.length > 1){
 
-            if (ship.pos[0][0] == ship.pos[1][0]){
-                vertical = true;
-            }
-        }else{
+        if (ship.pos[0][0] == ship.pos[1][0]){
             vertical = true;
         }
+    }else{
+        vertical = true;
+    }
 
-        let selected_fish = '';
+    let selected_fish = '';
 
-        ship.pos.forEach(([x, y], index) => {
-            let cell = document.querySelector(`td[x_pos='${x}'][y_pos='${y}']`);
-            
-            switch (ship.pos.length) {      
-                case 1:
-                    selected_fish = 'star';
-                    break;          
-                case 2:
-                    selected_fish = 'fish';
-                    break;
-                case 3:
-                    selected_fish = 'squid';
-                    break;
-                case 4:
-                    selected_fish = 'swordfish';
-                    break;
-                case 5:
-                    selected_fish = 'eel';
-                    break;
-            }
+    ship.pos.forEach(([x, y], index) => {
+        let cell = document.querySelector(`td[x_pos='${x}'][y_pos='${y}']`);
+        switch (ship.pos.length) {
+            case 1:
+                selected_fish = 'star';
+                break;
+            case 2:
+                selected_fish = 'fish';
+                break;
+            case 3:
+                selected_fish = 'squid';
+                break;
+            case 4:
+                selected_fish = 'swordfish';
+                break;
+            case 5:
+                selected_fish = 'eel';
+                break;
+        }
         
             if (vertical) {
                 cell.style.backgroundImage = `url('static/img/${selected_fish}Divided/${selected_fish}${index+1}.png')`;
@@ -212,17 +224,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function showAllShipsOnBoard(array_ships){
         array_ships.forEach(ship => {
             let vertical = false;
-
-        if (ship.pos[0][0] == ship.pos[1][0]){
-            vertical = true;
-        }
+            if(ship.pos.length > 1){
+        
+                if (ship.pos[0][0] == ship.pos[1][0]){
+                    vertical = true;
+                }
+            }else{
+                vertical = true;
+            }
 
         let selected_fish = '';
 
         ship.pos.forEach(([x, y], index) => {
             let cell = document.querySelector(`.bot-board td[x_pos='${x}'][y_pos='${y}']`);
             
-            switch (ship.pos.length) {                
+            switch (ship.pos.length) {
+                case 1:
+                    selected_fish = 'star';
+                    break;                
                 case 2:
                     selected_fish = 'fish';
                     break;
@@ -467,17 +486,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
             input1.type = 'hidden';
             input1.name = 'points';
             input1.value = points; 
-
             let input2 = document.createElement('username');
-            input1.type = 'hidden';
-            input1.name = 'username';
-            input1.value = window.username; 
-
+            input2.type = 'hidden';
+            input2.name = 'username';
+            input2.value = window.username;
+            
             form.appendChild(input1);
             form.appendChild(input2);
             document.body.appendChild(form);
             form.submit();
-
         }, 3000);
     }
 
@@ -540,12 +557,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
     // GAME EVENTS ---
-
-    //audio_sfx (esto es para borrar????????)
-    let hitSound = new Audio('static/sfx/fish_strike.mp3');
-    let missSound = new Audio('static/sfx/water_splash.mp3');
-    let winSound = new Audio('static/sfx/win_sound_effect.mp3');
-    let buttonSound = new Audio('static/sfx/buttonclick1.mp3');
 
     //escucha todos los eventos del tipo --- "gameEventPlayer" ---
     document.addEventListener('gameEventPlayer', function (e) {

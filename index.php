@@ -7,14 +7,8 @@ if (isset($_SESSION['username'])) {
 
 $username = '';
 
-<<<<<<< HEAD
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['play'])) {
-    $username = trim(string: $_POST['namePlayer']);
-
-=======
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username']; 
->>>>>>> #26
 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot contenir el caràcter \" ; \" !'); window.history.back();</script>";
@@ -94,15 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="panelIndex">
                 <form method="post">
                     <p>Introduïu el vostre nom d'usuari:</p>
-<<<<<<< HEAD
-                    <input type="text" name="namePlayer" placeholder="usuari" required>
-                    <button type="submit" name="play">Play</button>
-=======
                     <input type="text" name="username" placeholder="usuari" required>
 
                     <button type="submit" name="classic">Classic Mode</button>
                     <button type="submit" name="tutorial">Tutorial</button>
->>>>>>> #26
                 </form>
                 <button id="hallOfFameButton" onclick="window.location.href='ranking.php'">Hall of Fame</button>
             </div>

@@ -11,9 +11,11 @@
 
 
 /* ESTILOS INDEX ---------*/
-.bodyIndex,
-.optionsIndex>button {
 
+.bodyIndex,
+.optionsIndex>button,
+.formIndex #buttonPlayIndex  {
+    font-family: 'Geometry Soft Pro Bold N';
     background-color: #D9BD71;
 }
 
@@ -71,7 +73,7 @@
 
 .titleIndex {
     color: white; 
-    font-size: 7rem; 
+    font-size: 4rem; 
     -webkit-text-stroke: 5px orange; 
 }
 
@@ -109,7 +111,133 @@
     color: white; 
 }
 
+/*Estilos para el menu de opciones*/
 
+.optionsGameIndex {
+    position: absolute;
+    right: 8%;
+    width: 10%;
+    margin: 2% 0 0 0;
+}
+
+.optionsGameIndex ul {
+    text-align: center;
+    font-size: 18px;
+    height: 8%;
+    list-style-type: none;
+    margin: 3% 0 0 0;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+
+.optionsGameIndex > ul > p {
+    background-color: #F18D1F;
+    color: white;
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+.optionsGameIndex li {
+    display: none;
+    background-color: #F18D1F;
+    color: white;
+    width: 7%;
+    height: 7%;
+    margin: 0 auto 0 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.optionsGameIndex li:hover {
+    background-color: #E37A17;
+    transition: background-color 0.3s ease;
+}
+
+.optionsGameIndex li input[type="checkbox"] {
+    text-align: center;
+    margin-right: 10%;
+}
+
+.optionsGameIndex > ul > p::after {
+    content: " \25BC";
+    margin-left: 5px;
+    transition: content 0.3s;
+}
+
+.optionsGameIndex > ul:hover > p::after,
+.optionsGameIndex > p::after  {
+    content: " \25BD";
+}
+
+
+.optionsGameIndex:hover li {
+    display: flex;
+    position: relative;
+    left: -28%;
+    width: 115%;
+    cursor: default;
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+/* Estilos para el formulario index */
+.panelIndex {
+    background-color: #E2DEDE;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 50px auto;
+}
+
+.panelIndex p {
+    color: #3AB1B3;
+    font-size: 1.2em;
+}
+
+.panelIndex input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 2px solid #D9BD71;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 15px;
+
+
+}
+
+.panelIndex button {
+    background-color: #F18D1F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+.panelIndex button:hover {
+    background-color: #D9BD71;
+
+}
 
 
 
@@ -194,10 +322,14 @@
 }
 
 .tutorial-left-side .usernameTag{
-    margin-left: 30%;
+    margin-left: 20%;
 }
+.usernameTag{
+    margin-left: 20%;
+}
+
 .gameBoard {
-    margin-left: 30%;
+    margin-left: 20%;
     margin-right: auto; 
     border-collapse: collapse; 
     table-layout: fixed; 
@@ -233,7 +365,7 @@
 }
 
 .game-left-side .gameBoard {
-    margin-left: 30%;
+    margin-left: 20%;
     margin-right: auto; 
     border-collapse: collapse; 
     table-layout: fixed; 
