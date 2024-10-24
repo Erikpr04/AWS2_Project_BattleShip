@@ -620,15 +620,17 @@ function showShipInBoard(ship){
     // JUEGO PARTIDA CLASSICA ------
     function classicGame() {
         let lastShootBot = null;
+        let lastHitBot = null ;
         let gameStart = true;
         let playerProjectiles = 40;
         let botProjectiles = 40;
         let shipsSunk = 0;
 
+        let x_bot, y_bot;
+
         //restar proyectiles player
         function updatePlayerProjectiles() {
             playerProjectiles--;
-            console.log("proyectiles player " + playerProjectiles);
             document.getElementById('projectileCount').innerText = playerProjectiles;  
         }
     
@@ -636,7 +638,6 @@ function showShipInBoard(ship){
         //restar proyectiles bot
         function updateBotProjectiles() {
             botProjectiles--;
-            console.log("proyectiles bot " + botProjectiles);
             document.getElementById('bot-projectiles').innerText = botProjectiles;
         }
 
@@ -729,32 +730,94 @@ function showShipInBoard(ship){
             highlightTable(".game-left-side .gameBoard", false);
 
             let shootable = false;
-            let x_bot, y_bot;
 
-            if (lastShootBot && lastShootBot[2] === 'show_ship') {
-                // IA AVANZADA AQUI
-            }
-
-            // disparo aleatorio
-            while (!shootable) {
-                y_bot = Math.floor(Math.random() * 10) + 1;
-                x_bot = Math.floor(Math.random() * 10) + 1;
-                console.log(y_bot, x_bot);
+            //si hemos tocado algo en los ultimos turnos pero no hundido
+            if (lastHitBot && lastHitBot[2] === 'show_ship' && window.bot_BoardArray[lastHitBot[0]][lastHitBot[1]]['status']!='fish_sunk') {
                 
-                if (window.bot_BoardArray[y_bot][x_bot]['state'] === 'water' || 
-                    window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship') {
-                    shootable = true;
+                //si en el ultimo turno hemos acertado
+                if (lastHitBot[0]==lastShootBot[0] && lastHitBot[1]==lastShootBot[1]){
+
+                    // Disparar a la derecha
+                    if (lastHitBot[1] + 1 <= 10 && (window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'water' || 
+                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'show_ship')) {
+                        x_bot = lastHitBot[1] + 1;
+                        y_bot = lastHitBot[0]; 
+                        shootable = true;
+                    }
+                    // Disparar abajo
+                    else if (lastHitBot[0] + 1 <= 10 && (window.bot_BoardArray[lastHitBot[0] + 1][lastHitBot[1]]['state'] === 'water' || 
+                        window.bot_BoardArray[lastHitBot[0] + 1][lastHitBot[1]]['state'] === 'show_ship')) {
+                        x_bot = lastHitBot[1];
+                        y_bot = lastHitBot[0] + 1;
+                        shootable = true;
+                    }
+                    // Disparar a la izquierda
+                    else if (lastHitBot[1] - 1 >= 1 && (window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] - 1]['state'] === 'water' || 
+                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] - 1]['state'] === 'show_ship')) {
+                        x_bot = lastHitBot[1] - 1;
+                        y_bot = lastHitBot[0];
+                        shootable = true;
+                    }
+                    // Disparar arriba
+                    else if (lastHitBot[0] - 1 >= 1 && (window.bot_BoardArray[lastHitBot[0] - 1][lastHitBot[1]]['state'] === 'water' || 
+                        window.bot_BoardArray[lastHitBot[0] - 1][lastHitBot[1]]['state'] === 'show_ship')) {
+                        x_bot = lastHitBot[1];
+                        y_bot = lastHitBot[0] - 1;
+                        shootable = true;
+                    }
+
+                    //si ninguna se puede, por si acaso, disparará aleatorio, para que no de error
+                    else{
+                        while (!shootable) {
+                            y_bot = Math.floor(Math.random() * 10) + 1;
+                            x_bot = Math.floor(Math.random() * 10) + 1;
+                            
+                            if (window.bot_BoardArray[y_bot][x_bot]['state'] === 'water' || 
+                                window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship') {
+                                shootable = true;
+                            }
+                        }
+                    }
                 }
             }
 
-            // guardamos el ultimo
+
+            //disparo aleatorio
+            else {
+                while (!shootable) {
+                    y_bot = Math.floor(Math.random() * 10) + 1;
+                    x_bot = Math.floor(Math.random() * 10) + 1;
+                    
+                    if (window.bot_BoardArray[y_bot][x_bot]['state'] === 'water' || 
+                        window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship') {
+                        shootable = true;
+                    }
+                }
+            }
+
+           //para saber donde dispararemos
+            console.log(y_bot, x_bot);
+
+            // guardamos el ultimo tiro siempre
             lastShootBot = [y_bot, x_bot, window.bot_BoardArray[y_bot][x_bot]['state'] ];
+            
+            //si da con un barco, guardamos esa posicion en lasthitbot
+            if (window.bot_BoardArray[y_bot][x_bot]['state']=='show_ship'){
+                lastHitBot = [y_bot, x_bot, window.bot_BoardArray[y_bot][x_bot]['state'] ];
+            }
+            //si ha tocado agua quitamos el lasthitbot porque no ha hiteado nada
+            else if (window.bot_BoardArray[y_bot][x_bot]['state']=='water'){
+                lastHitBot = null ;
+            }
+
+
 
             //evento de disparo sonido
             let event = new CustomEvent('gameEventBot', {
                 detail: { type: 'bot_shot' }
             });
             document.dispatchEvent(event); 
+
             // disparo
             setTimeout(() => {
                 if (window.bot_BoardArray[y_bot][x_bot]['state'] === "water") {
@@ -765,6 +828,10 @@ function showShipInBoard(ship){
                     return;
                 } else if (window.bot_BoardArray[y_bot][x_bot]['state'] === "show_ship") {
                     unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
+                    //si hunde el barco, quitamos lasthitbot
+                    if (window.bot_BoardArray[y_bot][x_bot]['state']=='fish_sunk'){
+                        lastHitBot= null;
+                    }
                     updateBotProjectiles(); //restar proyectil
                     botTurn();
                     return;

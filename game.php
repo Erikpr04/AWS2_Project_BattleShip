@@ -323,9 +323,9 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 
         <div class="game-right-side">
             <div class="counter-container">
-                <h3>Time: <span class="timer">00:00</span></h3>
-                <h3>Points: <span class="points">0</span></h3>
-                <h3>Munició player: <span id="projectileCount">40</span></h3>
+                <h3>Temps: <span class="timer">00:00</span></h3>
+                <h3>Punts: <span class="points">0</span></h3>
+                <h3>Munició jugador: <span id="projectileCount">40</span></h3>
                 <h3>Munició bot: <span id="bot-projectiles">40</span></h3>
             </div>
             <div class="bot-board">
