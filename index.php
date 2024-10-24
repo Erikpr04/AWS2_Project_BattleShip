@@ -75,9 +75,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="optionsGameIndex">
         <ul>
             <p>OPCIONS</p>
-            <li><input type="checkbox" id="bulletIlimited" style="cursor:pointer"><label for="bulletIlimited">Munició ilimitada</label></li>
-            <li><input type="checkbox" id="armoredShips" style="cursor:pointer"><label for="armoredShips">Vaixells acoirassats</label></li>
-            <li><input type="checkbox" id="specialAttack" style="cursor:pointer"><label for="specialAttack">Atacs especials</label></li>
+            <li><input type="checkbox" id="bulletIlimited" style="cursor:pointer;"><label for="bulletIlimited">Munició ilimitada</label></li>
+            <li><input type="checkbox" id="armoredShips" style="cursor:pointer;" disabled="true"><label for="armoredShips">Peixos Escorredis</label></li>
+            <li><input type="checkbox" id="specialAttack" style="cursor:pointer;"disabled="true"><label for="specialAttack">Atacs especials</label></li>
         </ul>
     </div>
     <div class="backgroundIndex">
@@ -89,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post">
                     <p>Introduïu el vostre nom d'usuari:</p>
                     <input type="text" name="username" placeholder="usuari" required>
-
                     <button type="submit" name="classic">Classic Mode</button>
                     <button type="submit" name="tutorial">Tutorial</button>
                 </form>
