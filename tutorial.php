@@ -38,7 +38,7 @@ if (
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoreline Strike</title>
+    <title>Shoreline Strike Tutorial</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="game.js" defer></script>
 
@@ -292,8 +292,8 @@ $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se p
 
         <div class="tutorial-right-side">
             <div class="counter-container">
-                <h3>Time: <span class="timer">00:00</span></h3>
-                <h3>Points: <span class="points">0</span></h3>
+                <h3>Temps: <span class="timer">00:00</span></h3>
+                <h3>Punts: <span class="points">0</span></h3>
             </div>
         </div>
     </div>
