@@ -13,10 +13,11 @@ if (
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <title>403 Forbidden</title>
     </head>
-    <body>
-        <div id="finalForbiScreen">
+    <body class="bodyForbidden">
+        <div class="finalForbiScreen">
             <h2>403 Forbidden: Has de accedir desde Index</h2>
         </div>
     </body>
