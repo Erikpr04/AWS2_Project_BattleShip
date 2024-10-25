@@ -614,22 +614,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let lastShootBot = null;
         let lastHitBot = null ;
         let gameStart = true;
-        let playerProjectiles = 40;
-        let botProjectiles = 40;
+        let countAmmoPlayer = 40;
+        let countAmmoBot = 40;
         let shipsSunk = 0;
         let x_bot, y_bot;
 
         //funcion restar municion player
         function updatePlayerAmmo() {
-            playerProjectiles--;
-            document.getElementById('countAmmoPlayer').innerText = playerProjectiles;  
+            countAmmoPlayer--;
+            document.getElementById('countAmmoPlayer').innerText = countAmmoPlayer;  
         }
     
 
         //funcion restar municion bot
         function updateBotAmmo() {
-            botProjectiles--;
-            document.getElementById('countAmmoBot').innerText = botProjectiles;
+            countAmmoBot--;
+            document.getElementById('countAmmoBot').innerText = countAmmoBot;
         }
 
 
@@ -640,7 +640,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             //si la partida tiene municion limitada
             if (window.ammoLimited==1){
                 //si player se ha quedado sin municion
-                if (playerProjectiles===0){
+                if (countAmmoPlayer===0){
                     let count_ship_bot = 0;
                     let count_ship_player = 0;
 
@@ -733,7 +733,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             toggleOverlay(true);
             //si estamos jugando con municion limitada
             if (window.ammoLimited==1){
-                if (botProjectiles==0){
+                if (countAmmoBot==0){
                     playerTurn();
                     return;
                 }
