@@ -145,7 +145,7 @@
 }
 
 
-.optionsGameIndex > ul > p {
+.optionsGameIndex > form > ul > p {
     background-color: #F18D1F;
     color: white;
     margin: 0;
@@ -177,14 +177,14 @@
     margin-right: 10%;
 }
 
-.optionsGameIndex > ul > p::after {
+.optionsGameIndex > form > ul > p::after {
     content: " \25BC";
     margin-left: 5px;
     transition: content 0.3s;
 }
 
-.optionsGameIndex > ul:hover > p::after,
-.optionsGameIndex > p::after  {
+.optionsGameIndex > form > ul:hover > p::after,
+.optionsGameIndex > form > p::after  {
     content: " \25BD";
 }
 
