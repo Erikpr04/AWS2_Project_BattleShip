@@ -113,31 +113,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             tablename=".bot-board .gameBoard";
         }
 
-        //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
-        if (board[y_pos][x_pos]['state'] === "show_ship") {
-            board[y_pos][x_pos]['state'] = "ship_hit";
-            let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
-            if (cell) {
-                cell.style.backgroundColor = '#FF1355';
-                cell.innerHTML="X";
-                //player
-                if (typePlayer=="player"){
-                    addPoints();
-                    event = new CustomEvent('gameEventPlayer', {
-                        detail: { type: 'ship_hit'}
-                    });
-                }
-                //bot
-                else if (typePlayer=="bot"){
-                    event = new CustomEvent('gameEventBot', {
-                        detail: { type: 'ship_hit'}
-                    });
-                }
-                
-            }
-        
+
         //si el estado de la celda contiene agua, se cambia a water-hit, se pone el color, se llama al evento de waterhit
-        } else if (board[y_pos][x_pos]['state'] === "water") {
+        if (board[y_pos][x_pos]['state'] === "water") {
             board[y_pos][x_pos]['state'] = "water_hit";
             let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
             if (cell) {
@@ -158,6 +136,82 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 
             }
         }
+
+        //si se juega con armored
+        if (window.armoredShips==1){
+            // 1r toque
+            if (board[y_pos][x_pos]['state'] === "show_ship") {
+                board[y_pos][x_pos]['state'] = "ship_dearmor";
+                let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
+                console.log("se pone amarillo");
+                if (cell) {
+                    cell.innerHTML="~";
+                    //player
+                    if (typePlayer=="player"){
+                        addPoints();
+                        event = new CustomEvent('gameEventPlayer', {
+                            detail: { type: 'ship_hit'}
+                        });
+                    }
+                    //bot
+                    else if (typePlayer=="bot"){
+                        event = new CustomEvent('gameEventBot', {
+                            detail: { type: 'ship_hit'}
+                        });
+                    }
+                    
+                }
+            }
+            //2o toque
+            else if (board[y_pos][x_pos]['state'] === "ship_dearmor") {
+                board[y_pos][x_pos]['state'] = "ship_hit";
+                let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
+                console.log("se pone rojo");
+                if (cell) {
+                    cell.style.backgroundColor = '#FF1355';
+                    cell.innerHTML="X";
+                    //player
+                    if (typePlayer=="player"){
+                        addPoints();
+                        event = new CustomEvent('gameEventPlayer', {
+                            detail: { type: 'ship_hit'}
+                        });
+                    }
+                    //bot
+                    else if (typePlayer=="bot"){
+                        event = new CustomEvent('gameEventBot', {
+                            detail: { type: 'ship_hit'}
+                        });
+                    }
+                }
+            }
+            
+        }
+        //si NO juega con armor
+        //si el estado de la celda contiene un ship, se cambia a ship-hit, se pone del color, se llama al evento de golpeo
+        else if (board[y_pos][x_pos]['state'] === "show_ship") {
+            board[y_pos][x_pos]['state'] = "ship_hit";
+            let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
+            if (cell) {
+                cell.style.backgroundColor = '#FF1355';
+                cell.innerHTML="X";
+                //player
+                if (typePlayer=="player"){
+                    addPoints();
+                    event = new CustomEvent('gameEventPlayer', {
+                        detail: { type: 'ship_hit'}
+                    });
+                }
+                //bot
+                else if (typePlayer=="bot"){
+                    event = new CustomEvent('gameEventBot', {
+                        detail: { type: 'ship_hit'}
+                    });
+                }
+                
+            }
+        }
+        
 
         //si hay evento, se envia el evento
         if (event) {
@@ -616,7 +670,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let gameStart = true;
         let countAmmoPlayer = 40;
         let countAmmoBot = 40;
-        let shipsSunk = 0;
         let x_bot, y_bot;
 
         //funcion restar municion player
@@ -704,7 +757,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 currentIndex = 0; // reinicia secuencia si falla el easter egg
             }
 
-            // LOGICA turno player
+            // LOGICA TURNO PLAYER
+            //si toca agua
             if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
                //si estamos jugando con municion limitada
                 if (window.ammoLimited==1){
@@ -714,7 +768,34 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 toggleOverlay(true); 
                 botTurn(); 
                 return;
-            } else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
+            } 
+            
+            //si es modo acorazados
+            if (window.armoredShips==1){
+                //primer toque
+                if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
+                    //si estamos jugando con municion limitada
+                    if (window.ammoLimited==1){
+                        updatePlayerAmmo(); //restar municion
+                    }
+                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
+                    botTurn();
+                    return;
+                }
+                //segundo toque
+                else if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_dearmor") {
+                    //si estamos jugando con municion limitada
+                    if (window.ammoLimited==1){
+                        updatePlayerAmmo(); //restar municion
+                    }
+                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
+                    playerTurn();
+                    return;
+                }
+            }
+            
+            //si es modo NO acorazados
+            else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
                 //si estamos jugando con municion limitada
                 if (window.ammoLimited==1){
                     updatePlayerAmmo(); //restar municion
@@ -746,35 +827,46 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let shootable = false;
 
             //si hemos tocado algo en los ultimos turnos pero no hundido
-            if (lastHitBot && lastHitBot[2] === 'show_ship' && window.bot_BoardArray[lastHitBot[0]][lastHitBot[1]]['status']!='fish_sunk') {
+            if (lastHitBot && (lastHitBot[2] === 'show_ship' || lastHitBot[2] === 'ship_dearmor' ) && window.bot_BoardArray[lastHitBot[0]][lastHitBot[1]]['status']!='fish_sunk') {
                 
                 //si en el ultimo turno hemos acertado
                 if (lastHitBot[0]==lastShootBot[0] && lastHitBot[1]==lastShootBot[1]){
 
+                    //si juega CON acorazados y el ultimo hit lo dejó en modo dearmor
+                    if (window.armoredShips==1 && window.bot_BoardArray[lastHitBot[0]][lastHitBot[1]]['state'] === 'ship_dearmor'){
+                        x_bot = lastHitBot[1];
+                        y_bot = lastHitBot[0]; 
+                        shootable = true;
+                    }
+
                     // Disparar a la derecha
-                    if (lastHitBot[1] + 1 <= 10 && (window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'water' || 
-                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'show_ship')) {
+                    else if (lastHitBot[1] + 1 <= 10 && (window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'water' || 
+                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'show_ship' || 
+                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] + 1]['state'] === 'ship_dearmor')) {
                         x_bot = lastHitBot[1] + 1;
                         y_bot = lastHitBot[0]; 
                         shootable = true;
                     }
                     // Disparar abajo
                     else if (lastHitBot[0] + 1 <= 10 && (window.bot_BoardArray[lastHitBot[0] + 1][lastHitBot[1]]['state'] === 'water' || 
-                        window.bot_BoardArray[lastHitBot[0] + 1][lastHitBot[1]]['state'] === 'show_ship')) {
+                        window.bot_BoardArray[lastHitBot[0] + 1][lastHitBot[1]]['state'] === 'show_ship' || 
+                        window.bot_BoardArray[lastHitBot[0] + 1][lastHitBot[1]]['state'] === 'ship_dearmor')) {
                         x_bot = lastHitBot[1];
                         y_bot = lastHitBot[0] + 1;
                         shootable = true;
                     }
                     // Disparar a la izquierda
                     else if (lastHitBot[1] - 1 >= 1 && (window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] - 1]['state'] === 'water' || 
-                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] - 1]['state'] === 'show_ship')) {
+                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] - 1]['state'] === 'show_ship' || 
+                        window.bot_BoardArray[lastHitBot[0]][lastHitBot[1] - 1]['state'] === 'ship_dearmor')) {
                         x_bot = lastHitBot[1] - 1;
                         y_bot = lastHitBot[0];
                         shootable = true;
                     }
                     // Disparar arriba
                     else if (lastHitBot[0] - 1 >= 1 && (window.bot_BoardArray[lastHitBot[0] - 1][lastHitBot[1]]['state'] === 'water' || 
-                        window.bot_BoardArray[lastHitBot[0] - 1][lastHitBot[1]]['state'] === 'show_ship')) {
+                        window.bot_BoardArray[lastHitBot[0] - 1][lastHitBot[1]]['state'] === 'show_ship' || 
+                        window.bot_BoardArray[lastHitBot[0] - 1][lastHitBot[1]]['state'] === 'shio_dearmor')) {
                         x_bot = lastHitBot[1];
                         y_bot = lastHitBot[0] - 1;
                         shootable = true;
@@ -787,7 +879,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             x_bot = Math.floor(Math.random() * 10) + 1;
                             
                             if (window.bot_BoardArray[y_bot][x_bot]['state'] === 'water' || 
-                                window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship') {
+                                window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship'|| 
+                                window.bot_BoardArray[y_bot][x_bot]['state'] === 'ship_dearmor') {
                                 shootable = true;
                             }
                         }
@@ -803,7 +896,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     x_bot = Math.floor(Math.random() * 10) + 1;
                     
                     if (window.bot_BoardArray[y_bot][x_bot]['state'] === 'water' || 
-                        window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship') {
+                        window.bot_BoardArray[y_bot][x_bot]['state'] === 'show_ship'|| 
+                        window.bot_BoardArray[y_bot][x_bot]['state'] === 'ship_dearmor') {
                         shootable = true;
                     }
                 }
@@ -816,7 +910,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             lastShootBot = [y_bot, x_bot, window.bot_BoardArray[y_bot][x_bot]['state'] ];
             
             //si da con un barco, guardamos esa posicion en lasthitbot
-            if (window.bot_BoardArray[y_bot][x_bot]['state']=='show_ship'){
+            if (window.bot_BoardArray[y_bot][x_bot]['state']=='show_ship' || window.bot_BoardArray[y_bot][x_bot]['state']=='ship_dearmor'){
                 lastHitBot = [y_bot, x_bot, window.bot_BoardArray[y_bot][x_bot]['state'] ];
             }
             //si ha tocado agua quitamos el lasthitbot porque no ha hiteado nada
@@ -834,6 +928,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // DISPARO
             setTimeout(() => {
+                // si toca agua
                 if (window.bot_BoardArray[y_bot][x_bot]['state'] === "water") {
                     //si estamos jugando con municion limitada
                     if (window.ammoLimited==1){
@@ -843,7 +938,38 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     toggleOverlay(false);
                     playerTurn();
                     return;
-                } else if (window.bot_BoardArray[y_bot][x_bot]['state'] === "show_ship") {
+                
+                }
+                // si se juga con armor
+                if (window.armoredShips==1){
+                    // 1r toque
+                    if (window.bot_BoardArray[y_bot][x_bot]['state'] === "show_ship") {
+                        unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
+                        //si estamos jugando con municion limitada
+                        if (window.ammoLimited==1){
+                            updateBotAmmo(); //restar municion
+                        }
+                        playerTurn();
+                        return;
+                    }
+                    // 2o toque
+                    else if (window.bot_BoardArray[y_bot][x_bot]['state'] === "ship_dearmor") {
+                        unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
+                        //si hunde el barco, quitamos lasthitbot
+                        if (window.bot_BoardArray[y_bot][x_bot]['state']=='fish_sunk'){
+                            lastHitBot= null;
+                        }
+                        //si estamos jugando con municion limitada
+                        if (window.ammoLimited==1){
+                            updateBotAmmo(); //restar municion
+                        }
+                        botTurn();
+                        return;
+                    }
+
+                }
+                // si NO hay armored, toque
+                else if (window.bot_BoardArray[y_bot][x_bot]['state'] === "show_ship") {
                     unhideCell(x_bot, y_bot, window.bot_BoardArray, "bot");
                     //si hunde el barco, quitamos lasthitbot
                     if (window.bot_BoardArray[y_bot][x_bot]['state']=='fish_sunk'){
