@@ -20,7 +20,7 @@
         </div>
         <?php
             session_start();
-
+          
             // Función para cargar el ranking desde el archiv ranking.txt
             function loadRanking($file) {
                 $ranking = [];
