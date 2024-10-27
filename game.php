@@ -14,6 +14,7 @@ if (
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="static/img/star_favicon.png" type="image/png">
         <title>403 Forbidden</title>
     </head>
     <body class="bodyForbidden">
@@ -44,9 +45,8 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
     <script src="game.js" defer></script>
-
-
 </head>
 <?php
 
@@ -319,8 +319,20 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             //echo "  y_pos: " . $main_array[3][3]['y_pos'];
             //echo "  state: " . $main_array[3][3]['state'];
             //echo "<p id='action'></p>";
-            displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html
+            displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html          
             ?>
+            <div class="projectiles">
+                <p>Special Attack: </p>
+                <input type="radio" id="btn1" name="projectile">
+                <label for="btn1" class="projectile-label">
+                    <img src="path_to_image1" alt="Projectile 1">
+                </label>
+
+                <input type="radio" id="btn2" name="projectile">
+                <label for="btn2" class="projectile-label">
+                    <img src="path_to_image2" alt="Projectile 2">
+                </label>
+            </div>
         </div>
 
         <div class="game-right-side">
@@ -336,7 +348,6 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
                 <?php
                     displayBoard($bot_BoardArray,"Bot"); //se hace el tablero en html
                 ?>
-                
             </div>
         </div>
     </div>

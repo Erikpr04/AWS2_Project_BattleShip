@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", (event) => {
 
+
+    //eventos prepartida
+
     console.log("bullet" + window.ammoLimited); // municion ilimitada: 0 es no, 1 es si
     console.log("armor" + window.armoredShips); // armadura: 0 es no, 1 es si
     console.log("special" + window.specialAttack); // ataque especial: 0 es no, 1 es si
@@ -10,23 +13,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         document.getElementById('textAmmoBot').style.display = 'none';  
         document.getElementById('countAmmoPlayer').style.display = 'none';  
         document.getElementById('countAmmoBot').style.display = 'none';  
-
     }
 
 
     if (window.hasError) {
-
         document.body.style.transform = 'translateY(-15vh)'; 
-
         document.body.style.transition = 'transform 0.75s';
-
         setTimeout(() => {
-
             document.body.style.transform = 'translateY(-120vh)';
-
         }, 100);
 
     }
+
+if (window.specialAttack != 1) {
+    document.querySelector('.projectiles').style.display = 'none';
+}
 
     // Animación desplace playa-agua
     document.body.style.transform = 'translateY(-15vh)'; 
@@ -670,11 +671,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let gameStart = true;
         let countAmmoPlayer = 40;
         let countAmmoBot = 40;
+        let shipsSunk = 0;
         let x_bot, y_bot;
 
         //funcion restar municion player
-        function updatePlayerAmmo() {
-            countAmmoPlayer--;
+        function updatePlayerAmmo(ammo) {
+            if (ammo) {
+                countAmmoPlayer-=ammo;
+            }else{
+                countAmmoPlayer--;
+            }
             document.getElementById('countAmmoPlayer').innerText = countAmmoPlayer;  
         }
     
@@ -683,6 +689,167 @@ document.addEventListener("DOMContentLoaded", (event) => {
         function updateBotAmmo() {
             countAmmoBot--;
             document.getElementById('countAmmoBot').innerText = countAmmoBot;
+        }
+
+        //ejectua el ataque especial si se puede
+
+
+
+
+        // Función auxiliar que verifica si algún proyectil está seleccionado
+        function isAnyProjectileSelected() {
+            const projectilesDiv = document.querySelector('.projectiles');
+            const inputs = projectilesDiv.querySelectorAll('input[type="radio"]');
+        
+            // Filtra los botones activos (no deshabilitados) y seleccionados
+            return Array.from(inputs).some(input => input.checked && !input.disabled);
+        }
+        
+
+
+        // Ejecuta el ataque especial si se cumplen las condiciones
+        function specialAttack(x_pos,y_pos) {
+            console.log("DOING SPECIAL ATTACK EN COORDENADAS " + x_pos + "," + y_pos);
+            // Verifica si el ataque especial está activado
+            console.log("estado specialattack: " + window.specialAttack);
+            if (window.specialAttack === 1) {
+                console.log("SPECIAL ATTACK ACTIVATED")
+                const projectilesDiv = document.querySelector('.projectiles');
+
+                // Selecciona todos los inputs de tipo radio en la clase .projectiles
+                const inputs = document.querySelectorAll('.projectiles input[type="radio"]');
+
+                // Filtra los botones activos (no deshabilitados)
+                const activeInputs = Array.from(inputs).filter(input => !input.disabled);
+
+                // Verifica si tenemos al menos un botón activo que esté seleccionado
+                const checkedInput = activeInputs.find(input => input.checked);
+
+                if (checkedInput) {
+                    console.log("Se ha seleccionado un proyectil.");
+
+                    // Desactivar solo el input actualmente seleccionado
+                    checkedInput.disabled = true; // Deshabilitar el input seleccionado
+
+                    if (window.ammoLimited == 1) {
+                        // Verifica si hay suficientes balas
+                        if (window.ammo < 9) {
+                            console.log("No hay suficientes balas para el ataque especial.");
+                            return;
+                        } else {
+                            console.log("Disparamos y almacenamos las balas usadas en el tiro");
+                            // Disparamos y almacenamos las balas usadas en el tiro
+                            shootInAvailableCells(x_pos, y_pos);
+                        }
+                    } else {
+                        console.log("Disparamos en celdas");
+
+                        // Disparamos y almacenamos las balas usadas en el tiro
+                        shootInAvailableCells(x_pos, y_pos);
+                    }
+                } else {
+                    console.log("No se ha seleccionado ningún proyectil.");
+                }
+
+
+            } else {
+                console.log("El ataque especial no está activado.");
+            }
+        }
+
+
+
+
+
+
+
+
+
+        function shootInAvailableCells(x_pos, y_pos) {
+            // Inicializamos el contador de celdas disparables
+            let count = 0;
+        
+            // Verificamos primero la celda en la posición inicial 
+            if (window.player_BoardArray[y_pos][x_pos]['status'] !== 'fish_sunk' && window.player_BoardArray[y_pos][x_pos]['status'] !== 'water_hit') {
+                count++;
+                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostramos disparo
+                updatePlayerAmmo(1);
+            }else{
+                console.log("No se puede disparar en esta celda");
+                return;
+            }
+
+        
+            // Array de posiciones para probar
+            const positionsToCheck = [
+                { x: x_pos, y: y_pos - 1 }, // arriba
+                { x: x_pos+1, y: y_pos - 1 }, // arriba-derecha
+                { x: x_pos + 1, y: y_pos }, // derecha
+                { x: x_pos + 1, y: y_pos + 1}, // abajo derecha
+                { x: x_pos, y: y_pos + 1 }, // abajo
+                { x: x_pos - 1, y: y_pos + 1 }, // abajo izquierda
+                { x: x_pos - 1, y: y_pos },  // izquierda
+                { x: x_pos - 1, y: y_pos - 1 }, // arriba izquierda
+            ];
+
+            let foundShowShip = false;
+
+            for (let pos of positionsToCheck) {
+                console.log("iterando sobre posicion");
+                if (pos.x >= 1 && pos.x < window.player_BoardArray[0].length && pos.y >= 1 && pos.y < window.player_BoardArray.length) {
+                    console.log("iterando dentro del tablero");
+                    const cellState = window.player_BoardArray[pos.y][pos.x]['state'];
+
+                    if (cellState !== "fish_sunk" && cellState !== "water_hit") {
+                        unhideCell(pos.x, pos.y, window.player_BoardArray, "player"); // Mostramos disparo
+                        updatePlayerAmmo(1); 
+                        count++;
+                        if (cellState === "water"){
+                            subtractPoints;
+                        }
+                        // Si encontramos "show_ship", establecemos el indicador a true
+                        else if (cellState === "show_ship") {
+                            foundShowShip = true;
+                        }
+                    }
+                }
+            }
+
+            if (foundShowShip && window.armoredShips != 1) {
+                playerTurn();
+                return;
+            }
+            toggleOverlay(true); 
+            botTurn();         
+            return;
+        }
+        
+
+
+        function disableAllProjectiles() {
+            console.log("Deshabilitamos botones");
+            const projectilesDiv = document.querySelector('.projectiles');
+            projectilesDiv.classList.add('disabled');
+            const inputs = projectilesDiv.querySelectorAll('input[type="radio"]');
+            
+            inputs.forEach(input => {
+                console.log(`Antes - checked: ${input.checked}`);
+                input.checked = false; // Desmarcar
+                input.disabled = true; // Deshabilitar
+                console.log(`Después - checked: ${input.checked}, disabled: ${input.disabled}`);
+            });
+            
+        }
+        
+        function disableSelectedProjectile(id) {
+            const projectile = document.getElementById(id);
+            if (projectile) {
+                projectile.classList.add('disabled');
+                const input = projectile.querySelector('input[type="radio"]'); // Cambiado a querySelector
+                if (input) {
+                    input.disabled = true;
+                }
+            }
         }
 
 
@@ -757,33 +924,41 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 currentIndex = 0; // reinicia secuencia si falla el easter egg
             }
 
-            // LOGICA TURNO PLAYER
-            //si toca agua
-            if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
-               //si estamos jugando con municion limitada
-                if (window.ammoLimited==1){
-                    updatePlayerAmmo(); //restar municion
-                }
-                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                toggleOverlay(true); 
-                botTurn(); 
+            if(isAnyProjectileSelected() === true && window.specialAttack == 1){
+                //llamamos al ataque especial
+                console.log("llamamos al ataque especial");
+                specialAttack(x_pos, y_pos);
                 return;
-            } 
-            
-            //si es modo acorazados
-            if (window.armoredShips==1){
-                //primer toque
-                if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                    //si estamos jugando con municion limitada
+
+            }else{
+                
+                // LOGICA turno player
+                if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
+                //si estamos jugando con municion limitada
                     if (window.ammoLimited==1){
                         updatePlayerAmmo(); //restar municion
                     }
                     unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                    botTurn();
+                    toggleOverlay(true); 
+                    botTurn(); 
                     return;
-                }
-                //segundo toque
-                else if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_dearmor") {
+                } else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
+                    //si estamos jugando con municion limitada
+                    if (window.ammoLimited == 1){
+                        updatePlayerAmmo(); //restar municion
+                    }
+                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
+                    //dependiendo del modo de juego, se tira la casilla y sigue player o se cambia a bot
+                    if(window.armoredShips == 1){
+                        toggleOverlay(true); 
+                        botTurn(); 
+                        return;
+                    }else{
+                        playerTurn();
+                        return;
+                    }
+
+                }else if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_dearmor") {
                     //si estamos jugando con municion limitada
                     if (window.ammoLimited==1){
                         updatePlayerAmmo(); //restar municion
@@ -792,18 +967,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     playerTurn();
                     return;
                 }
-            }
-            
-            //si es modo NO acorazados
-            else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                //si estamos jugando con municion limitada
-                if (window.ammoLimited==1){
-                    updatePlayerAmmo(); //restar municion
-                }
-                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                playerTurn();
-                return;
-            }
+        }
 
         }
 

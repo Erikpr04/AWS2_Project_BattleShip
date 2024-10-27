@@ -305,6 +305,61 @@
     margin-right: auto;
 }
 
+.projectiles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #E2DEDE;
+    border-radius: 15px;
+    width: 400px;
+    margin-left: 23%;
+    margin-top: 2%;
+}
+
+.projectiles p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 15px;
+}
+
+/* Estilo general de los labels */
+.projectile-label {
+    border: none;
+    padding: 10px;
+    margin: 0 10px;
+    cursor: pointer;
+    background-color: #004B85;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilo cuando el botón está seleccionado (checked) y no deshabilitado */
+input[type="radio"]:checked:not(:disabled) + label {
+    background-color: #004B85;
+    box-shadow: 0 0 0 5px white;
+}
+
+/* Estado deshabilitado para los botones */
+input[disabled] + label {
+    background-color: #b0b0b0;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* Ocultar los inputs de radio pero mantener la funcionalidad */
+input[type="radio"] {
+    display: none;
+}
+
+.projectile-label:hover:not(:disabled) {
+    background-color: #3a92b2;
+}
+
+
+
 
 /* ESTILOS solo TUTORIAL ------*/
 
