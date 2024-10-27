@@ -101,6 +101,10 @@ if (window.specialAttack != 1) {
         let tablename;
         //para destapar celdas de player
         if (typePlayer=="player"){
+            //si estamos jugando con municion limitada
+            if (window.ammoLimited == 1){
+                updatePlayerAmmo(); //restar municion
+            }  
             if (document.querySelector(".tutorial-left-side")) {
                 tablename=".tutorial-left-side .gameBoard";
             }
@@ -662,6 +666,21 @@ if (window.specialAttack != 1) {
     }
 
 
+    let countAmmoPlayer = 40;
+    let countAmmoBot = 40;
+
+    //funcion restar municion player
+    function updatePlayerAmmo() {
+        countAmmoPlayer--;
+        document.getElementById('countAmmoPlayer').innerText = countAmmoPlayer;  
+    }
+
+
+    //funcion restar municion bot
+    function updateBotAmmo() {
+        countAmmoBot--;
+        document.getElementById('countAmmoBot').innerText = countAmmoBot;
+    }
 
 
     // JUEGO PARTIDA CLASSICA ------
@@ -669,30 +688,7 @@ if (window.specialAttack != 1) {
         let lastShootBot = null;
         let lastHitBot = null ;
         let gameStart = true;
-        let countAmmoPlayer = 40;
-        let countAmmoBot = 40;
-        let shipsSunk = 0;
         let x_bot, y_bot;
-
-        //funcion restar municion player
-        function updatePlayerAmmo(ammo) {
-            if (ammo) {
-                countAmmoPlayer-=ammo;
-            }else{
-                countAmmoPlayer--;
-            }
-            document.getElementById('countAmmoPlayer').innerText = countAmmoPlayer;  
-        }
-    
-
-        //funcion restar municion bot
-        function updateBotAmmo() {
-            countAmmoBot--;
-            document.getElementById('countAmmoBot').innerText = countAmmoBot;
-        }
-
-        //ejectua el ataque especial si se puede
-
 
 
 
@@ -767,13 +763,10 @@ if (window.specialAttack != 1) {
 
         function shootInAvailableCells(x_pos, y_pos) {
             // Inicializamos el contador de celdas disparables
-            let count = 0;
         
             // Verificamos primero la celda en la posición inicial 
             if (window.player_BoardArray[y_pos][x_pos]['status'] !== 'fish_sunk' && window.player_BoardArray[y_pos][x_pos]['status'] !== 'water_hit') {
-                count++;
                 unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostramos disparo
-                updatePlayerAmmo(1);
             }else{
                 console.log("No se puede disparar en esta celda");
                 return;
@@ -802,13 +795,8 @@ if (window.specialAttack != 1) {
 
                     if (cellState !== "fish_sunk" && cellState !== "water_hit") {
                         unhideCell(pos.x, pos.y, window.player_BoardArray, "player"); // Mostramos disparo
-                        updatePlayerAmmo(1); 
-                        count++;
-                        if (cellState === "water"){
-                            subtractPoints;
-                        }
                         // Si encontramos "show_ship", establecemos el indicador a true
-                        else if (cellState === "show_ship") {
+                        if (cellState === "show_ship") {
                             foundShowShip = true;
                         }
                     }
@@ -934,19 +922,11 @@ if (window.specialAttack != 1) {
                 
                 // LOGICA turno player
                 if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
-                //si estamos jugando con municion limitada
-                    if (window.ammoLimited==1){
-                        updatePlayerAmmo(); //restar municion
-                    }
                     unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
                     toggleOverlay(true); 
                     botTurn(); 
                     return;
                 } else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                    //si estamos jugando con municion limitada
-                    if (window.ammoLimited == 1){
-                        updatePlayerAmmo(); //restar municion
-                    }
                     unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
                     //dependiendo del modo de juego, se tira la casilla y sigue player o se cambia a bot
                     if(window.armoredShips == 1){
@@ -959,10 +939,6 @@ if (window.specialAttack != 1) {
                     }
 
                 }else if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_dearmor") {
-                    //si estamos jugando con municion limitada
-                    if (window.ammoLimited==1){
-                        updatePlayerAmmo(); //restar municion
-                    }
                     unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
                     playerTurn();
                     return;
