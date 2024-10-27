@@ -828,15 +828,18 @@ if (window.specialAttack != 1) {
 
                     if (cellState !== "fish_sunk" && cellState !== "water_hit") {
                         unhideCell(pos.x, pos.y, window.player_BoardArray, "player"); // Mostramos disparo
-                        // Si encontramos "show_ship", establecemos el indicador a true
-                        if (cellState === "show_ship") {
+                        // Si encontramos "show_ship" sin armored ships, establecemos el indicador a true
+                        if (window.armoredShips != 1 && cellState === "show_ship") {
                             foundShowShip = true;
+                        }if (cellState === "ship_dearmor") {
+                            foundShowShip = true;
+
                         }
                     }
                 }
             }
 
-            if (foundShowShip && window.armoredShips != 1) {
+            if (foundShowShip) {
                 playerTurn();
                 return;
             }
