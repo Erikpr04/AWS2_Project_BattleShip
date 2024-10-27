@@ -724,24 +724,30 @@ if (window.specialAttack != 1) {
                 if (checkedInput) {
                     console.log("Se ha seleccionado un proyectil.");
 
-                    // Desactivar solo el input actualmente seleccionado
-                    checkedInput.disabled = true; // Deshabilitar el input seleccionado
 
                     if (window.ammoLimited == 1) {
                         // Verifica si hay suficientes balas
-                        if (window.ammo < 9) {
+                        showToastNotification(getAvailableCells(x_pos, y_pos).toString(), 'lose');
+                        console.log("Balas que se van a consumuir: " + getAvailableCells(x_pos, y_pos));
+
+
+                        if (countAmmoPlayer <= getAvailableCells(x_pos, y_pos)) {
+                            showToastNotification('No hay suficientes balas para el ataque especial.', 'lose');
                             console.log("No hay suficientes balas para el ataque especial.");
                             return;
                         } else {
                             console.log("Disparamos y almacenamos las balas usadas en el tiro");
+                            checkedInput.disabled = true; // Deshabilitamos el input seleccionado
                             // Disparamos y almacenamos las balas usadas en el tiro
                             shootInAvailableCells(x_pos, y_pos);
                         }
                     } else {
                         console.log("Disparamos en celdas");
+                        checkedInput.disabled = true; // Deshabilitamos el input seleccionado
 
                         // Disparamos y almacenamos las balas usadas en el tiro
                         shootInAvailableCells(x_pos, y_pos);
+
                     }
                 } else {
                     console.log("No se ha seleccionado ningún proyectil.");
@@ -751,6 +757,33 @@ if (window.specialAttack != 1) {
             } else {
                 console.log("El ataque especial no está activado.");
             }
+        }
+
+
+        function getAvailableCells(x_pos, y_pos) {
+
+            // Array de posiciones para probar
+            const positionsToCheck = [
+                { x: x_pos, y: y_pos - 1 }, // arriba
+                { x: x_pos+1, y: y_pos - 1 }, // arriba-derecha
+                { x: x_pos + 1, y: y_pos }, // derecha
+                { x: x_pos + 1, y: y_pos + 1}, // abajo derecha
+                { x: x_pos, y: y_pos + 1 }, // abajo
+                { x: x_pos - 1, y: y_pos + 1 }, // abajo izquierda
+                { x: x_pos - 1, y: y_pos },  // izquierda
+                { x: x_pos - 1, y: y_pos - 1 }, // arriba izquierda
+            ];
+
+            let countCells = 0;
+
+            for (let pos of positionsToCheck) {
+                console.log("iterando sobre posicion");
+                if (pos.x >= 1 && pos.x < window.player_BoardArray[0].length && pos.y >= 1 && pos.y < window.player_BoardArray.length) {
+                    countCells++;
+                }
+            }
+            return countCells;
+
         }
 
 
@@ -827,17 +860,6 @@ if (window.specialAttack != 1) {
                 console.log(`Después - checked: ${input.checked}, disabled: ${input.disabled}`);
             });
             
-        }
-        
-        function disableSelectedProjectile(id) {
-            const projectile = document.getElementById(id);
-            if (projectile) {
-                projectile.classList.add('disabled');
-                const input = projectile.querySelector('input[type="radio"]'); // Cambiado a querySelector
-                if (input) {
-                    input.disabled = true;
-                }
-            }
         }
 
 
