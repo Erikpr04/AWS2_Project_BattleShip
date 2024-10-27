@@ -90,6 +90,18 @@
             }
             echo "</table>";
 
+            if ($lastPlayer) {
+                foreach ($ranking as $index => $record) {
+                    if ($record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score']) {
+                        $pageNumber = floor($index / $perPage) + 1;
+                        if (!isset($_GET['page'])) {
+                            header('Location: ?page=' . $pageNumber);
+                            exit;
+                        }
+                    }
+                }
+            }
+
             // Mostrar el paginador
             echo "<div  class='paginationRanking'>";
             if ($currentPage > 1) {
