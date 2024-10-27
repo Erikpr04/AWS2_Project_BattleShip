@@ -8,8 +8,41 @@ if (isset($_SESSION['username'])) {
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username']; 
 
+    //CHECKBOX OPCIONES --------
+    //municion ilimitada
+    $ammoLimited = $_POST['ammoLimited'];
+    //ilimitada sí
+    if ($ammoLimited == '1') {
+        $_SESSION['ammoLimited'] = 1;
+    //ilimitada no
+    } else {
+        $_SESSION['ammoLimited'] = 0;
+    }
+    
+    //armadura
+    $armoredShips = $_POST['armoredShips'];
+    //armadura sí
+    if ($armoredShips == '1') {
+        $_SESSION['armoredShips'] = 1;
+    //armadura no
+    } else {
+        $_SESSION['armoredShips'] = 0;
+    }
+
+    //ataque especial
+    $specialAttack = $_POST['specialAttack'];
+    //especial sí
+    if ($specialAttack == '1') {
+        $_SESSION['specialAttack'] = 1;
+    //especial no
+    } else {
+        $_SESSION['specialAttack'] = 0;
+    }
+    
+
+    //USERNAME ----------
+    $username = $_POST['username']; 
     if (strpos($username, ';') !== false) {
         echo "<script>alert('El nom no pot contenir el caràcter \" ; \" !'); window.history.back();</script>";
         exit();
@@ -25,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $_SESSION['username'] = $username;
 
+
+    //TIPO GAME ----
     if (isset($_POST['classic'])) {
         header('Location: game.php');
         exit();
@@ -74,11 +109,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </p>
     </div>
     <div class="optionsGameIndex">
-        <ul>
+    <form method="post">
+    <ul>
             <p>OPCIONS</p>
-            <li><input type="checkbox" id="bulletIlimited" style="cursor:pointer"><label for="bulletIlimited">Munició ilimitada</label></li>
-            <li><input type="checkbox" id="armoredShips" style="cursor:pointer"><label for="armoredShips">Vaixells acoirassats</label></li>
-            <li><input type="checkbox" id="specialAttack" style="cursor:pointer"><label for="specialAttack">Atacs especials</label></li>
+            <li>
+                <input type="hidden" name="ammoLimited" value="0">
+                <input type="checkbox" id="ammoLimited" name="ammoLimited" value="1" style="cursor:pointer;">
+                <label for="ammoLimited">Munició limitada</label>
+            </li>
+            <li>
+                <input type="hidden" name="armoredShips" value="0">
+                <input type="checkbox" id="armoredShips" name="armoredShips" value="1" style="cursor:pointer;">
+                <label for="armoredShips">Peixos Escorredis</label>
+            </li>
+            <li>
+                <input type="hidden" name="specialAttack" value="0">
+                <input type="checkbox" id="specialAttack" name="specialAttack" value="1" style="cursor:pointer;">
+                <label for="specialAttack">Atacs especials</label>
+            </li>
         </ul>
     </div>
     <div class="backgroundIndex">
@@ -87,11 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h1>Shoreline Strike</h1>
             </div>
             <div class="panelIndex">
-                <form method="post">
                     <p>Introduïu el vostre nom d'usuari:</p>
                     <input type="text" name="username" placeholder="usuari" required>
-
-                    <button type="submit" name="classic">Partida clàssica</button>
+                    <button type="submit" name="classic">Classic Mode</button>
                     <button type="submit" name="tutorial">Tutorial</button>
                 </form>
                 <button id="hallOfFameButton" onclick="window.location.href='ranking.php'">Hall of Fame</button>

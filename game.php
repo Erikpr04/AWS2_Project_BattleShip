@@ -13,10 +13,11 @@ if (
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <title>403 Forbidden</title>
     </head>
-    <body>
-        <div id="finalForbiScreen">
+    <body class="bodyForbidden">
+        <div class="finalForbiScreen">
             <h2>403 Forbidden: Has de accedir desde Index</h2>
         </div>
     </body>
@@ -29,6 +30,7 @@ if (
 
 
 ?>
+        echo "El checkbox 'Munició ilimitada' no está marcado.<br>";
 
 
 
@@ -325,8 +327,8 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             <div class="counter-container">
                 <h3>Temps: <span class="timer">00:00</span></h3>
                 <h3>Punts: <span class="points">0</span></h3>
-                <h3>Munició jugador: <span id="projectileCount">40</span></h3>
-                <h3>Munició bot: <span id="bot-projectiles">40</span></h3>
+                <h3 id="textAmmoPlayer">Munició jugador: <span id="countAmmoPlayer">40</span></h3>
+                <h3 id="textAmmoBot">Munició bot: <span id="countAmmoBot">40</span></h3>
             </div>
             <div class="bot-board">
                 <div class="overlayBotBoard" id="overlayBotBoard">
@@ -341,6 +343,8 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
 
 </body>
 
+
+
 <script>
     window.player_BoardArray = <?php echo json_encode($player_BoardArray); ?>;
     window.player_ShipsArray = <?php echo json_encode($player_ShipsArray); ?>;
@@ -348,6 +352,9 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
     window.bot_ShipsArray = <?php echo json_encode($bot_ShipsArray); ?>;
     window.hasError = <?php echo isset($_SESSION['username']) ? true : false; ?>;
     window.username = <?php echo isset($_SESSION['username']) ?>;
+    window.ammoLimited = <?php echo $_SESSION['ammoLimited'] ?>;
+    window.armoredShips = <?php echo $_SESSION['armoredShips'] ?>;
+    window.specialAttack = <?php echo $_SESSION['specialAttack'] ?>;
 </script>
 
 </html>
