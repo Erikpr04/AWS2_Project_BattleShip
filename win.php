@@ -19,6 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send'])) {
     }
 
     $username = $_POST['username'];
+        $_SESSION['lastPlayer'] = [
+        'name' => $username,
+        'score' => $points,
+    ];
 
     $timestamp = date('Y-m-d;H:i');
     $rankingData = "\n$username;$points;$timestamp;\n";
@@ -63,7 +67,7 @@ if (
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Has guanyat!</title>
+    <title>You Won!</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 

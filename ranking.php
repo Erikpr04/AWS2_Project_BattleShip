@@ -76,11 +76,17 @@
             $rankingPage = array_slice($ranking, $start, $perPage);
 
             // Mostrar el ranking
+            $lastPlayer = isset($_SESSION['lastPlayer']) ? $_SESSION['lastPlayer'] : null;
+
             echo "<table>";
             echo "<tr><th>Posició</th><th>Nom</th><th>Puntuació</th><th>Data</th><th>Hora</th></tr>";
             foreach ($rankingPage as $index => $record) {
                 $position = $start + $index + 1;
-                echo "<tr><td>{$position}</td><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td><td>{$record['time']}</td></tr>";
+
+                $isLastPlayer = $lastPlayer && $record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score'];
+
+                $rowClass = $isLastPlayer ? "highlight" : "";
+                echo "<tr class='{$rowClass}'><td>{$position}</td><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td><td>{$record['time']}</td></tr>";
             }
             echo "</table>";
 
