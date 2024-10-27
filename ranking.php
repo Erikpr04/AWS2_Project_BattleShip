@@ -20,6 +20,7 @@
         </div>
         <?php
             session_start();
+          
             // Función para cargar el ranking desde el archiv ranking.txt
             function loadRanking($file) {
                 $ranking = [];
@@ -90,6 +91,18 @@
                 echo "<tr class='{$rowClass}'><td>{$position}</td><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td><td>{$record['time']}</td></tr>";
             }
             echo "</table>";
+
+            if ($lastPlayer) {
+                foreach ($ranking as $index => $record) {
+                    if ($record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score']) {
+                        $pageNumber = floor($index / $perPage) + 1;
+                        if (!isset($_GET['page'])) {
+                            header('Location: ?page=' . $pageNumber);
+                            exit;
+                        }
+                    }
+                }
+            }
 
             // Mostrar el paginador
             echo "<div  class='paginationRanking'>";
