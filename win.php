@@ -38,7 +38,7 @@ if (
     (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'win.php') !== false)
 ) {
     // Si no es referida desde la página del juego, retorna un 403
-    header('HTTP/1.1 403 Forbidden');
+    header('HTTP/1.1 404 Not FOund');
     ?>
     <!DOCTYPE html>
     <html lang="ca">
