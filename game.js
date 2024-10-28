@@ -25,32 +25,52 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     }
 
+    if (window.location.href.includes('game.php')) {
 
     //check uncheck ataque especial
-    document.querySelectorAll('.projectile-label').forEach(label => {
-        label.addEventListener('click', function () {
-            const input = document.getElementById(this.htmlFor);
+    const btn1 = document.getElementById("btn1");
+    const btn2 = document.getElementById("btn2");
+
+    btn1.addEventListener("click", () => toggleSelection('btn1', 'btn2'));
+    btn2.addEventListener("click", () => toggleSelection('btn2', 'btn1'));
+        
+    }
+    //evento seleccionar botones
+
+    function toggleSelection(selectedId, otherId) {
+        const selectedButton = document.getElementById(selectedId);
+        const otherButton = document.getElementById(otherId);
     
-            // Si el radio ya estaba marcado, lo desmarcamos
-            if (input.checked) {
-                input.checked = false; // Desmarcamos el input
-                this.classList.remove('selected'); // Removemos la clase de selección
-            } else {
-                // Si no está marcado, desmarcamos todos y marcamos el actual
-                document.querySelectorAll('.projectile-label').forEach(lbl => {
-                    const otherInput = document.getElementById(lbl.htmlFor);
-                    lbl.classList.remove('selected'); // Quita la clase de selección
-                    otherInput.checked = false; // Desmarca otros botones
-                });
+        // Verifica si el botón ya está deshabilitado
+        if (selectedButton.classList.contains("disabled")) return;
     
-                input.checked = true; // Marcamos el input actual
-                this.classList.add('selected'); // Añadimos la clase de selección
-            }
+        if (selectedButton.classList.contains("selected")) {
+            // Desmarca el botón si ya está seleccionado
+            selectedButton.classList.remove("selected");
+        } else {
+            // Marca el botón seleccionado y desmarca el otro
+            selectedButton.classList.add("selected");
+            otherButton.classList.remove("selected");
+        }
+    }
+    
+    // Función para deshabilitar el botón seleccionado después de usar el ataque especial
+    function disableProjectileButton(buttonId) {
+        const button = document.getElementById(buttonId);
+        button.classList.remove("selected");
+        button.classList.add("disabled");
+    }
+
+    // Función para ocultar todos los proyectiles
+    function hideAllProjectiles() {
+        const projectiles = document.querySelectorAll('.projectile-label');
+        projectiles.forEach(projectile => {
+            projectile.classList.add("disabled");
         });
-    });
+    }
+
     
-    
-    
+
     
     
     
@@ -402,10 +422,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!toastContainer) {
             toastContainer = document.createElement('div');
             toastContainer.id = 'toast-container';
-            toastContainer.style.position = 'fixed'; 
-            toastContainer.style.bottom = '-220px';
+            toastContainer.style.position = 'fixed';
+            toastContainer.style.bottom = '-900px'; // Comienza desde -400px
             toastContainer.style.left = '20px';
             toastContainer.style.zIndex = '9999';
+            toastContainer.style.display = 'flex';
+            toastContainer.style.flexDirection = 'column'; // Apilar hacia abajo
+            toastContainer.style.gap = '10px';
             document.body.appendChild(toastContainer);
         }
     
@@ -413,54 +436,61 @@ document.addEventListener("DOMContentLoaded", (event) => {
         toast.classList.add('toast');
         toast.textContent = message;
     
-        toast.style.padding = '10px 20px';
-        toast.style.margintop = '1000px';
+        // Estilos generales
+        toast.style.width = '75px';
+        toast.style.height = '30px';
+        toast.style.padding = '10px';
         toast.style.borderRadius = '5px';
         toast.style.color = '#fff';
         toast.style.fontSize = '14px';
         toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
         toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.5s ease-in-out';
-        toast.style.display = 'block'; 
-        toast.style.position = 'absolute';
+        toast.style.transition = 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out';
+        toast.style.backgroundColor = '#6c757d'; // Color por defecto
+        toast.style.position = 'relative';
     
+        // Estilos específicos según el tipo de notificación
         switch(type) {
             case 'hit_player':
-                toast.style.backgroundColor = '#28a745'; 
+                toast.style.backgroundColor = '#28a745';
                 break;
             case 'hit_bot':
-                toast.style.backgroundColor = '#dc3545'; 
-                break;
             case 'lose':
-                toast.style.backgroundColor = '#dc3545'; 
+                toast.style.backgroundColor = '#dc3545';
                 break;
             case 'win':
-                toast.style.backgroundColor = '#ffc107'; 
+                toast.style.backgroundColor = '#ffc107';
                 toast.style.color = '#000';
                 break;
             case 'water':
-                toast.style.backgroundColor = '#17a2b8'; 
+                toast.style.backgroundColor = '#17a2b8';
                 break;
             case 'sunk':
                 toast.style.backgroundColor = '#1739b8';
                 break;
-            default:
-                toast.style.backgroundColor = '#6c757d'; 
         }
     
         toastContainer.appendChild(toast);
     
+        // Mostrar la notificación
         setTimeout(() => {
             toast.style.opacity = '1';
-        }, 100); 
+            toast.style.transform = 'translateY(10px)'; // Aparecer hacia abajo
+        }, 100);
     
+        // Ocultar y eliminar la notificación después de 3 segundos
         setTimeout(() => {
             toast.style.opacity = '0';
+            toast.style.transform = 'translateY(0)'; // Efecto al desaparecer
             setTimeout(() => {
                 toast.remove();
-            }, 500); 
-        }, 3000); //en pantalla durante 3seg
+            }, 500);
+        }, 3000);
     }
+    
+    
+    
+    
     
 
     
@@ -731,17 +761,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let lastHitBot = null ;
         let gameStart = true;
         let x_bot, y_bot;
+        let specialAttackHidden = false;
 
 
+    // Función auxiliar que verifica si algún proyectil está seleccionado
+    function isAnyProjectileSelected() {
+        const projectiles = document.querySelectorAll('.projectiles .projectile-label');
+        return Array.from(projectiles).some(projectile => projectile.classList.contains('selected'));
+}
 
-        // Función auxiliar que verifica si algún proyectil está seleccionado
-        function isAnyProjectileSelected() {
-            const projectilesDiv = document.querySelector('.projectiles');
-            const inputs = projectilesDiv.querySelectorAll('input[type="radio"]');
-        
-            // Filtra los botones activos (no deshabilitados) y seleccionados
-            return Array.from(inputs).some(input => input.checked && !input.disabled);
-        }
         
 
 
@@ -752,18 +780,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
             console.log("estado specialattack: " + window.specialAttack);
             if (window.specialAttack === 1) {
                 console.log("SPECIAL ATTACK ACTIVATED")
-                const projectilesDiv = document.querySelector('.projectiles');
+                const projectiles = document.querySelectorAll('.projectiles .projectile-label');
+                const activeProjectile = Array.from(projectiles).find(projectile => projectile.classList.contains('selected') && !projectile.classList.contains('disabled'));
+            
 
-                // Selecciona todos los inputs de tipo radio en la clase .projectiles
-                const inputs = document.querySelectorAll('.projectiles input[type="radio"]');
-
-                // Filtra los botones activos (no deshabilitados)
-                const activeInputs = Array.from(inputs).filter(input => !input.disabled);
-
-                // Verifica si tenemos al menos un botón activo que esté seleccionado
-                const checkedInput = activeInputs.find(input => input.checked);
-
-                if (checkedInput) {
+                if (activeProjectile) {
                     if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
                         showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
                         return;
@@ -772,11 +793,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                     if (window.specialAttack === 1) {
                         console.log("SPECIAL ATTACK ACTIVATED");
-                        const inputs = document.querySelectorAll('.projectiles input[type="radio"]');
-                        const activeInputs = Array.from(inputs).filter(input => !input.disabled);
-                        const checkedInput = activeInputs.find(input => input.checked);
+                        const projectiles = document.querySelectorAll('.projectiles .projectile-label');
+                        const activeProjectile = Array.from(projectiles).find(projectile => projectile.classList.contains('selected') && !projectile.classList.contains('disabled'));
                     
-                        if (checkedInput) {
+                        if (activeProjectile) {
                             if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
                                 showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
                                 return;
@@ -784,7 +804,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             console.log("valid cell");
                     
                             if (window.ammoLimited == 1) {
-                                showToastNotification(getAvailableCells(x_pos, y_pos).toString(), 'lose');
                                 console.log("Balas que se van a consumuir: " + getAvailableCells(x_pos, y_pos));
                     
                                 if (countAmmoPlayer <= getAvailableCells(x_pos, y_pos)) {
@@ -794,12 +813,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                     console.log("Disparamos y almacenamos las balas usadas en el tiro");
                                     if (window.player_BoardArray[y_pos][x_pos]['state'] === 'water' || window.player_BoardArray[y_pos][x_pos]['state'] === 'show_ship') {
                                         // Desmarcamos y aplicamos la clase disabled
-                                        checkedInput.checked = false;
-                                        const label = document.querySelector(`label[for="${checkedInput.id}"]`);
-                                        label.classList.add('disabled'); // Añade la clase de deshabilitado
-                    
-                                        // Deshabilitamos el input
-                                        checkedInput.disabled = true; 
+                                        activeProjectile.classList.remove('selected');
+                                        activeProjectile.classList.add('disabled');
                                         shootInAvailableCells(x_pos, y_pos);
                                     } else {
                                         showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
@@ -808,12 +823,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 }
                             } else {
                                 console.log("Disparamos en celdas");
-                                checkedInput.checked = false;
-                                const label = document.querySelector(`label[for="${checkedInput.id}"]`);
-                                label.classList.add('disabled'); // Añade la clase de deshabilitado
-                    
-                                // Deshabilitamos el input
-                                checkedInput.disabled = true; 
+                                activeProjectile.classList.remove('selected');
+                                activeProjectile.classList.add('disabled');
                                 shootInAvailableCells(x_pos, y_pos);
                             }
                         } else {
@@ -829,6 +840,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         shootInAvailableCells(x_pos, y_pos);
 
                     }
+                    disableProjectileButton(activeProjectile.id);
                 } else {
                     console.log("No se ha seleccionado ningún proyectil.");
                 }
@@ -948,6 +960,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         function playerTurn() {
             console.log("TURNO PLAYER");
 
+
+
+
             //si la partida tiene municion limitada
             if (window.ammoLimited==1){
                 //si player se ha quedado sin municion
@@ -1019,33 +1034,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 //llamamos al ataque especial
                 console.log("llamamos al ataque especial");
                 specialAttack(x_pos, y_pos);
+                // Ocultar proyectiles si no están ya ocultos y quedan menos de 4 balas
+                if (!specialAttackHidden && countAmmoPlayer < 4) {
+                    hideAllProjectiles();
+                    specialAttackHidden = true;
+                }
                 return;
 
             }else{
                 
                 // LOGICA turno player
-                if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
-                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                    toggleOverlay(true); 
-                    botTurn(); 
-                    return;
-                } else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                    //dependiendo del modo de juego, se tira la casilla y sigue player o se cambia a bot
-                    if(window.armoredShips == 1){
-                        toggleOverlay(true); 
-                        botTurn(); 
-                        return;
-                    }else{
-                        playerTurn();
-                        return;
-                    }
+                // Función optimizada para manejar el disparo en una celda
+                const cellState = window.player_BoardArray[y_pos][x_pos]['state'];
 
-                }else if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_dearmor") {
-                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                    playerTurn();
-                    return;
+                // Mostramos disparo en la celda
+                unhideCell(x_pos, y_pos, window.player_BoardArray, "player");
+
+                // Ocultar proyectiles si no están ya ocultos y quedan menos de 4 balas
+                if (!specialAttackHidden && countAmmoPlayer < 4) {
+                    hideAllProjectiles();
+                    specialAttackHidden = true;
                 }
+
+                // Accion dependiendo del estado de la celda
+                switch(cellState) {
+                    case "water":
+                        toggleOverlay(true);
+                        botTurn();
+                        break;
+
+                    case "show_ship":
+                        if (window.armoredShips === 1) {
+                            toggleOverlay(true);
+                            botTurn();
+                        } else {
+                            playerTurn();
+                        }
+                        break;
+
+                    case "ship_dearmor":
+                        playerTurn();
+                        break;
+
+                    default:
+                        console.log("Estado de celda desconocido:", cellState);
+                        break;
+                }
+
         }
 
         }
@@ -1287,8 +1322,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         tutorialGame();
 
     }
-
-
 
 });
 

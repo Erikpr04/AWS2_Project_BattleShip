@@ -318,6 +318,8 @@
     margin-top: 2%;
 }
 
+
+
 .projectiles p {
     font-size: 18px;
     font-weight: bold;
@@ -326,58 +328,35 @@
 }
 
 .projectile-label {
-    border: none;
-    padding: 10px;
-    margin: 0 10px;
+    border: 2px solid transparent;
+    padding: 5px;
     cursor: pointer;
-    background-color: #004B85;
-    border-radius: 10px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    color: #3A92B2;
 }
+
 
 .projectile-label.selected {
     background-color: #3a92b2;
     box-shadow: 0 0 0 5px white;
 }
 
-input[disabled] + label {
-    background-color: #b0b0b0;
-    pointer-events: none;
-    cursor: not-allowed;
-}
-
-input[type="radio"] {
-    display: none;
-}
-
-
-
-/* Estilo cuando el botón está seleccionado */
-.selected {
-    background-color: #004B85; /* Color para el botón seleccionado */
-    box-shadow: 0 0 0 5px white; /* Efecto de sombra */
-}
-
-
-/* Ocultar los inputs de checkbox pero mantener la funcionalidad */
-.projectile-checkbox {
-    display: none; /* Oculta los checkboxes */
-}
-
-.projectile-label:hover:not(:disabled) {
-    background-color: #3a92b2;
-}
-/* Estilo para el estado deshabilitado */
-.projectile-label.disabled {
-    background-color: #b0b0b0; 
-    pointer-events: none; 
-    cursor: not-allowed; 
-}
-
 .projectile-label img {
     width: 50px;
     height: 50px;
 }
+
+.projectile-label:hover {
+    background-color: #3a92b2;
+}
+.projectile-label.disabled {
+    opacity: 0.5;         
+    pointer-events: none; 
+    filter: grayscale(100%);
+    background-color: grey;
+    cursor: not-allowed;
+}
+
 
 
 

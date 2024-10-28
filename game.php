@@ -322,17 +322,15 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html          
             ?>
             <div class="projectiles">
-                <p>Special Attack: </p>
-                <input type="radio" id="btn1" name="projectile">
-                <label for="btn1" class="projectile-label">
-                    <img src="path_to_image1" alt="Projectile 1">
-                </label>
-
-                <input type="radio" id="btn2" name="projectile">
-                <label for="btn2" class="projectile-label">
-                    <img src="path_to_image2" alt="Projectile 2">
-                </label>
+                <p>Atac de Xarxa </p>
+                <div id="btn1" class="projectile-label">
+                    <img src="static/img/icons/net.png" alt="Projectile 1">
+                </div>
+                <div id="btn2" class="projectile-label">
+                <img src="static/img/icons/net.png" alt="Projectile 2">
+                </div>
             </div>
+
         </div>
 
         <div class="game-right-side">
