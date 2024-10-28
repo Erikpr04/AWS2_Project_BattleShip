@@ -25,9 +25,42 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     }
 
-if (window.specialAttack != 1) {
-    document.querySelector('.projectiles').style.display = 'none';
-}
+
+    //check uncheck ataque especial
+    document.querySelectorAll('.projectile-label').forEach(label => {
+        label.addEventListener('click', function () {
+            const input = document.getElementById(this.htmlFor);
+    
+            // Si el radio ya estaba marcado, lo desmarcamos
+            if (input.checked) {
+                input.checked = false;
+                this.classList.remove('selected'); // Remueve la clase de selección
+            } else {
+                // Marca el botón de radio y añade la clase 'selected'
+                input.checked = true;
+                this.classList.add('selected');
+    
+                // Desmarca otros botones y quita la clase de selección
+                document.querySelectorAll('.projectile-label').forEach(lbl => {
+                    if (lbl !== this) {
+                        const otherInput = document.getElementById(lbl.htmlFor);
+                        otherInput.checked = false; // Desmarca otros botones
+                        lbl.classList.remove('selected'); // Quita la clase de selección
+                    }
+                });
+            }
+        });
+    });
+    
+    
+    
+    
+    
+
+
+    if (window.specialAttack != 1) {
+        document.querySelector('.projectiles').style.display = 'none';
+    }
 
     // Animación desplace playa-agua
     document.body.style.transform = 'translateY(-15vh)'; 
@@ -150,7 +183,14 @@ if (window.specialAttack != 1) {
                 let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
                 console.log("se pone amarillo");
                 if (cell) {
-                    cell.innerHTML="~";
+                    if (typePlayer=="player"){
+                        cell.style.backgroundImage = `url('/static/img/icons/bubble.png')`;
+                        cell.style.backgroundSize = 'cover'; // O 'contain', dependiendo de lo que necesites
+                        cell.style.backgroundPosition = 'center';
+                        cell.style.backgroundRepeat = 'no-repeat';                    
+                    }else{
+                        cell.innerHTML="<img src='static/img/icons/bubble.png'></img>";
+                    }
                     //player
                     if (typePlayer=="player"){
                         addPoints();
@@ -175,6 +215,11 @@ if (window.specialAttack != 1) {
                 if (cell) {
                     cell.style.backgroundColor = '#FF1355';
                     cell.innerHTML="X";
+                    if (typePlayer=="player"){
+                        cell.style.backgroundImage = 'none';
+
+                    }
+                    
                     //player
                     if (typePlayer=="player"){
                         addPoints();
@@ -722,28 +767,66 @@ if (window.specialAttack != 1) {
                 const checkedInput = activeInputs.find(input => input.checked);
 
                 if (checkedInput) {
-                    console.log("Se ha seleccionado un proyectil.");
+                    if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
+                        showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
+                        return;
+                    }
+                    console.log("valid cell")
 
-
-                    if (window.ammoLimited == 1) {
-                        // Verifica si hay suficientes balas
-                        showToastNotification(getAvailableCells(x_pos, y_pos).toString(), 'lose');
-                        console.log("Balas que se van a consumuir: " + getAvailableCells(x_pos, y_pos));
-
-
-                        if (countAmmoPlayer <= getAvailableCells(x_pos, y_pos)) {
-                            showToastNotification('No hay suficientes balas para el ataque especial.', 'lose');
-                            console.log("No hay suficientes balas para el ataque especial.");
-                            return;
+                    if (window.specialAttack === 1) {
+                        console.log("SPECIAL ATTACK ACTIVATED");
+                        const inputs = document.querySelectorAll('.projectiles input[type="radio"]');
+                        const activeInputs = Array.from(inputs).filter(input => !input.disabled);
+                        const checkedInput = activeInputs.find(input => input.checked);
+                    
+                        if (checkedInput) {
+                            if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
+                                showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
+                                return;
+                            }
+                            console.log("valid cell");
+                    
+                            if (window.ammoLimited == 1) {
+                                showToastNotification(getAvailableCells(x_pos, y_pos).toString(), 'lose');
+                                console.log("Balas que se van a consumuir: " + getAvailableCells(x_pos, y_pos));
+                    
+                                if (countAmmoPlayer <= getAvailableCells(x_pos, y_pos)) {
+                                    showToastNotification('No hay suficientes balas para el ataque especial.', 'lose');
+                                    return;
+                                } else {
+                                    console.log("Disparamos y almacenamos las balas usadas en el tiro");
+                                    if (window.player_BoardArray[y_pos][x_pos]['state'] === 'water' || window.player_BoardArray[y_pos][x_pos]['state'] === 'show_ship') {
+                                        // Desmarcamos y aplicamos la clase disabled
+                                        checkedInput.checked = false;
+                                        const label = document.querySelector(`label[for="${checkedInput.id}"]`);
+                                        label.classList.add('disabled'); // Añade la clase de deshabilitado
+                    
+                                        // Deshabilitamos el input
+                                        checkedInput.disabled = true; 
+                                        shootInAvailableCells(x_pos, y_pos);
+                                    } else {
+                                        showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
+                                        return;
+                                    }
+                                }
+                            } else {
+                                console.log("Disparamos en celdas");
+                                checkedInput.checked = false;
+                                const label = document.querySelector(`label[for="${checkedInput.id}"]`);
+                                label.classList.add('disabled'); // Añade la clase de deshabilitado
+                    
+                                // Deshabilitamos el input
+                                checkedInput.disabled = true; 
+                                shootInAvailableCells(x_pos, y_pos);
+                            }
                         } else {
-                            console.log("Disparamos y almacenamos las balas usadas en el tiro");
-                            checkedInput.disabled = true; // Deshabilitamos el input seleccionado
-                            // Disparamos y almacenamos las balas usadas en el tiro
-                            shootInAvailableCells(x_pos, y_pos);
+                            console.log("No se ha seleccionado ningún proyectil.");
                         }
                     } else {
                         console.log("Disparamos en celdas");
-                        checkedInput.disabled = true; // Deshabilitamos el input seleccionado
+                        checkedInput.style.display = "none";
+                        checkedInput.offsetHeight; // Forzar reflujo
+                        checkedInput.style.display = "";
 
                         // Disparamos y almacenamos las balas usadas en el tiro
                         shootInAvailableCells(x_pos, y_pos);
@@ -752,8 +835,6 @@ if (window.specialAttack != 1) {
                 } else {
                     console.log("No se ha seleccionado ningún proyectil.");
                 }
-
-
             } else {
                 console.log("El ataque especial no está activado.");
             }
@@ -798,12 +879,8 @@ if (window.specialAttack != 1) {
             // Inicializamos el contador de celdas disparables
         
             // Verificamos primero la celda en la posición inicial 
-            if (window.player_BoardArray[y_pos][x_pos]['status'] !== 'fish_sunk' && window.player_BoardArray[y_pos][x_pos]['status'] !== 'water_hit') {
-                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostramos disparo
-            }else{
-                console.log("No se puede disparar en esta celda");
-                return;
-            }
+            unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostramos disparo
+
 
         
             // Array de posiciones para probar
@@ -827,14 +904,18 @@ if (window.specialAttack != 1) {
                     const cellState = window.player_BoardArray[pos.y][pos.x]['state'];
 
                     if (cellState !== "fish_sunk" && cellState !== "water_hit") {
+                        console.log("mostramos disparo");
                         unhideCell(pos.x, pos.y, window.player_BoardArray, "player"); // Mostramos disparo
+                        console.log("disparo terminado");
+
                         // Si encontramos "show_ship" sin armored ships, establecemos el indicador a true
                         if (window.armoredShips != 1 && cellState === "show_ship") {
+                            console.log("Encontramos show_ship sin armored ships");
                             foundShowShip = true;
-                        }if (cellState === "ship_dearmor") {
+                        }else if (cellState === "ship_dearmor") {
                             foundShowShip = true;
-
                         }
+                        console.log("ESTADO CELDA " + cellState);
                     }
                 }
             }
