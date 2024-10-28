@@ -33,21 +33,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
     
             // Si el radio ya estaba marcado, lo desmarcamos
             if (input.checked) {
-                input.checked = false;
-                this.classList.remove('selected'); // Remueve la clase de selección
+                input.checked = false; // Desmarcamos el input
+                this.classList.remove('selected'); // Removemos la clase de selección
             } else {
-                // Marca el botón de radio y añade la clase 'selected'
-                input.checked = true;
-                this.classList.add('selected');
-    
-                // Desmarca otros botones y quita la clase de selección
+                // Si no está marcado, desmarcamos todos y marcamos el actual
                 document.querySelectorAll('.projectile-label').forEach(lbl => {
-                    if (lbl !== this) {
-                        const otherInput = document.getElementById(lbl.htmlFor);
-                        otherInput.checked = false; // Desmarca otros botones
-                        lbl.classList.remove('selected'); // Quita la clase de selección
-                    }
+                    const otherInput = document.getElementById(lbl.htmlFor);
+                    lbl.classList.remove('selected'); // Quita la clase de selección
+                    otherInput.checked = false; // Desmarca otros botones
                 });
+    
+                input.checked = true; // Marcamos el input actual
+                this.classList.add('selected'); // Añadimos la clase de selección
             }
         });
     });
@@ -56,9 +53,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     
     
     
+    
 
-
-    if (window.specialAttack != 1) {
+    if ( window.location.href.includes('game.php') && window.specialAttack != 1 ) {
         document.querySelector('.projectiles').style.display = 'none';
     }
 
@@ -1294,3 +1291,4 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
 });
+
