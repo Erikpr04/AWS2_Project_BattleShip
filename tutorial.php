@@ -40,6 +40,7 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike Tutorial</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
     <script src="game.js" defer></script>
 
 
@@ -327,6 +328,7 @@ $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se p
     window.player_ShipsArray = <?php echo json_encode($player_ShipsArray); ?>;
     window.hasError = <?php echo isset($_SESSION['username']) ? true : false; ?>;
     window.username = <?php echo isset($_SESSION['username']) ?>;
+
 </script>
 
 

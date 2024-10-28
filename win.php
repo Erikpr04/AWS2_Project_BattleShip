@@ -46,6 +46,7 @@ if (
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="static/img/star_favicon.png" type="image/png">
         <title>403 Forbidden</title>
     </head>
     <body class="bodyForbidden">
@@ -69,6 +70,7 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You Won!</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
 </head>
 
 <body class="winbody">

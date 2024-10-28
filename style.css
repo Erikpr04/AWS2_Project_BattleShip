@@ -305,6 +305,62 @@
     margin-right: auto;
 }
 
+.projectiles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #E2DEDE;
+    border-radius: 15px;
+    width: 400px;
+    margin-left: 23%;
+    margin-top: 2%;
+}
+
+
+
+.projectiles p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 15px;
+}
+
+.projectile-label {
+    border: 2px solid transparent;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+    color: #3A92B2;
+}
+
+
+.projectile-label.selected {
+    background-color: #3a92b2;
+    box-shadow: 0 0 0 5px white;
+}
+
+.projectile-label img {
+    width: 50px;
+    height: 50px;
+}
+
+.projectile-label:hover {
+    background-color: #3a92b2;
+}
+.projectile-label.disabled {
+    opacity: 0.5;         
+    pointer-events: none; 
+    filter: grayscale(100%);
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+
+
+
+
 
 /* ESTILOS solo TUTORIAL ------*/
 
@@ -349,6 +405,11 @@
     width: 30vw; 
     height: 30vw;
     border: 3px solid #E2DEDE; 
+}
+.gameBoard tr td img{
+    width: 25px;
+    height: 25px;
+
 }
 
 .tutorial-left-side .gameBoard  td {

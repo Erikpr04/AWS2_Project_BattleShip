@@ -14,6 +14,7 @@ if (
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="static/img/star_favicon.png" type="image/png">
         <title>403 Forbidden</title>
     </head>
     <body class="bodyForbidden">
@@ -44,9 +45,8 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
     <script src="game.js" defer></script>
-
-
 </head>
 <?php
 
@@ -319,8 +319,18 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             //echo "  y_pos: " . $main_array[3][3]['y_pos'];
             //echo "  state: " . $main_array[3][3]['state'];
             //echo "<p id='action'></p>";
-            displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html
+            displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html          
             ?>
+            <div class="projectiles">
+                <p>Atac de Xarxa </p>
+                <div id="btn1" class="projectile-label">
+                    <img src="static/img/icons/net.png" alt="Projectile 1">
+                </div>
+                <div id="btn2" class="projectile-label">
+                <img src="static/img/icons/net.png" alt="Projectile 2">
+                </div>
+            </div>
+
         </div>
 
         <div class="game-right-side">
@@ -336,7 +346,6 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
                 <?php
                     displayBoard($bot_BoardArray,"Bot"); //se hace el tablero en html
                 ?>
-                
             </div>
         </div>
     </div>

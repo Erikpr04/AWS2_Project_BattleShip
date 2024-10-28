@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", (event) => {
 
+
+    //eventos prepartida
+
     console.log("bullet" + window.ammoLimited); // municion ilimitada: 0 es no, 1 es si
     console.log("armor" + window.armoredShips); // armadura: 0 es no, 1 es si
     console.log("special" + window.specialAttack); // ataque especial: 0 es no, 1 es si
@@ -10,22 +13,70 @@ document.addEventListener("DOMContentLoaded", (event) => {
         document.getElementById('textAmmoBot').style.display = 'none';  
         document.getElementById('countAmmoPlayer').style.display = 'none';  
         document.getElementById('countAmmoBot').style.display = 'none';  
-
     }
 
 
     if (window.hasError) {
-
         document.body.style.transform = 'translateY(-15vh)'; 
-
         document.body.style.transition = 'transform 0.75s';
-
         setTimeout(() => {
-
             document.body.style.transform = 'translateY(-120vh)';
-
         }, 100);
 
+    }
+
+    if (window.location.href.includes('game.php')) {
+
+    //check uncheck ataque especial
+    const btn1 = document.getElementById("btn1");
+    const btn2 = document.getElementById("btn2");
+
+    btn1.addEventListener("click", () => toggleSelection('btn1', 'btn2'));
+    btn2.addEventListener("click", () => toggleSelection('btn2', 'btn1'));
+        
+    }
+    //evento seleccionar botones
+
+    function toggleSelection(selectedId, otherId) {
+        const selectedButton = document.getElementById(selectedId);
+        const otherButton = document.getElementById(otherId);
+    
+        // Verifica si el botón ya está deshabilitado
+        if (selectedButton.classList.contains("disabled")) return;
+    
+        if (selectedButton.classList.contains("selected")) {
+            // Desmarca el botón si ya está seleccionado
+            selectedButton.classList.remove("selected");
+        } else {
+            // Marca el botón seleccionado y desmarca el otro
+            selectedButton.classList.add("selected");
+            otherButton.classList.remove("selected");
+        }
+    }
+    
+    // Función para deshabilitar el botón seleccionado después de usar el ataque especial
+    function disableProjectileButton(buttonId) {
+        const button = document.getElementById(buttonId);
+        button.classList.remove("selected");
+        button.classList.add("disabled");
+    }
+
+    // Función para ocultar todos los proyectiles
+    function hideAllProjectiles() {
+        const projectiles = document.querySelectorAll('.projectile-label');
+        projectiles.forEach(projectile => {
+            projectile.classList.add("disabled");
+        });
+    }
+
+    
+
+    
+    
+    
+
+    if ( window.location.href.includes('game.php') && window.specialAttack != 1 ) {
+        document.querySelector('.projectiles').style.display = 'none';
     }
 
     // Animación desplace playa-agua
@@ -100,6 +151,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let tablename;
         //para destapar celdas de player
         if (typePlayer=="player"){
+            //si estamos jugando con municion limitada
+            if (window.ammoLimited == 1){
+                updatePlayerAmmo(); //restar municion
+            }  
             if (document.querySelector(".tutorial-left-side")) {
                 tablename=".tutorial-left-side .gameBoard";
             }
@@ -145,7 +200,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 let cell = document.querySelector(`${tablename} td[x_pos='${x_pos}'][y_pos='${y_pos}']`);
                 console.log("se pone amarillo");
                 if (cell) {
-                    cell.innerHTML="~";
+                    if (typePlayer=="player"){
+                        cell.style.backgroundImage = `url('/static/img/icons/bubble.png')`;
+                        cell.style.backgroundSize = 'cover'; // O 'contain', dependiendo de lo que necesites
+                        cell.style.backgroundPosition = 'center';
+                        cell.style.backgroundRepeat = 'no-repeat';                    
+                    }else{
+                        cell.innerHTML="<img src='static/img/icons/bubble.png'></img>";
+                    }
                     //player
                     if (typePlayer=="player"){
                         addPoints();
@@ -170,6 +232,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if (cell) {
                     cell.style.backgroundColor = '#FF1355';
                     cell.innerHTML="X";
+                    if (typePlayer=="player"){
+                        cell.style.backgroundImage = 'none';
+
+                    }
+                    
                     //player
                     if (typePlayer=="player"){
                         addPoints();
@@ -355,10 +422,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!toastContainer) {
             toastContainer = document.createElement('div');
             toastContainer.id = 'toast-container';
-            toastContainer.style.position = 'fixed'; 
-            toastContainer.style.bottom = '-220px';
+            toastContainer.style.position = 'fixed';
+            toastContainer.style.bottom = '-900px'; // Comienza desde -400px
             toastContainer.style.left = '20px';
             toastContainer.style.zIndex = '9999';
+            toastContainer.style.display = 'flex';
+            toastContainer.style.flexDirection = 'column'; // Apilar hacia abajo
+            toastContainer.style.gap = '10px';
             document.body.appendChild(toastContainer);
         }
     
@@ -366,54 +436,61 @@ document.addEventListener("DOMContentLoaded", (event) => {
         toast.classList.add('toast');
         toast.textContent = message;
     
-        toast.style.padding = '10px 20px';
-        toast.style.margintop = '1000px';
+        // Estilos generales
+        toast.style.width = '75px';
+        toast.style.height = '30px';
+        toast.style.padding = '10px';
         toast.style.borderRadius = '5px';
         toast.style.color = '#fff';
         toast.style.fontSize = '14px';
         toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
         toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.5s ease-in-out';
-        toast.style.display = 'block'; 
-        toast.style.position = 'absolute';
+        toast.style.transition = 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out';
+        toast.style.backgroundColor = '#6c757d'; // Color por defecto
+        toast.style.position = 'relative';
     
+        // Estilos específicos según el tipo de notificación
         switch(type) {
             case 'hit_player':
-                toast.style.backgroundColor = '#28a745'; 
+                toast.style.backgroundColor = '#28a745';
                 break;
             case 'hit_bot':
-                toast.style.backgroundColor = '#dc3545'; 
-                break;
             case 'lose':
-                toast.style.backgroundColor = '#dc3545'; 
+                toast.style.backgroundColor = '#dc3545';
                 break;
             case 'win':
-                toast.style.backgroundColor = '#ffc107'; 
+                toast.style.backgroundColor = '#ffc107';
                 toast.style.color = '#000';
                 break;
             case 'water':
-                toast.style.backgroundColor = '#17a2b8'; 
+                toast.style.backgroundColor = '#17a2b8';
                 break;
             case 'sunk':
                 toast.style.backgroundColor = '#1739b8';
                 break;
-            default:
-                toast.style.backgroundColor = '#6c757d'; 
         }
     
         toastContainer.appendChild(toast);
     
+        // Mostrar la notificación
         setTimeout(() => {
             toast.style.opacity = '1';
-        }, 100); 
+            toast.style.transform = 'translateY(10px)'; // Aparecer hacia abajo
+        }, 100);
     
+        // Ocultar y eliminar la notificación después de 3 segundos
         setTimeout(() => {
             toast.style.opacity = '0';
+            toast.style.transform = 'translateY(0)'; // Efecto al desaparecer
             setTimeout(() => {
                 toast.remove();
-            }, 500); 
-        }, 3000); //en pantalla durante 3seg
+            }, 500);
+        }, 3000);
     }
+    
+    
+    
+    
     
 
     
@@ -661,6 +738,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
 
+    let countAmmoPlayer = 40;
+    let countAmmoBot = 40;
+
+    //funcion restar municion player
+    function updatePlayerAmmo() {
+        countAmmoPlayer--;
+        document.getElementById('countAmmoPlayer').innerText = countAmmoPlayer;  
+    }
+
+
+    //funcion restar municion bot
+    function updateBotAmmo() {
+        countAmmoBot--;
+        document.getElementById('countAmmoBot').innerText = countAmmoBot;
+    }
 
 
     // JUEGO PARTIDA CLASSICA ------
@@ -668,27 +760,208 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let lastShootBot = null;
         let lastHitBot = null ;
         let gameStart = true;
-        let countAmmoPlayer = 40;
-        let countAmmoBot = 40;
         let x_bot, y_bot;
+        let specialAttackHidden = false;
 
-        //funcion restar municion player
-        function updatePlayerAmmo() {
-            countAmmoPlayer--;
-            document.getElementById('countAmmoPlayer').innerText = countAmmoPlayer;  
+
+    // Función auxiliar que verifica si algún proyectil está seleccionado
+    function isAnyProjectileSelected() {
+        const projectiles = document.querySelectorAll('.projectiles .projectile-label');
+        return Array.from(projectiles).some(projectile => projectile.classList.contains('selected'));
+}
+
+        
+
+
+        // Ejecuta el ataque especial si se cumplen las condiciones
+        function specialAttack(x_pos,y_pos) {
+            console.log("DOING SPECIAL ATTACK EN COORDENADAS " + x_pos + "," + y_pos);
+            // Verifica si el ataque especial está activado
+            console.log("estado specialattack: " + window.specialAttack);
+            if (window.specialAttack === 1) {
+                console.log("SPECIAL ATTACK ACTIVATED")
+                const projectiles = document.querySelectorAll('.projectiles .projectile-label');
+                const activeProjectile = Array.from(projectiles).find(projectile => projectile.classList.contains('selected') && !projectile.classList.contains('disabled'));
+            
+
+                if (activeProjectile) {
+                    if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
+                        showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
+                        return;
+                    }
+                    console.log("valid cell")
+
+                    if (window.specialAttack === 1) {
+                        console.log("SPECIAL ATTACK ACTIVATED");
+                        const projectiles = document.querySelectorAll('.projectiles .projectile-label');
+                        const activeProjectile = Array.from(projectiles).find(projectile => projectile.classList.contains('selected') && !projectile.classList.contains('disabled'));
+                    
+                        if (activeProjectile) {
+                            if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
+                                showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
+                                return;
+                            }
+                            console.log("valid cell");
+                    
+                            if (window.ammoLimited == 1) {
+                                console.log("Balas que se van a consumuir: " + getAvailableCells(x_pos, y_pos));
+                    
+                                if (countAmmoPlayer <= getAvailableCells(x_pos, y_pos)) {
+                                    showToastNotification('No hay suficientes balas para el ataque especial.', 'lose');
+                                    return;
+                                } else {
+                                    console.log("Disparamos y almacenamos las balas usadas en el tiro");
+                                    if (window.player_BoardArray[y_pos][x_pos]['state'] === 'water' || window.player_BoardArray[y_pos][x_pos]['state'] === 'show_ship') {
+                                        // Desmarcamos y aplicamos la clase disabled
+                                        activeProjectile.classList.remove('selected');
+                                        activeProjectile.classList.add('disabled');
+                                        shootInAvailableCells(x_pos, y_pos);
+                                    } else {
+                                        showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
+                                        return;
+                                    }
+                                }
+                            } else {
+                                console.log("Disparamos en celdas");
+                                activeProjectile.classList.remove('selected');
+                                activeProjectile.classList.add('disabled');
+                                shootInAvailableCells(x_pos, y_pos);
+                            }
+                        } else {
+                            console.log("No se ha seleccionado ningún proyectil.");
+                        }
+                    } else {
+                        console.log("Disparamos en celdas");
+                        checkedInput.style.display = "none";
+                        checkedInput.offsetHeight; // Forzar reflujo
+                        checkedInput.style.display = "";
+
+                        // Disparamos y almacenamos las balas usadas en el tiro
+                        shootInAvailableCells(x_pos, y_pos);
+
+                    }
+                    disableProjectileButton(activeProjectile.id);
+                } else {
+                    console.log("No se ha seleccionado ningún proyectil.");
+                }
+            } else {
+                console.log("El ataque especial no está activado.");
+            }
         }
-    
 
-        //funcion restar municion bot
-        function updateBotAmmo() {
-            countAmmoBot--;
-            document.getElementById('countAmmoBot').innerText = countAmmoBot;
+
+        function getAvailableCells(x_pos, y_pos) {
+
+            // Array de posiciones para probar
+            const positionsToCheck = [
+                { x: x_pos, y: y_pos - 1 }, // arriba
+                { x: x_pos+1, y: y_pos - 1 }, // arriba-derecha
+                { x: x_pos + 1, y: y_pos }, // derecha
+                { x: x_pos + 1, y: y_pos + 1}, // abajo derecha
+                { x: x_pos, y: y_pos + 1 }, // abajo
+                { x: x_pos - 1, y: y_pos + 1 }, // abajo izquierda
+                { x: x_pos - 1, y: y_pos },  // izquierda
+                { x: x_pos - 1, y: y_pos - 1 }, // arriba izquierda
+            ];
+
+            let countCells = 0;
+
+            for (let pos of positionsToCheck) {
+                console.log("iterando sobre posicion");
+                if (pos.x >= 1 && pos.x < window.player_BoardArray[0].length && pos.y >= 1 && pos.y < window.player_BoardArray.length) {
+                    countCells++;
+                }
+            }
+            return countCells;
+
+        }
+
+
+
+
+
+
+
+
+
+        function shootInAvailableCells(x_pos, y_pos) {
+            // Inicializamos el contador de celdas disparables
+        
+            // Verificamos primero la celda en la posición inicial 
+            unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostramos disparo
+
+
+        
+            // Array de posiciones para probar
+            const positionsToCheck = [
+                { x: x_pos, y: y_pos - 1 }, // arriba
+                { x: x_pos+1, y: y_pos - 1 }, // arriba-derecha
+                { x: x_pos + 1, y: y_pos }, // derecha
+                { x: x_pos + 1, y: y_pos + 1}, // abajo derecha
+                { x: x_pos, y: y_pos + 1 }, // abajo
+                { x: x_pos - 1, y: y_pos + 1 }, // abajo izquierda
+                { x: x_pos - 1, y: y_pos },  // izquierda
+                { x: x_pos - 1, y: y_pos - 1 }, // arriba izquierda
+            ];
+
+            let foundShowShip = false;
+
+            for (let pos of positionsToCheck) {
+                console.log("iterando sobre posicion");
+                if (pos.x >= 1 && pos.x < window.player_BoardArray[0].length && pos.y >= 1 && pos.y < window.player_BoardArray.length) {
+                    console.log("iterando dentro del tablero");
+                    const cellState = window.player_BoardArray[pos.y][pos.x]['state'];
+
+                    if (cellState !== "fish_sunk" && cellState !== "water_hit") {
+                        console.log("mostramos disparo");
+                        unhideCell(pos.x, pos.y, window.player_BoardArray, "player"); // Mostramos disparo
+                        console.log("disparo terminado");
+
+                        // Si encontramos "show_ship" sin armored ships, establecemos el indicador a true
+                        if (window.armoredShips != 1 && cellState === "show_ship") {
+                            console.log("Encontramos show_ship sin armored ships");
+                            foundShowShip = true;
+                        }else if (cellState === "ship_dearmor") {
+                            foundShowShip = true;
+                        }
+                        console.log("ESTADO CELDA " + cellState);
+                    }
+                }
+            }
+
+            if (foundShowShip) {
+                playerTurn();
+                return;
+            }
+            toggleOverlay(true); 
+            botTurn();         
+            return;
+        }
+        
+
+
+        function disableAllProjectiles() {
+            console.log("Deshabilitamos botones");
+            const projectilesDiv = document.querySelector('.projectiles');
+            projectilesDiv.classList.add('disabled');
+            const inputs = projectilesDiv.querySelectorAll('input[type="radio"]');
+            
+            inputs.forEach(input => {
+                console.log(`Antes - checked: ${input.checked}`);
+                input.checked = false; // Desmarcar
+                input.disabled = true; // Deshabilitar
+                console.log(`Después - checked: ${input.checked}, disabled: ${input.disabled}`);
+            });
+            
         }
 
 
         // funcion TURNO DE PLAYER
         function playerTurn() {
             console.log("TURNO PLAYER");
+
+
+
 
             //si la partida tiene municion limitada
             if (window.ammoLimited==1){
@@ -757,53 +1030,58 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 currentIndex = 0; // reinicia secuencia si falla el easter egg
             }
 
-            // LOGICA TURNO PLAYER
-            //si toca agua
-            if (window.player_BoardArray[y_pos][x_pos]['state'] === "water") {
-               //si estamos jugando con municion limitada
-                if (window.ammoLimited==1){
-                    updatePlayerAmmo(); //restar municion
+            if(isAnyProjectileSelected() === true && window.specialAttack == 1){
+                //llamamos al ataque especial
+                console.log("llamamos al ataque especial");
+                specialAttack(x_pos, y_pos);
+                // Ocultar proyectiles si no están ya ocultos y quedan menos de 4 balas
+                if (!specialAttackHidden && countAmmoPlayer < 4) {
+                    hideAllProjectiles();
+                    specialAttackHidden = true;
                 }
-                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                toggleOverlay(true); 
-                botTurn(); 
                 return;
-            } 
-            
-            //si es modo acorazados
-            if (window.armoredShips==1){
-                //primer toque
-                if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                    //si estamos jugando con municion limitada
-                    if (window.ammoLimited==1){
-                        updatePlayerAmmo(); //restar municion
-                    }
-                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                    botTurn();
-                    return;
+
+            }else{
+                
+                // LOGICA turno player
+                // Función optimizada para manejar el disparo en una celda
+                const cellState = window.player_BoardArray[y_pos][x_pos]['state'];
+
+                // Mostramos disparo en la celda
+                unhideCell(x_pos, y_pos, window.player_BoardArray, "player");
+
+                // Ocultar proyectiles si no están ya ocultos y quedan menos de 4 balas
+                if (!specialAttackHidden && countAmmoPlayer < 4) {
+                    hideAllProjectiles();
+                    specialAttackHidden = true;
                 }
-                //segundo toque
-                else if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_dearmor") {
-                    //si estamos jugando con municion limitada
-                    if (window.ammoLimited==1){
-                        updatePlayerAmmo(); //restar municion
-                    }
-                    unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                    playerTurn();
-                    return;
+
+                // Accion dependiendo del estado de la celda
+                switch(cellState) {
+                    case "water":
+                        toggleOverlay(true);
+                        botTurn();
+                        break;
+
+                    case "show_ship":
+                        if (window.armoredShips === 1) {
+                            toggleOverlay(true);
+                            botTurn();
+                        } else {
+                            playerTurn();
+                        }
+                        break;
+
+                    case "ship_dearmor":
+                        playerTurn();
+                        break;
+
+                    default:
+                        console.log("Estado de celda desconocido:", cellState);
+                        break;
                 }
-            }
-            
-            //si es modo NO acorazados
-            else if (window.player_BoardArray[y_pos][x_pos]['state'] === "show_ship") {
-                //si estamos jugando con municion limitada
-                if (window.ammoLimited==1){
-                    updatePlayerAmmo(); //restar municion
-                }
-                unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); // Mostrar disparo
-                playerTurn();
-                return;
-            }
+
+        }
 
         }
 
@@ -1045,6 +1323,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     }
 
-
-
 });
+
