@@ -459,7 +459,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 break;
             case 'win':
                 toast.style.backgroundColor = '#ffc107';
-                toast.style.color = '#000';
                 break;
             case 'water':
                 toast.style.backgroundColor = '#17a2b8';
@@ -583,6 +582,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let event = new CustomEvent('gameEventPlayer', {
             detail: { type: 'winEvent' }
         });
+        document.dispatchEvent(event); 
         //espera 3 segundos, crea un formulario POST invisible que manda los puntos a win.php, y te lleva a win.php
         setTimeout(function(){
             let form = document.createElement('form');
@@ -593,7 +593,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             input1.type = 'hidden';
             input1.name = 'points';
             input1.value = points +500; //añadimos extra por ganar partida
-            
             
             form.appendChild(input1);
             document.body.appendChild(form);
