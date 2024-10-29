@@ -167,20 +167,20 @@ function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantit
     $valid_positions = false;
     for ($i = 1; $i <= 5; $i++) {
         switch ($i) {
-            case 1:
-                $selectedLength = $quantityship1;
-                break;
-            case 2:
-                $selectedLength = $quantityship2;
-                break;
-            case 3:
-                $selectedLength = $quantityship3;
+            case 5:
+                $selectedLength = $quantityship5;
                 break;
             case 4:
                 $selectedLength = $quantityship4;
                 break;
-            case 5:
-                $selectedLength = $quantityship5;
+            case 3:
+                $selectedLength = $quantityship3;
+                break;
+            case 2:
+                $selectedLength = $quantityship2;
+                break;
+            case 1:
+                $selectedLength = $quantityship1;
                 break;
             }
             
@@ -285,19 +285,21 @@ $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se p
     <div class="overlay" id="overlay"></div>
     <div class="beach">
     <main class="mainContent">
-        <section class="backgroundIndex">
-            <div class="containerIndex">
-                <h1 class="titleIndex">Shoreline Strike</h1>
-                <div class="optionsIndex">
-                    <noscript>
-                        <button id="buttonPlayIndex" disabled>JUGAR</button>
-                    </noscript>
-                    <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
-                    <br>
-                    <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
-                </div>
+    <section class="backgroundIndex">
+        <div class="containerIndex">
+            <div class="titleIndex">
+                <h1>Shoreline Strike</h1>
             </div>
-        </section>
+            <div class="panelIndex">
+                    <p>Introduïu el vostre nom d'usuari:</p>
+                    <input type="text" name="username" placeholder="usuari" required>
+                    <button type="submit" name="classic">Classic Mode</button>
+                    <button type="submit" name="tutorial">Tutorial</button>
+                </form>
+                <button id="hallOfFameButton" onclick="window.location.href='ranking.php'">Hall of Fame</button>
+            </div>
+        </div>
+    </section>
     </main>
     </div>
 
