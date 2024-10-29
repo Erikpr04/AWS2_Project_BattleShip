@@ -79,7 +79,13 @@
             $rankingPage = array_slice($ranking, $start, $perPage);
 
             // Mostrar el ranking
-            $lastPlayer = isset($_SESSION['lastPlayer']) ? $_SESSION['lastPlayer'] : null;
+            $lastPlayer = null;
+            foreach ($ranking as $record) {
+                if ($lastPlayer === null || $record['date'] > $lastPlayer['date'] || ($record['date'] == $lastPlayer['date'] && $record['time'] > $lastPlayer['time'])) {
+                    $lastPlayer = $record;
+                }
+            }
+            $_SESSION['lastPlayer'] = $lastPlayer;
 
             echo "<table>";
             echo "<tr><th>Posició</th><th>Nom</th><th>Puntuació</th><th>Data</th><th>Hora</th></tr>";
