@@ -1,7 +1,8 @@
 # SHORELINE STRIKE 🌊🐟🎯  
 *Una aventura de estrategia en la playa.*
 
-![Imagen del juego]()
+![gameImage](https://github.com/user-attachments/assets/15a75be8-b91b-486e-b003-45060ac4c4d3)
+
 
 ![GitHub Stars](https://img.shields.io/github/stars/Erikpr04/AWS2_Project_BattleShip?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/Erikpr04/AWS2_Project_BattleShip?style=social)
