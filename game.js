@@ -574,28 +574,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     //EVENT LISTENER CLICK ---
     //evento funcion que comprueba si cada click está siguiendo el patron del easter egg
-    /*
-    cells.forEach(function(cell) { 
-        cell.addEventListener('click', function() {
-            let x_pos = parseInt(this.getAttribute('x_pos'));
-            let y_pos = parseInt(this.getAttribute('y_pos'));
-    
-            if (x_pos === easterEggSequence[currentIndex][0] && y_pos === easterEggSequence[currentIndex][1]) {
-                console.log('correct');
-                currentIndex++;
-    
-                if (currentIndex === easterEggSequence.length) {
-                    winGame();
-                }
-            } else {
-                currentIndex = 0; //se reinicia el index
-            }
-    
-            unhideCell(x_pos, y_pos, window.player_BoardArray, "player"); 
-        });
-    });
-    */
-
 
     // WIN GAME ---
     function winGame(){
@@ -605,8 +583,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let event = new CustomEvent('gameEventPlayer', {
             detail: { type: 'winEvent' }
         });
-        document.dispatchEvent(event); 
-
         //espera 3 segundos, crea un formulario POST invisible que manda los puntos a win.php, y te lleva a win.php
         setTimeout(function(){
             let form = document.createElement('form');
