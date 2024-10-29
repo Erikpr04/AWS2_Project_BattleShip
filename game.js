@@ -437,8 +437,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         toast.textContent = message;
     
         // Estilos generales
-        toast.style.width = '75px';
-        toast.style.height = '30px';
+        toast.style.width = '80px';
         toast.style.padding = '10px';
         toast.style.borderRadius = '5px';
         toast.style.color = '#fff';
@@ -783,21 +782,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 const projectiles = document.querySelectorAll('.projectiles .projectile-label');
                 const activeProjectile = Array.from(projectiles).find(projectile => projectile.classList.contains('selected') && !projectile.classList.contains('disabled'));
             
-
-                if (activeProjectile) {
-                    if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
-                        showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
-                        return;
-                    }
-                    console.log("valid cell")
-
                     if (window.specialAttack === 1) {
                         console.log("SPECIAL ATTACK ACTIVATED");
                         const projectiles = document.querySelectorAll('.projectiles .projectile-label');
                         const activeProjectile = Array.from(projectiles).find(projectile => projectile.classList.contains('selected') && !projectile.classList.contains('disabled'));
                     
                         if (activeProjectile) {
-                            if (window.player_BoardArray[y_pos][x_pos]['state'] === "ship_hit" || window.player_BoardArray[y_pos][x_pos]['state'] === "none") {
+                            console.log(window.player_BoardArray[y_pos][x_pos]['state'])
+                            if (window.player_BoardArray[y_pos][x_pos]['state'] != "show_ship" && window.player_BoardArray[y_pos][x_pos]['state'] != "water") {
                                 showToastNotification('No pots utilitzar la xarxa en aquesta posició.', 'lose');
                                 return;
                             }
@@ -841,9 +833,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                     }
                     disableProjectileButton(activeProjectile.id);
-                } else {
-                    console.log("No se ha seleccionado ningún proyectil.");
-                }
             } else {
                 console.log("El ataque especial no está activado.");
             }
