@@ -3,7 +3,7 @@ session_start();
 
 if (
     !isset($_SERVER['HTTP_REFERER']) ||
-    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'tutorial.php') !== false)
+    (strpos($_SERVER['HTTP_REFERER'], 'index.php') === false && strpos($_SERVER['HTTP_REFERER'], 'game.php') !== false)
 ) {
     // Si no es referida desde la página del juego, retorna un 403
     header('HTTP/1.1 403 Forbidden');
@@ -13,10 +13,12 @@ if (
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="static/img/star_favicon.png" type="image/png">
         <title>403 Forbidden</title>
     </head>
-    <body>
-        <div id="finalForbiScreen">
+    <body class="bodyForbidden">
+        <div class="finalForbiScreen">
             <h2>403 Forbidden: Has de accedir desde Index</h2>
         </div>
     </body>
@@ -40,6 +42,7 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike Tutorial</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
     <script src="game.js" defer></script>
 
 
@@ -159,17 +162,40 @@ function isTestShipPositionCollapsingShips($ships_array, $test_positions) {
 
 
 // funcion general de crear el array de barcos
-function generateShipArray() {
+function generateShipArray($quantityship1,$quantityship2,$quantityship3,$quantityship4,$quantityship5) { #18
     $ships_array = array();
+    $valid_positions = false;
+    for ($i = 1; $i <= 5; $i++) {
+        switch ($i) {
+            case 5:
+                $selectedLength = $quantityship5;
+                break;
+            case 4:
+                $selectedLength = $quantityship4;
+                break;
+            case 3:
+                $selectedLength = $quantityship3;
+                break;
+            case 2:
+                $selectedLength = $quantityship2;
+                break;
+            case 1:
+                $selectedLength = $quantityship1;
+                break;
+            }
+            
 
-    for ($i = 2; $i <= 5; $i++) {
-        $valid_positions = false;
+            for ($j = 1; $j <= $selectedLength; $j++) {
+                $valid_positions = false;
+                while (!$valid_positions) {
+                    $test_positions = generateRandomPositions($i);
+        
+                    if (!isTestShipPositionCollapsingShips($ships_array, $test_positions)) {
+                        $valid_positions = true;
+                    }
+                }
+                $ships_array[] = create_ship($i, $test_positions);
 
-        while (!$valid_positions) {
-            $test_positions = generateRandomPositions($i);
-
-            if (!isTestShipPositionCollapsingShips($ships_array, $test_positions)) {
-                $valid_positions = true;
             }
         }
 
@@ -179,12 +205,11 @@ function generateShipArray() {
        //     echo "x = " . print_r($position[0] . " y = " . $position[1], true) . "<br>";
        //}
         
-        $ships_array[] = create_ship($i, $test_positions);
         echo "<br>";
-    }
     
     return $ships_array;
 }
+
 
 
 
@@ -245,7 +270,7 @@ function displayBoard($board,$player) {
 //-----MAIN-----
 $player_BoardArray = createBoard(11,11); //se crea el board
 $player_BoardArray = assignWaterCells($player_BoardArray); //se asignan las casillas de agua
-$player_ShipsArray = generateShipArray(); //se genera el array de barcos
+$player_ShipsArray = generateShipArray(4,3,2,1,0); //se genera el array de barcos
 $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se ponen los barcos dentro del tablero
 
 
@@ -260,19 +285,21 @@ $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se p
     <div class="overlay" id="overlay"></div>
     <div class="beach">
     <main class="mainContent">
-        <section class="backgroundIndex">
-            <div class="containerIndex">
-                <h1 class="titleIndex">Shoreline Strike</h1>
-                <div class="optionsIndex">
-                    <noscript>
-                        <button id="buttonPlayIndex" disabled>JUGAR</button>
-                    </noscript>
-                    <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
-                    <br>
-                    <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
-                </div>
+    <section class="backgroundIndex">
+        <div class="containerIndex">
+            <div class="titleIndex">
+                <h1>Shoreline Strike</h1>
             </div>
-        </section>
+            <div class="panelIndex">
+                    <p>Introduïu el vostre nom d'usuari:</p>
+                    <input type="text" name="username" placeholder="usuari" required>
+                    <button type="submit" name="classic">Classic Mode</button>
+                    <button type="submit" name="tutorial">Tutorial</button>
+                </form>
+                <button id="hallOfFameButton" onclick="window.location.href='ranking.php'">Hall of Fame</button>
+            </div>
+        </div>
+    </section>
     </main>
     </div>
 
@@ -305,6 +332,7 @@ $player_BoardArray = displayShips($player_ShipsArray,$player_BoardArray); //se p
     window.player_ShipsArray = <?php echo json_encode($player_ShipsArray); ?>;
     window.hasError = <?php echo isset($_SESSION['username']) ? true : false; ?>;
     window.username = <?php echo isset($_SESSION['username']) ?>;
+
 </script>
 
 

@@ -13,10 +13,12 @@ if (
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="static/img/star_favicon.png" type="image/png">
         <title>403 Forbidden</title>
     </head>
-    <body>
-        <div id="finalForbiScreen">
+    <body class="bodyForbidden">
+        <div class="finalForbiScreen">
             <h2>403 Forbidden: Has de accedir desde Index</h2>
         </div>
     </body>
@@ -29,6 +31,7 @@ if (
 
 
 ?>
+        echo "El checkbox 'Munició ilimitada' no está marcado.<br>";
 
 
 
@@ -42,9 +45,8 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shoreline Strike</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
     <script src="game.js" defer></script>
-
-
 </head>
 <?php
 
@@ -291,19 +293,21 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
     <div class="overlay" id="overlay"></div>
     <div class="beach">
     <main class="mainContent">
-        <section class="backgroundIndex">
-            <div class="containerIndex">
-                <h1 class="titleIndex">Shoreline Strike</h1>
-                <div class="optionsIndex">
-                    <noscript>
-                        <button id="buttonPlayIndex" disabled>JUGAR</button>
-                    </noscript>
-                    <button id="buttonPlayIndex"><a href="game.php">JUGAR</a></button>
-                    <br>
-                    <button id="buttonRankingIndex"><a href="ranking.php">HALL OF FAME</a></button>
-                </div>
+    <section class="backgroundIndex">
+        <div class="containerIndex">
+            <div class="titleIndex">
+                <h1>Shoreline Strike</h1>
             </div>
-        </section>
+            <div class="panelIndex">
+                    <p>Introduïu el vostre nom d'usuari:</p>
+                    <input type="text" name="username" placeholder="usuari" required>
+                    <button type="submit" name="classic">Classic Mode</button>
+                    <button type="submit" name="tutorial">Tutorial</button>
+                </form>
+                <button id="hallOfFameButton" onclick="window.location.href='ranking.php'">Hall of Fame</button>
+            </div>
+        </div>
+    </section>
     </main>
     </div>
 
@@ -312,21 +316,26 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
     <div class="sea">
         <div class="game-left-side">
             <?php
-            //debug prints, it tests the main array cell objects
-            //echo "  x_pos: " . $main_array[3][3]['x_pos'];
-            //echo "  y_pos: " . $main_array[3][3]['y_pos'];
-            //echo "  state: " . $main_array[3][3]['state'];
-            //echo "<p id='action'></p>";
-            displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html
+            displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html          
             ?>
+            <div class="projectiles">
+                <p>Atac amb Xarxa </p>
+                <div id="btn1" class="projectile-label">
+                    <img src="static/img/icons/net.png" alt="Projectile 1">
+                </div>
+                <div id="btn2" class="projectile-label">
+                <img src="static/img/icons/net.png" alt="Projectile 2">
+                </div>
+            </div>
+
         </div>
 
         <div class="game-right-side">
             <div class="counter-container">
                 <h3>Temps: <span class="timer">00:00</span></h3>
                 <h3>Punts: <span class="points">0</span></h3>
-                <h3>Munició jugador: <span id="projectileCount">40</span></h3>
-                <h3>Munició bot: <span id="bot-projectiles">40</span></h3>
+                <h3 id="textAmmoPlayer">Arpons jugador: <span id="countAmmoPlayer">40</span></h3>
+                <h3 id="textAmmoBot">Arpons bot: <span id="countAmmoBot">40</span></h3>
             </div>
             <div class="bot-board">
                 <div class="overlayBotBoard" id="overlayBotBoard">
@@ -334,12 +343,13 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
                 <?php
                     displayBoard($bot_BoardArray,"Bot"); //se hace el tablero en html
                 ?>
-                
             </div>
         </div>
     </div>
 
 </body>
+
+
 
 <script>
     window.player_BoardArray = <?php echo json_encode($player_BoardArray); ?>;
@@ -348,6 +358,9 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
     window.bot_ShipsArray = <?php echo json_encode($bot_ShipsArray); ?>;
     window.hasError = <?php echo isset($_SESSION['username']) ? true : false; ?>;
     window.username = <?php echo isset($_SESSION['username']) ?>;
+    window.ammoLimited = <?php echo $_SESSION['ammoLimited'] ?>;
+    window.armoredShips = <?php echo $_SESSION['armoredShips'] ?>;
+    window.specialAttack = <?php echo $_SESSION['specialAttack'] ?>;
 </script>
 
 </html>

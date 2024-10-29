@@ -20,6 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send'])) {
 
     $username = $_POST['username'];
 
+    $_SESSION['lastPlayer'] = [
+        'name' => $username,
+        'score' => $points,
+    ];
+
     $timestamp = date('Y-m-d;H:i');
     $rankingData = "\n$username;$points;$timestamp;\n";
     $filePath = 'ranking.txt';
@@ -41,10 +46,12 @@ if (
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" href="static/img/star_favicon.png" type="image/png">
         <title>403 Forbidden</title>
     </head>
-    <body>
-        <div id="finalForbiScreen">
+    <body class="bodyForbidden">
+        <div class="finalForbiScreen">
             <h2>403 Forbidden: Has de accedir desde Game</h2>
         </div>
     </body>
@@ -64,6 +71,7 @@ if (
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Has perdut...</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
 </head>
 
 <body class="winbody">
