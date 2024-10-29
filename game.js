@@ -423,11 +423,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
             toastContainer = document.createElement('div');
             toastContainer.id = 'toast-container';
             toastContainer.style.position = 'fixed';
-            toastContainer.style.bottom = '-900px'; // Comienza desde -400px
+            toastContainer.style.marginTop = '130vh';
             toastContainer.style.left = '20px';
             toastContainer.style.zIndex = '9999';
             toastContainer.style.display = 'flex';
-            toastContainer.style.flexDirection = 'column'; // Apilar hacia abajo
+            toastContainer.style.flexDirection = 'column';
             toastContainer.style.gap = '10px';
             document.body.appendChild(toastContainer);
         }
@@ -445,7 +445,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         toast.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
         toast.style.opacity = '0';
         toast.style.transition = 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out';
-        toast.style.backgroundColor = '#6c757d'; // Color por defecto
+        toast.style.backgroundColor = '#6c757d'; 
         toast.style.position = 'relative';
     
         // Estilos específicos según el tipo de notificación
@@ -469,23 +469,25 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 break;
         }
     
+        // Agregamos la notificación al contenedor
         toastContainer.appendChild(toast);
     
-        // Mostrar la notificación
+        // Enseñamos la notificación
         setTimeout(() => {
             toast.style.opacity = '1';
-            toast.style.transform = 'translateY(10px)'; // Aparecer hacia abajo
+            toast.style.transform = 'translateY(10px)'; 
         }, 100);
     
-        // Ocultar y eliminar la notificación después de 3 segundos
         setTimeout(() => {
             toast.style.opacity = '0';
-            toast.style.transform = 'translateY(0)'; // Efecto al desaparecer
+            toast.style.transform = 'translateY(0)'; // Desaparece hacia su posición original
             setTimeout(() => {
                 toast.remove();
             }, 500);
         }, 3000);
     }
+    
+    
     
     
     

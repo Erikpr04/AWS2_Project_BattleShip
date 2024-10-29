@@ -314,11 +314,6 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
     <div class="sea">
         <div class="game-left-side">
             <?php
-            //debug prints, it tests the main array cell objects
-            //echo "  x_pos: " . $main_array[3][3]['x_pos'];
-            //echo "  y_pos: " . $main_array[3][3]['y_pos'];
-            //echo "  state: " . $main_array[3][3]['state'];
-            //echo "<p id='action'></p>";
             displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html          
             ?>
             <div class="projectiles">
