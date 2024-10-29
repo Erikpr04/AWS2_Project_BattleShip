@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li>
                 <input type="hidden" name="ammoLimited" value="0">
                 <input type="checkbox" id="ammoLimited" name="ammoLimited" value="1" style="cursor:pointer;">
-                <label for="ammoLimited">Munició limitada</label>
+                <label for="ammoLimited">Arpons limitats</label>
             </li>
             <li>
                 <input type="hidden" name="armoredShips" value="0">
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li>
                 <input type="hidden" name="specialAttack" value="0">
                 <input type="checkbox" id="specialAttack" name="specialAttack" value="1" style="cursor:pointer;">
-                <label for="specialAttack">Atacs especials</label>
+                <label for="specialAttack">Atac amb xarxa</label>
             </li>
         </ul>
     </div>

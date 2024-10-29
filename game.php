@@ -322,7 +322,7 @@ $bot_BoardArray = displayShips($bot_ShipsArray, $bot_BoardArray);
             displayBoard($player_BoardArray,$_SESSION["username"]); //se hace el tablero en html          
             ?>
             <div class="projectiles">
-                <p>Atac de Xarxa </p>
+                <p>Atac amb Xarxa </p>
                 <div id="btn1" class="projectile-label">
                     <img src="static/img/icons/net.png" alt="Projectile 1">
                 </div>
