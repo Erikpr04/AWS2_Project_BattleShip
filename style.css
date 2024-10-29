@@ -45,14 +45,15 @@
     margin-top: 5px;
     margin-left: 5px;
     padding: 20px;
-    border: 1px solid black;
     border-radius: 10px;
     color: #E2DEDE
 }
 
-.descriptionIndex p,.descriptionIndex h2,.descriptionIndex ul {
-    text-shadow: 1px 1px black;
 
+
+.descriptionIndex p,.descriptionIndex h2,.descriptionIndex ul {
+    color: #E2DEDE;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .backgroundIndex {
@@ -114,6 +115,18 @@
 
 /*Estilos para el menu de opciones*/
 
+
+#bulletIlimited:disabled,
+#armoredShips:disabled,
+#specialAttack:disabled {
+    background-color: #ccc;
+    border-color: #999; 
+    cursor: not-allowed; 
+    opacity: 0.5; 
+}
+
+
+
 .optionsGameIndex {
     position: absolute;
     right: 8%;
@@ -133,7 +146,7 @@
 }
 
 
-.optionsGameIndex > ul > p {
+.optionsGameIndex > form > ul > p {
     background-color: #F18D1F;
     color: white;
     margin: 0;
@@ -165,14 +178,14 @@
     margin-right: 10%;
 }
 
-.optionsGameIndex > ul > p::after {
+.optionsGameIndex > form > ul > p::after {
     content: " \25BC";
     margin-left: 5px;
     transition: content 0.3s;
 }
 
-.optionsGameIndex > ul:hover > p::after,
-.optionsGameIndex > p::after  {
+.optionsGameIndex > form > ul:hover > p::after,
+.optionsGameIndex > form > p::after  {
     content: " \25BD";
 }
 
@@ -293,6 +306,62 @@
     margin-right: auto;
 }
 
+.projectiles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #E2DEDE;
+    border-radius: 15px;
+    width: 400px;
+    margin-left: 23%;
+    margin-top: 2%;
+}
+
+
+
+.projectiles p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 15px;
+}
+
+.projectile-label {
+    border: 2px solid transparent;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #004b85;
+}
+
+
+.projectile-label.selected {
+    background-color: #3a92b2;
+    box-shadow: 0 0 0 5px white;
+}
+
+.projectile-label img {
+    width: 50px;
+    height: 50px;
+}
+
+.projectile-label:hover {
+    background-color: #3a92b2;
+}
+.projectile-label.disabled {
+    opacity: 0.5;         
+    pointer-events: none; 
+    filter: grayscale(100%);
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+
+
+
+
 
 /* ESTILOS solo TUTORIAL ------*/
 
@@ -337,6 +406,11 @@
     width: 30vw; 
     height: 30vw;
     border: 3px solid #E2DEDE; 
+}
+.gameBoard tr td img{
+    width: 25px;
+    height: 25px;
+
 }
 
 .tutorial-left-side .gameBoard  td {
@@ -642,4 +716,36 @@
 }
 .optionsIndex #buttonRankingIndex:hover {
     color: white;
+}
+
+
+.highlight {
+    color: white;
+    background-color: #F18D1F;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/*-----------------------------------------------------------------*/
+/*-----------------------------------------------------------------*/
+
+/*ESTILOS ERROR FORBIDDEN*/
+
+.bodyForbidden {
+    font-family: 'Geometry Soft Pro Bold N', sans-serif;
+    background-color: #D9BD71;
+    color: white;
+}
+
+.finalForbiScreen{
+    background-color: #F18D1F;
+    text-align: center;
+    font-size: 30px; 
+    width: 55%; 
+    height: 50%; 
+    border-radius: 20px; 
+    border-color: #F18D1F; 
+    margin: 20% auto;
+    padding: 20px;
+    box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
 }

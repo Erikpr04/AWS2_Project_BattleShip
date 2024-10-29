@@ -1,42 +1,51 @@
-# SHORELINE STRIKE
-
-Este proyecto es una versión innovadora del juego Hundir la Flota, donde los barcos han sido sustituidos por peces y los misiles por arpones.
-Los jugadores deben descubrir y eliminar a los peces en un entorno acuático localizado en la playa.
-
-## ACERCA DEL PROYECTO
-
-Este proyecto se desarrolla como parte del segundo curso de Desarrollo de Aplicaciones Web (DAW), integrando conocimientos de PHP y JavaScript para crear una versión interactiva y visualmente atractiva del juego clásico. La mecánica consiste en localizar y "atrapar" peces en un tablero de 10x10 utilizando arpones, brindando una experiencia temática y diferente.
-
-### Características Principales
-
-- Tablero de juego 10x10 representando el mar, con la parte superior simulando la arena de la costa.
-- Los "barcos" tradicionales son reemplazados por peces, mientras que las "bombas" son arpones.
-- Efectos visuales y sonoros para mejorar la experiencia de juego.
-- Sistema de notificaciones en el juego para informar de los aciertos y fallos.
-- Gestión de puntuaciones para mantener un ranking de jugadores.
+# SHORELINE STRIKE 🌊🐟🎯  
+*Una aventura de estrategia en la playa.*
 
 
-### Tecnologías Utilizadas
+![gameImage](https://github.com/user-attachments/assets/bf2d2d53-efbd-400d-a5dd-0c82d929c3cd)
 
-El proyecto se desarrolló utilizando las siguientes tecnologías:
+
+
+![GitHub Stars](https://img.shields.io/github/stars/Erikpr04/AWS2_Project_BattleShip?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Erikpr04/AWS2_Project_BattleShip?style=social)
+![GitHub Issues](https://img.shields.io/github/issues/Erikpr04/AWS2_Project_BattleShip)
+![GitHub last commit](https://img.shields.io/github/last-commit/Erikpr04/AWS2_Project_BattleShip)
+![GitHub repo size](https://img.shields.io/github/repo-size/Erikpr04/AWS2_Project_BattleShip)
+
+---
+
+Este proyecto es una versión innovadora del juego *Hundir la Flota*, donde los barcos han sido sustituidos por peces y los misiles por arpones. Los jugadores deben descubrir y eliminar a los peces en un entorno acuático localizado en la playa.
+
+## 🐟 ACERCA DEL PROYECTO 
+
+Desarrollado como parte del segundo curso de **Desarrollo de Aplicaciones Web (DAW)**, este proyecto integra conocimientos de *PHP* y *JavaScript* para crear una versión interactiva y visualmente atractiva del juego clásico. La mecánica consiste en localizar y "atrapar" peces en un tablero de 10x10 utilizando arpones, brindando una experiencia temática y diferente.
+
+### ✨ Características Principales
+
+- 🎮 **Tablero de juego**: 10x10 representando el mar, con la parte superior simulando la arena de la costa.
+- 🐠 **Sustitución temática**: Los "barcos" son reemplazados por peces, y las "bombas" por arpones.
+- 🔊 **Efectos visuales y sonoros**: Mejoran la experiencia de juego.
+- 📣 **Sistema de notificaciones**: Para informar de los aciertos y fallos.
+- 🏆 **Gestión de puntuaciones**: Para mantener un ranking de jugadores.
+
+### 🛠️ Tecnologías Utilizadas
+
+Este proyecto fue desarrollado utilizando:
 
 * **PHP**: Para la lógica de backend y la gestión de las solicitudes.
 * **JavaScript**: Para la interacción en el frontend y la manipulación dinámica del tablero.
 * **HTML5/CSS3**: Para la estructura visual y el estilo de la aplicación.
 
-
-## INSTRUCCIONES PARA EMPEZAR
-
-Para configurar y ejecutar el proyecto localmente, sigue estos pasos:
+## 🚀 INSTRUCCIONES PARA EMPEZAR
 
 ### Prerrequisitos
 
 Asegúrate de tener instalados los siguientes componentes:
 
-* PHP >= 7.4
-* Un navegador moderno con soporte para JavaScript
+- PHP >= 7.4
+- Un navegador moderno con soporte para JavaScript
 
-### Instalación
+### 📥 Instalación
 
 #### Paso 1: Instalar PHP en Linux
 

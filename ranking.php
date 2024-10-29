@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="static/img/star_favicon.png" type="image/png">
     <title>RANKING</title>
 </head>
 
@@ -19,6 +20,8 @@
             <span class="arrow">&#8592;</span> Tornar
         </div>
         <?php
+            session_start();
+          
             // Función para cargar el ranking desde el archiv ranking.txt
             function loadRanking($file) {
                 $ranking = [];
@@ -76,13 +79,37 @@
             $rankingPage = array_slice($ranking, $start, $perPage);
 
             // Mostrar el ranking
+            $lastPlayer = null;
+            foreach ($ranking as $record) {
+                if ($lastPlayer === null || $record['date'] > $lastPlayer['date'] || ($record['date'] == $lastPlayer['date'] && $record['time'] > $lastPlayer['time'])) {
+                    $lastPlayer = $record;
+                }
+            }
+            $_SESSION['lastPlayer'] = $lastPlayer;
+
             echo "<table>";
             echo "<tr><th>Posició</th><th>Nom</th><th>Puntuació</th><th>Data</th><th>Hora</th></tr>";
             foreach ($rankingPage as $index => $record) {
                 $position = $start + $index + 1;
-                echo "<tr><td>{$position}</td><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td><td>{$record['time']}</td></tr>";
+
+                $isLastPlayer = $lastPlayer && $record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score'];
+
+                $rowClass = $isLastPlayer ? "highlight" : "";
+                echo "<tr class='{$rowClass}'><td>{$position}</td><td>{$record['name']}</td><td>{$record['score']}</td><td>{$record['date']}</td><td>{$record['time']}</td></tr>";
             }
             echo "</table>";
+
+            if ($lastPlayer) {
+                foreach ($ranking as $index => $record) {
+                    if ($record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score']) {
+                        $pageNumber = floor($index / $perPage) + 1;
+                        if (!isset($_GET['page'])) {
+                            header('Location: ?page=' . $pageNumber);
+                            exit;
+                        }
+                    }
+                }
+            }
 
             // Mostrar el paginador
             echo "<div  class='paginationRanking'>";
