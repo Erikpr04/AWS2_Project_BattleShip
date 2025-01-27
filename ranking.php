@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ca">
 
@@ -15,14 +14,15 @@
             <h1>HALL OF FAME</h1>
         </div>
         <div class="containerRanking">
-        <div class="back-button" onclick="window.location.href='index.php'">
-            <span class="arrow">&#8592;</span> Tornar
-        </div>
-        <?php
+            <div class="back-button" onclick="window.location.href='index.php'">
+                <span class="arrow">&#8592;</span> Tornar
+            </div>
+            <?php
             session_start();
-          
-            // Función para cargar el ranking desde el archiv ranking.txt
-            function loadRanking($file) {
+
+            // Función para cargar el ranking desde el archivo ranking.txt
+            function loadRanking($file)
+            {
                 $ranking = [];
                 if (file_exists($file)) {
                     $lines = file($file, FILE_IGNORE_NEW_LINES);
@@ -42,25 +42,35 @@
                 return $ranking;
             }
 
-            // Función para poder ordenar el ranking por puntuación
-            function sortRanking($a, $b) {
+            // Función para ordenar el ranking por puntuación
+            function sortRanking($a, $b)
+            {
                 return $b['score'] - $a['score'];
             }
 
-            // Función para poder agregar un nuevo usuario al ranking
-            function addNewUser($file, $name, $score) {
+            // Función para agregar un nuevo usuario al ranking
+            function addNewUser($file, $name, $score)
+            {
                 $date = date('Y-m-d');
                 $time = date('H:i');
                 $entry = "{$name};{$score};{$date};{$time};\n";
                 file_put_contents($file, $entry, FILE_APPEND);
+
+                // Guardar el último jugador en la sesión
+                $_SESSION['lastPlayer'] = [
+                    'name' => $name,
+                    'score' => $score,
+                    'date' => $date,
+                    'time' => $time
+                ];
             }
 
-            // Esto de aqui es para la paginación
+            // Parámetros de paginación
             $perPage = 25;
             $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $rankingFile = 'ranking.txt';
 
-            // Si se envía un nuevo usuario a través de un formulario lo agregamos
+            // Si se envía un nuevo usuario a través de un formulario, lo agregamos
             if (isset($_POST['name']) && isset($_POST['score'])) {
                 $name = $_POST['name'];
                 $score = (int)$_POST['score'];
@@ -85,6 +95,7 @@
             foreach ($rankingPage as $index => $record) {
                 $position = $start + $index + 1;
 
+                // Verificar si el jugador es el último registrado
                 $isLastPlayer = $lastPlayer && $record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score'];
 
                 $rowClass = $isLastPlayer ? "highlight" : "";
@@ -92,12 +103,13 @@
             }
             echo "</table>";
 
+            // Buscar y redirigir a la página correcta del último jugador si está en el ranking
             if ($lastPlayer) {
                 foreach ($ranking as $index => $record) {
                     if ($record['name'] === $lastPlayer['name'] && $record['score'] == $lastPlayer['score']) {
                         $pageNumber = floor($index / $perPage) + 1;
-                        if (!isset($_GET['page'])) {
-                            header('Location: ?page=' . $pageNumber);
+                        if (!isset($_GET['page']) || $_GET['page'] != $pageNumber) {
+                            header("Location: ?page=$pageNumber");
                             exit;
                         }
                     }
@@ -105,27 +117,27 @@
             }
 
             // Mostrar el paginador
-            echo "<div  class='paginationRanking'>";
+            echo "<div class='paginationRanking'>";
             if ($currentPage > 1) {
-                echo "<button><a href='?page=".($currentPage - 1)."'>Anterior</a></button> ";
+                echo "<button><a href='?page=" . ($currentPage - 1) . "'>Anterior</a></button> ";
             }
-            if ($totalPages > 1){
+            if ($totalPages > 1) {
                 for ($i = 1; $i <= $totalPages; $i++) {
                     if ($i == $currentPage) {
                         echo "<strong>$i</strong> ";
                     } else {
                         echo "<a href='?page=$i'>$i</a> ";
                     }
-
                 }
             }
             if ($currentPage < $totalPages) {
-                echo "<button><a href='?page=".($currentPage + 1)."'>Següent</a></button>";
+                echo "<button><a href='?page=" . ($currentPage + 1) . "'>Següent</a></button>";
             }
             echo "</div>";
-        ?>
+            ?>
+
         </div>
     </div>
 </body>
-</html>
 
+</html>

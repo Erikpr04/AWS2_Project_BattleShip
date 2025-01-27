@@ -5,6 +5,8 @@ if (isset($_SESSION['username'])) {
     session_destroy();
 }
 
+$lastPlayer = isset($_SESSION['lastPlayer']) ? $_SESSION['lastPlayer'] : null;
+
 $username = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
